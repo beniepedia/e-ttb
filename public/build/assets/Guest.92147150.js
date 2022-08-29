@@ -1,0 +1,1 @@
+import{a as e}from"./app.92daf56f.js";function t({children:s}){return e("div",{className:"min-h-screen flex flex-col justify-center items-center pt-6 sm:pt-0 bg-blue-300",children:e("div",{className:"w-full sm:max-w-md mt-6 px-6 py-8 bg-white shadow-md overflow-hidden sm:rounded-lg",children:s})})}export{t as G};
