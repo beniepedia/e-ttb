@@ -1,22 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ButtonBack from './ButtonBack';
 import { Link } from '@inertiajs/inertia-react';
 import Modal from './Modal';
 
 
 export default function Navbar({ auth, appName, href }) {
-    // const [count, setCount] = useState(0);
-
-    // useEffect(() => {
-    //     let interval = setInterval(() => {
-    //         setCount((count) => count + 1);
-    //     }, 1000);
-
-    //     return function () {
-    //         clearInterval(interval)
-    //     }
-    // }, []);
-
 
     return (
         <>
@@ -24,7 +12,10 @@ export default function Navbar({ auth, appName, href }) {
                 <div className="flex-1">
                     {href && <ButtonBack href={href} />}
 
-                    <Link href={route('dashboard')} className='btn btn-ghost normal-case text-xl text-white'>{appName}</Link>
+                    <Link href={route('dashboard')} className='btn btn-ghost normal-case  text-2xl text-white'>
+                        {appName}
+
+                    </Link>
                 </div>
                 <div className="flex-none">
 
@@ -43,10 +34,14 @@ export default function Navbar({ auth, appName, href }) {
                                     {auth.user.name.toUpperCase()}
                                 </Link>
                             </li>
-                            {/* <hr /> */}
-                            <li>
-                                <Link href={route('register')}>Tambah User</Link>
-                            </li>
+                            {
+                                auth.user.user_type === 'admin' && (
+                                    <li>
+                                        <Link href={route('register')}>Tambah User</Link>
+                                    </li>
+                                )
+                            }
+
                             <li>
                                 <a href="#log-out">Log Out</a>
 

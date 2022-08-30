@@ -27,7 +27,9 @@
     @apply border-rose-900 bg-rose-500 text-rose-800;
 }
 
-
+/* #res>div {
+    background-color: #2a303c
+} */
 
 .menu-active {
     @apply border-slate-800 border-t-2;

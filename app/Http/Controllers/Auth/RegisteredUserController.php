@@ -9,6 +9,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 
@@ -21,6 +22,9 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
+        if (Auth::user()->user_type !== 'admin') {
+            abort(401);
+        }
         return Inertia::render('Auth/Register');
     }
 
@@ -34,16 +38,23 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        if (Auth::user()->user_type !== 'admin') {
+            abort(403);
+        }
+
+        Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'user_type' => 'required|string',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        ], ['user_type.required' => 'Pilih jabatan'])->validate();
+
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'user_type' => $request->user_type,
+            'password' => $request->password,
         ]);
 
         // event(new Registered($user));

@@ -46,7 +46,7 @@ const ReceiptDetail = () => {
                             }
                             disable={processing}
                         >
-                            TANGANI Sekarang
+                            PROSES Sekarang
                         </ButtonUpdateStatus>
                     </div>
                 )
@@ -142,7 +142,7 @@ const ReceiptDetail = () => {
                                 <td className='capitalize'>{receipt.user.name}</td>
                             </tr>
                             {
-                                receipt.status != 'Pending' &&
+                                receipt.status != 'Pending' || receipt.handle_by != '' &&
                                 <tr>
                                     <td>Teknisi</td>
                                     <td>:</td>

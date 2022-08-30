@@ -39,6 +39,7 @@ class ReceiptFormRequest extends FormRequest
             'receipt_number' => 'required|numeric',
             'customer_id' => 'required',
             'kelengkapan' => 'nullable',
+            'handle_by' => 'nullable',
             'kerusakan' => 'required|string',
             'barang' => 'required|string',
             'category' => 'required',

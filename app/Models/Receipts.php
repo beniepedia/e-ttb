@@ -40,7 +40,8 @@ class Receipts extends Model
     protected function handleBy(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => ucfirst($value)
+            get: fn ($value) => ucfirst($value),
+            set: fn ($value) => strtolower($value)
         );
     }
 

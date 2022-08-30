@@ -39,7 +39,7 @@ class SendReceiptWhatsappJob implements ShouldQueue
         $receipt = $receipts->where('receipt_code', $this->receipt_code)->first();
 
         $kelengkapan = $receipt->kelengkapan ? Arr::join($receipt->kelengkapan, ', ') : 'Tidak ada';
-        $pelanggan = ucfirst($receipt->user->name);
+        $pelanggan = ucfirst($receipt->customer->name);
         $user = ucfirst($receipt->user->name);
         $date = now()->parse($receipt->delivery_date);
 

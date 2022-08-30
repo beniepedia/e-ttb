@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Receipts;
 use App\Models\Customers;
 use App\Enums\ReceiptStatus;
 use App\Jobs\SendReceiptWhatsappJob;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -38,6 +41,15 @@ class ReceiptsController extends Controller
     public function create()
     {
 
+        $user = User::whereNot('user_type', 'kasir')
+            ->get()
+            ->map(function ($value) {
+                return [
+                    'value' => $value->name,
+                    'label' => ucfirst($value->name),
+                ];
+            });
+
         $data = Customers::orderBy('name')->get();
 
         $customers = $data->map(function ($value) {
@@ -47,7 +59,7 @@ class ReceiptsController extends Controller
             ];
         });
 
-        return Inertia::render('Receipt/ReceiptAdd', compact('customers'));
+        return Inertia::render('Receipt/ReceiptAdd', compact('customers', 'user'));
     }
 
     public function store(ReceiptFormRequest $request)
@@ -125,10 +137,25 @@ class ReceiptsController extends Controller
 
         $createImage = make_ttb($data['receipt_code'], $data['receipt_number'], $customer->name);
 
-        if ($customer->whatsapp) {
+        if ($customer->whatsapp && $this->_checkWhatsappConnection()) {
             dispatch(new SendReceiptWhatsappJob($data['receipt_code'], $customer->whatsapp))->delay(now()->addSecond(5));
         }
 
         return $createImage;
+    }
+
+    private function _checkWhatsappConnection()
+    {
+        try {
+            $get = Http::get(env('WHATSAPP_SERVER') . '/sessions/status/' . Cache::get('session'))->json();
+
+            if ($get['success']) {
+                return true;
+            }
+
+            return false;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }

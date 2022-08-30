@@ -11,7 +11,7 @@ import TextArea from '@/Components/TextArea';
 import SelectMulti from '@/Components/SelectMulti';
 import ImageUpload from '@/Components/Receipts/ImageUpload';
 
-const ReceiptAdd = ({ customers }) => {
+const ReceiptAdd = ({ customers, auth, user }) => {
 
     const option = [
         {
@@ -37,8 +37,10 @@ const ReceiptAdd = ({ customers }) => {
         description: '',
         category: 'printer',
         barang: '',
+        handle_by: '',
         photo: null
     });
+
 
     const [optionsKelengkapan, setOptionKelengkapan] = useState([
         {
@@ -150,8 +152,8 @@ const ReceiptAdd = ({ customers }) => {
                             <Label>
                                 Customer - <Link
                                     href={route('customers.create')} className='font-semibold text-blue-700 italic'
-                                    replace={true}
                                     only={['customers']}
+                                    data={{ history: 'receipts' }}
                                 >
                                     Tambah
                                 </Link>
@@ -202,7 +204,23 @@ const ReceiptAdd = ({ customers }) => {
 
                     </div>
 
-                    <div className=''>
+                    {
+                        auth.user.user_type == 'kasir' && (
+                            <div>
+                                <Label>Teknisi</Label>
+                                <SelectMulti
+                                    closeMenuOnSelect={true}
+                                    option={user}
+                                    onHandleChange={(e) => setData({ ...data, handle_by: e.value })}
+                                />
+                                {errors.handleBy && <div className="invalid-feedback">
+                                    {errors.handleBy}
+                                </div>}
+                            </div>
+                        )
+                    }
+
+                    <div className='my-2'>
                         <Label>Kelengkapan</Label>
 
                         <SelectMulti
@@ -234,7 +252,7 @@ const ReceiptAdd = ({ customers }) => {
                         <TextArea handleChange={onHandleChange} name='description' value={data.description}></TextArea>
                     </div>
 
-                    <div className='relative'>
+                    <div className='relative mt-5'>
                         <ImageUpload
                             handleChange={handleUpload}
                             src={saveImage.image_src}

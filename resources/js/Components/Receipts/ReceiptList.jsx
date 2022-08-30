@@ -70,7 +70,7 @@ export default function ReceiptList({ receipts, processing }) {
                                                     }
                                                     disable={processing}
                                                 >
-                                                    TANGANI
+                                                    PROSES
                                                 </ButtonUpdateStatus>
                                             )
                                         }

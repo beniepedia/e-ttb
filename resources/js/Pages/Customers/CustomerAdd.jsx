@@ -9,6 +9,7 @@ import Checkbox from '@/Components/Checkbox';
 import { phoneFormatter } from '@/Helper';
 
 const CustomerAdd = () => {
+
   const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
     name: '',
     phone: '',
@@ -57,6 +58,9 @@ const CustomerAdd = () => {
   return (
     <>
       <Head title="Tambah Customer" />
+      <div className='bg-slate-300 p-4'>
+        <h2 className='font-semibold text-slate-600'>TAMBAH CUSTOMER</h2>
+      </div>
       <div className='my-5'>
         <form onSubmit={handleSubmit} noValidate>
           <div className='px-4'>
@@ -135,7 +139,7 @@ CustomerAdd.layout = page => <Layout
   auth={page.props.auth}
   errors={page.props.errors}
   children={page}
-  href={route('customers')}
+  href={route(route().params.history ? route().params.history + '.create' : 'customers')}
   menu={false}
 />
 
