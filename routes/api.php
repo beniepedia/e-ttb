@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(WhatsappResponseController::class)->group(function () {
     Route::post("/status", "getStatus");
+    Route::post("/detail", "getDetail");
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

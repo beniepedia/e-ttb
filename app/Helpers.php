@@ -15,7 +15,7 @@ if (!function_exists('make_ttb')) {
             $path = 'images/ttb/';
 
             if (!File::isDirectory($path)) {
-                File::makeDirectory($customer, 0777, true, true);
+                File::makeDirectory($path, 0777, true, true);
             }
 
 

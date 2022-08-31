@@ -59,7 +59,7 @@ export default function SendMessage({ customers }) {
 
     }
     return (
-        <div className='card bg-slate-100 dark:bg-slate-900 shadow-md'>
+        <div className='card bg-white dark:bg-slate-900 shadow-md'>
             <div className="card-body p-3">
                 <div className="card-title text-slate-600">Kirim Whatsapp</div>
                 <div>

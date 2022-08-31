@@ -1,0 +1,1 @@
+import{a as s}from"./app.3662f9a8.js";function b({type:a="submit",className:n="",processing:t,children:o,handleClick:i}){return s("button",{type:a,className:`btn ${t&&"loading"} `+n,disabled:t,onClick:i,children:o})}export{b as B};

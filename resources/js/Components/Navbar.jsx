@@ -2,7 +2,7 @@ import React from 'react';
 import ButtonBack from './ButtonBack';
 import { Link } from '@inertiajs/inertia-react';
 import Modal from './Modal';
-
+import Avatar from 'react-avatar';
 
 export default function Navbar({ auth, appName, href }) {
 
@@ -22,7 +22,8 @@ export default function Navbar({ auth, appName, href }) {
                     <div className="dropdown dropdown-end">
                         <label tabIndex="0" className="btn btn-ghost btn-circle avatar border-2 border-slate-300">
                             <div className="w-10 rounded-full">
-                                <img src="https://placeimg.com/80/80/people" />
+                                {/* <img src="https://placeimg.com/80/80/people" /> */}
+                                <Avatar name={auth.user.name} size={40} />
                             </div>
                         </label>
                         <ul tabIndex="0" className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">

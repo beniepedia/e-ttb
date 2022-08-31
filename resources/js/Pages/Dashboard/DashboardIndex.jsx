@@ -13,7 +13,7 @@ import axios from 'axios'
 
 
 const Dashboard = () => {
-    const { data } = usePage().props
+    const { data, auth } = usePage().props
 
     const [processing, setProcessing] = useState(false)
 
@@ -48,7 +48,27 @@ const Dashboard = () => {
             <Head title="Dashboard" />
 
             <div className="py-5 px-3">
-                <div className="carousel carousel-center space-x-4 py-2">
+
+                <div className='bg-gradient-to-br from-teal-50 via-teal-100 to-teal-300 shadow-md py-4 px-6 h-32 rounded-2xl text-gray-500'>
+                    <h3 >Selamat Datang,</h3>
+                    <div className="flex items-center justify-between mt-3">
+                        <div className='flex items-center space-x-3'>
+                            <Icon.Person className='text-2xl' />
+                            <h2 className='text-xl'>{auth.user.name}</h2>
+                        </div>
+                        <Link href={route('receipts.create')} className='w-11 h-11 flex items-center tooltip tooltip-bottom' data-tip="Buat TTB baru">
+
+                            <span className='bg-teal-600 w-9 h-9 absolute rounded-xl animate-ping opacity-100 duration-[2000]'></span>
+                            <Icon.StickiesFill className=' relative text-4xl text-teal-700' />
+
+                        </Link>
+                    </div>
+
+                </div>
+
+
+
+                <div className="carousel carousel-center space-x-4 mt-5">
                     <div className="carousel-item ">
                         <CardInfo
                             title={data.receipt_today}
