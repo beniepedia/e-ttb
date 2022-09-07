@@ -76,6 +76,10 @@ class ReceiptsController extends Controller
             $validation['user_id'] = auth()->id();
             $validation['receipt_code'] = date('dmYs') . '-' . $validation['receipt_number'];
 
+            if (auth()->user()->user_type !== 'kasir') {
+                $validation['handle_by'] = auth()->user()->name;
+            }
+
             Receipts::create($validation);
 
             $this->_makeImageTtb($validation);

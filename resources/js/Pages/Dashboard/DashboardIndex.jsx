@@ -53,8 +53,11 @@ const Dashboard = () => {
                     <h3 >Selamat Datang,</h3>
                     <div className="flex items-center justify-between mt-3">
                         <div className='flex items-center space-x-3'>
-                            <Icon.Person className='text-2xl' />
-                            <h2 className='text-xl'>{auth.user.name}</h2>
+                            <Icon.Person className='text-5xl' />
+                            <h2 className='text-xl'>
+                                {auth.user.name}
+                                <span className='block text-sm'>Anda login sebagai, {auth.user.user_type}</span>
+                            </h2>
                         </div>
                         <Link href={route('receipts.create')} className='w-11 h-11 flex items-center tooltip tooltip-bottom' data-tip="Buat TTB baru">
 
