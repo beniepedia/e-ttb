@@ -63,11 +63,11 @@ const UserIndex = () => {
 
             {auth.user.user_type === "admin" && (
                 <>
-                    <div className='flex mb-5 justify-between'>
-                        <a href='#confirm1' className='btn btn-error  shadow'>
+                    <div className='flex mb-5 btn-group-vertical gap-1'>
+                        <a href='#confirm1' className='btn btn-sm btn-error  shadow'>
                             Reset Receipt Table
                         </a>
-                        <a href='#confirm2' className='btn btn-error shadow'>
+                        <a href='#confirm2' className='btn btn-sm btn-warning shadow'>
                             Reset Custmomer Table
                         </a>
 

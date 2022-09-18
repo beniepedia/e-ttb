@@ -71,7 +71,7 @@ class SendReceiptWhatsappJob implements ShouldQueue
                 "number" => $this->number,
                 "message" => [
                     "image" => [
-                        "url" => url("images/ttb") . "/ttb_$this->receipt_code.png",
+                        "url" => url("images/ttb") . "/ttb_" . $this->receipt_code . ".png",
                     ],
                     "caption" => $caption,
                 ]
