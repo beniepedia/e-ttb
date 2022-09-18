@@ -1,7 +1,7 @@
 /node_modules
 /public/hot
-/public/images/ttb/
-/public/images/barang/
+/public/images/barang
+/public/images/ttb
 /public/storage
 /storage/*.key
 /vendor

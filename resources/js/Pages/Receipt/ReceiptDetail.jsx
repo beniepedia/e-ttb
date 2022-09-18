@@ -8,6 +8,7 @@ import Status from '@/Components/Receipts/Status'
 import { format, formatDistanceToNowStrict } from 'date-fns'
 import { id } from 'date-fns/locale'
 import ButtonIsTaken from '@/Components/Receipts/ButtonIsTaken'
+import { isEmpty } from 'lodash'
 
 const ReceiptDetail = () => {
     const { receipt, processing, auth } = usePage().props
@@ -70,7 +71,7 @@ const ReceiptDetail = () => {
                         </div>
                         <div className=''>
                             <a href="#modal-gagal" className='btn btn-sm btn-error shadow-md'>gagal</a>
-                            <a href="#modal-sukses" className='btn btn-sm btn-success shadow-md' >Berhasil</a>
+                            <a href={receipt.cost == "0" || isEmpty(receipt.repair) ? '#confirmation' : '#modal-sukses'} className='btn btn-sm btn-success shadow-md' >Berhasil</a>
 
                             <Modal
                                 id='modal-gagal'
@@ -83,6 +84,14 @@ const ReceiptDetail = () => {
                                     children='Yakin'
                                     data={{ id: receipt.id, status: 'gagal' }}
                                 />
+                            </Modal>
+
+                            <Modal
+                                id="confirmation"
+                                title="Perhatian!"
+                                message="Keterangan perbaikan atau biaya perbaikan belum diisi..."
+                            >
+                                <a href="#" className='btn btn-ghost'>TUTUP</a>
                             </Modal>
 
                             <Modal

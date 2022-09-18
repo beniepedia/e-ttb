@@ -22,7 +22,15 @@ const Dashboard = () => {
 
         let greet = greetings();
 
-        let message = `Selamat ${greet}, Kami informasikan bahwa tanda terima atas *${value.customer.name}* sudah selesai.`;
+        let message = `Selamat ${greet}, Kami informasikan\n`
+        message += `Tanda Terima atas nama ( *${value.customer.name}* )\n`
+        message += `No. Register Kartu ( *${value.receipt_code}* )\n`
+        message += `sudah selesai dan bisa diambil. Status pengerjaan *${value.status}*. Terima Kasih...🙏🙏🙏\n\n`
+        message += `Info Lanjut Hub:\n`
+        message += `📱 HP/WA: 08116407788`
+
+
+
 
         axios.post(route('whatsapp.sendMessage'), {
             id: value.customer.whatsapp,
@@ -47,7 +55,7 @@ const Dashboard = () => {
         <>
             <Head title="Dashboard" />
 
-            <div className="py-5 px-3">
+            <div className="py-5 px-3 lg:mx-64">
 
                 <div className='bg-gradient-to-br from-teal-50 via-teal-100 to-teal-300 shadow-md py-4 px-6 h-32 rounded-2xl text-gray-500'>
                     <h3 >Selamat Datang,</h3>

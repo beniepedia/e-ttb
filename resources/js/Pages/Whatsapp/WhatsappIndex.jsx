@@ -1,170 +1,171 @@
 import React, { useEffect, useState } from 'react'
 import Layouts from '@/Layouts/Main'
-import { Inertia } from '@inertiajs/inertia'
 import axios from 'axios'
 import Button from '@/Components/Button'
+import { toast } from "@/Components/Alert"
 import { usePage } from '@inertiajs/inertia-react'
 
 
 const WhatsappIndex = () => {
+    const { auth } = usePage().props
 
-    const { session } = usePage().props;
+    let imgFail = '/images/assets/fail.png';
+    let imgSuccess = '/images/assets/success.png';
+    let loader = '/images/assets/loader.gif';
 
-
-    let imgFail = 'images/assets/fail.png';
-    let imgSuccess = 'images/assets/success.png';
-    let loader = 'images/assets/loader.gif';
-
-    const [info, setInfo] = useState('TIDAK ADA SESI');
-    const [isConnected, setIsConnected] = useState(false);
+    const [info, setInfo] = useState('CONNECTING...');
     const [loading, setLoading] = useState(false);
     const [qrcode, setQrcode] = useState(loader);
-    const [sessname, setSessname] = useState(session);
+    const [retry, setRetry] = useState(0);
 
     const [autoUpdate, setAutoUpdate] = useState(false);
 
     useEffect(() => {
-        if (!sessname == '') {
-            sessionFind()
-        }
-
+        connect()
     }, [])
 
     useEffect(() => {
 
+        if (retry >= 5) return connectRetry()
+
         if (autoUpdate) {
             let start = setInterval(() => {
-                checkSessionStatus()
+                checkStatus()
             }, 5000)
 
-            return () => clearInterval(start)
+            return () => {
+                clearInterval(start)
+            }
         }
 
-    }, [autoUpdate])
+
+    }, [autoUpdate, retry])
+
+
 
     // cek update
-    const checkSessionStatus = () => {
-        axios.post(route('whatsapp.status'),
-            { sessname }
-        ).then(({ data }) => {
-            let res = data.data;
+    const checkStatus = () => {
 
-            if (data.success) {
-                if (res.status == 'authenticated') {
-                    Authenticate()
-                }
-            } else {
-                setSessname('')
-                NoSession()
-                deleteSession()
+        axios.post(route('whatsapp.status')).then(res => {
+
+            let response = res.data;
+
+            if (response.success) {
+                Authenticate()
             }
+        }).catch((err) => {
+            console.log("server error");
+            ServerDown()
+        }).finally(() => {
+            setRetry(prev => prev + 1)
         })
     }
 
-    const sessionFind = () => {
-        axios.post(route('whatsapp.find'), {
-            sessname
-        }).then(({ data }) => {
-            if (data.success) {
-                Authenticate()
-            } else {
-                NoSession()
+    const connect = () => {
+        setLoading(true)
+        axios.post(route('whatsapp.connect')).then((res) => {
+            setRetry(0)
+            let success = res.data.success
+            let qr = res.data.data.qr
+
+            if (success) {
+                if (!qr) {
+                    return Authenticate()
+                }
+
+                setQrcode(qr);
+                setInfo('SCAN ME');
+                setAutoUpdate(true)
+
             }
         }).catch(error => {
             ServerDown()
 
+        }).finally(() => {
+            setLoading(false)
         })
     }
 
     const Authenticate = () => {
         setQrcode(imgSuccess)
         setInfo('TERHUBUNG')
-        setIsConnected(true)
         setAutoUpdate(false)
     }
 
     const ServerDown = () => {
         setQrcode(imgFail)
         setInfo('SERVER DOWN')
-        setIsConnected(false)
         setAutoUpdate(false)
     }
 
     const NoSession = () => {
         setQrcode(loader)
-        setInfo('TIDAK ADA SESI')
-        setIsConnected(false)
+        setInfo('CONNECTING...')
+        setAutoUpdate(false)
+        setRetry(0)
+    }
+
+    const connectRetry = () => {
+        setQrcode(loader)
+        setInfo('TIME OUT')
         setAutoUpdate(false)
     }
 
+
+
     // delete session
-    const deleteSession = () => {
+    const logout = () => {
+        if (auth.user.user_type !== "admin") {
+            toast.error("Tidak memiliki akses untuk tindakan ini...")
+            return
+        }
+
         setLoading(true)
-        axios.post(route('whatsapp.delete'), {
-            sessname
-        }).then(({ data }) => {
+        axios.delete(route('whatsapp.logout')).then(({ data }) => {
             console.log(data)
             if (data.success) {
                 NoSession()
-            }
-            setLoading(false)
-        })
-    }
-
-    // submit session
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setLoading(true)
-
-
-        axios.post(route('whatsapp.addsession'), {
-            sessname
-        }).then((res) => {
-            let status = res.data.success
-            let qr = res.data.data.qr
-            if (status) {
-                setQrcode(qr);
-                setInfo('SCAN ME');
-                setLoading(false)
-                setAutoUpdate(true)
             } else {
-                ServerDown()
+                { toast.error("Terjadi kesalahan saat logout...") }
             }
-        });
-
-    }
-
-    const saveSession = () => {
-        Inertia.post(route('whatsapp.sessionStore'), { session: sessname }, {
-            preserveState: true,
-            replace: true,
+            // setLoading(false)
+        }).catch(() => {
+            ServerDown()
+        }).finally(() => {
+            setLoading(false)
         })
     }
 
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div className='my-8 flex justify-center mx-20 md:mx-10'>
-                <div className='flex gap-2 flex-col w-full md:w-1/3'>
-                    <div className=' rounded-lg shadow overflow-hidden'>
-                        <img src={qrcode} alt={qrcode} className='border-white bg-slate-100 border-8 w-full' />
 
-                        <div className='bg-sky-300 py-4 text-center'>
-                            <h1 className='font-semibold text-xl text-slate-700'>{info}</h1>
-                        </div>
+        <div className='my-8 flex justify-center mx-20 md:mx-10'>
+            <div className='flex gap-2 flex-col w-full md:w-1/3'>
+                <div className=' rounded-lg shadow overflow-hidden'>
+                    <img src={qrcode} alt={qrcode} className='border-white bg-slate-100 border-8 w-full' />
+
+                    <div className='bg-sky-300 py-4 text-center'>
+                        <h1 className='font-semibold text-xl text-slate-700'>{info}</h1>
                     </div>
-                    {
-                        !autoUpdate && (!isConnected ? (<>
-                            <input value={sessname} type="text" className='input input-bordered mt-8' onChange={(e) => setSessname(e.target.value)} placeholder="Masukkan nama sesi" />
-
-                            <Button type='submit' processing={loading}>{loading ? 'please wait' : 'tambah sesi'}</Button>
-                        </>) : <Button type='button' className='btn-error' processing={loading} handleClick={deleteSession}>HAPUS SESI</Button>)
-
-                    }
-
                 </div>
+                {
+                    info == "TIME OUT" || info == "CONNECTING..." ? (<Button
+                        className="btn-success mt-3"
+                        handleClick={() => connect()}
+                        processing={loading}
+                    >Reconnect</Button>) : ''
+                }
+
+                {
+                    info == "TERHUBUNG" && (<Button
+                        className="btn-error mt-3"
+                        handleClick={() => logout()}
+                        processing={loading}
+                    >LOGOUT</Button>)
+                }
+
             </div>
-        </form>
+        </div>
     )
 }
 

@@ -52,7 +52,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/receipts', 'index')->name('receipts');
         Route::post('/receipts', 'store')->name('receipts.store');
         Route::get('/receipts/create', 'create')->name('receipts.create');
-        Route::get('/receipts/{receipt_code}', 'show')->name('receipt.show');
+        Route::get('/receipts/{receipts:receipt_code}', 'show')->name('receipt.show');
 
         Route::put('/receipts/taken', 'taken')->name('receipts.taken');
         Route::patch('/receipts', 'patch')->name('receipts.updatePatch');
@@ -61,17 +61,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::controller(UserController::class)->group(function () {
         Route::get("/user", "index")->name("user.index");
         Route::post("/changepassword", "changePassword")->name("change_password");
+        Route::delete("/reset-table", "resetTable")->name("reset.table");
     });
 
     Route::controller(WhatsappController::class)->group(function () {
         Route::get("/whatsapp", "index")->name("whatsapp");
         Route::post("/whatsapp/send-message", "sendMessage")->name("whatsapp.sendMessage");
-        Route::post("/whatsapp", "store")->name("whatsapp.sessionStore");
-
-        Route::post('/whatsapp/session/add', 'addSession')->name('whatsapp.addsession');
-        Route::post('/whatsapp/session/status', 'status')->name('whatsapp.status');
-        Route::post('/whatsapp/session/find', 'status')->name('whatsapp.find');
-        Route::post('/whatsapp/session/delete', 'delete')->name('whatsapp.delete');
+        Route::post("/whatsapp/connect", "connect")->name("whatsapp.connect");
+        Route::post('/whatsapp/status', 'status')->name('whatsapp.status');
+        Route::delete('/whatsapp/logout', 'logout')->name('whatsapp.logout');
     });
 });
 

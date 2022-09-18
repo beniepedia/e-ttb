@@ -39,7 +39,7 @@ const Register = () => {
             </div>
             {/* <ValidationErrors errors={errors} /> */}
 
-            <div className="p-4">
+            <div className="p-4 lg:mx-64">
                 <form onSubmit={submit} noValidate>
                     <div>
                         <Label>Nama</Label>

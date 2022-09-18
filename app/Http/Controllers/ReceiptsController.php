@@ -7,10 +7,10 @@ use Inertia\Inertia;
 use App\Models\Receipts;
 use App\Models\Customers;
 use App\Enums\ReceiptStatus;
+use App\Facades\WhatsApp;
+use Illuminate\Support\Facades\Log;
 use App\Jobs\SendReceiptWhatsappJob;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -21,7 +21,6 @@ class ReceiptsController extends Controller
 {
     public function index()
     {
-
         $receipts = new ReceiptCollection(
             Receipts::filter(Request::only('search'))
                 ->latest()
@@ -80,24 +79,21 @@ class ReceiptsController extends Controller
                 $validation['handle_by'] = auth()->user()->name;
             }
 
+
             Receipts::create($validation);
 
             $this->_makeImageTtb($validation);
 
             return to_route('receipts')->with('message', 'TTB Berhasil dibuat');
         } catch (\Throwable $e) {
-            return $e->getMessage();
+            Log::error($e->getMessage());
         }
     }
 
-    public function show($receipt_code)
+    public function show(Receipts $receipts)
     {
 
-        $receipt = Receipts::where('receipt_code', $receipt_code)
-            ->first();
-        if (!$receipt) return to_route('receipts');
-
-        return Inertia::render('Receipt/ReceiptDetail', compact('receipt'));
+        return Inertia::render('Receipt/ReceiptDetail', ['receipt' => $receipts]);
     }
 
     public function taken()
@@ -117,22 +113,28 @@ class ReceiptsController extends Controller
         return Redirect::back();
     }
 
-    private function _formatImage($photo)
+    private function _formatImage($file)
     {
+
         $path = 'images/barang/';
+
 
         if (!File::isDirectory(public_path($path))) {
             File::makeDirectory(public_path($path), 0777, true, true);
         }
 
-        $fileName = $path . time() . '.' . $photo->getClientOriginalExtension();
-        $image = Image::make($photo->getRealPath());
+        $fileNameSave = $path . time() . "." . $file->getClientOriginalExtension();
 
-        $image->fit(400, 300);
+        $image = Image::make($file->getRealPath());
 
-        $image->save($fileName);
 
-        return $fileName;
+        $image->fit(400, 300, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+
+        $image->save($fileNameSave);
+
+        return $fileNameSave;
     }
 
     private function _makeImageTtb($data)
@@ -151,14 +153,15 @@ class ReceiptsController extends Controller
     private function _checkWhatsappConnection()
     {
         try {
-            $get = Http::get(env('WHATSAPP_SERVER') . '/sessions/status/' . Cache::get('session'))->json();
+            $get = WhatsApp::status();
 
             if ($get['success']) {
                 return true;
             }
 
             return false;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
+            Log::error($e->getMessage());
             return false;
         }
     }

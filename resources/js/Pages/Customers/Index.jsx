@@ -67,7 +67,7 @@ const Index = () => {
     return (
         <>
             <Head title="Customers" />
-            <div className="px-4 py-4 mb-4">
+            <div className="px-4 py-4 mb-4 lg:mx-64">
                 <Input type='search'
                     name='search'
                     value={query.search}

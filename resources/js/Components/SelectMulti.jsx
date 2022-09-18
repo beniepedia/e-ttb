@@ -20,7 +20,13 @@ export default function SelectMulti({
             borderRadius: 9,
             padding: 6,
 
-        })
+        }),
+
+        option: (provided, state) => ({
+            ...provided,
+            borderRadius: 5,
+            overflow: "hidden"
+        }),
     }
 
     return (
@@ -46,6 +52,7 @@ export default function SelectMulti({
                     primary: '#94A3B8',
                 },
             })}
+
         ></Select>
     )
 }

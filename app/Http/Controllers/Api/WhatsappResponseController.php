@@ -46,7 +46,6 @@ class WhatsappResponseController extends Controller
         $message  = "*DETAIL TTB $request->receipt_code*\n\n";
         $message .= "No. Kartu : $receipt->receipt_number\n";
         $message .= "Tgl Masuk : $tanggal\n";
-        $message .= "Penerima : $user\n";
         $message .= "Customer : $pelanggan\n";
         $message .= "Barang : $barang\n";
         $message .= "Kelengkapan : $kelengkapan\n";

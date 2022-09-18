@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Facades\Image;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -54,26 +52,6 @@ if (!function_exists('make_ttb')) {
         } catch (\Throwable $e) {
             // return report($e);
             return false;
-        }
-    }
-}
-
-if (!function_exists('send_wa')) {
-    function send_wa($number, $message)
-    {
-        try {
-            $req = Http::post(env('WHATSAPP_SERVER') . '/chats/send?id=' . Cache::get('session'), [
-                'receiver' => $number,
-                'message' => $message
-            ]);
-
-            return $req->json();
-        } catch (\Exception $e) {
-            return json_encode([
-                'success' => false,
-                'status' => false,
-                'message' => 'Server Error'
-            ]);
         }
     }
 }

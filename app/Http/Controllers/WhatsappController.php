@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\WhatsApp;
 use App\Jobs\SendReceiptWhatsappJob;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
+
 
 
 class WhatsappController extends Controller
@@ -19,79 +21,36 @@ class WhatsappController extends Controller
 
     public function index()
     {
-
-        // dispatch(new SendReceiptWhatsappJob('2408202253-33', '6282174416077'));
-
         return Inertia::render(
             'Whatsapp/WhatsappIndex',
-            [
-                'session' => Cache::get('session') ?? ''
-            ]
         );
     }
 
-    public function store(Request $request)
-    {
-        Cache::put('session', $request->input('session'));
-
-        return back();
-    }
 
     public function sendMessage(Request $request)
     {
 
-        $req = send_wa($request->id, $request->message);
+        $req = WhatsApp::send([
+            'number' => $request->id,
+            'message' => $request->message,
+        ]);
 
         return $req;
     }
 
-    public function addSession(Request $request)
+
+    public function status()
     {
-        try {
-            $addSession = Http::post(env('WHATSAPP_SERVER') . '/sessions/add', [
-                'id' => $request->sessname,
-                'isLegacy' => false
-            ]);
-
-            Cache::forever('session', $request->sessname);
-
-            return response($addSession);
-        } catch (\Exception $e) {
-            return response($this->response, 500);
-        }
+        return WhatsApp::status();
     }
 
-    public function status(Request $request)
+    public function connect()
     {
-        try {
-            $result = Http::get(env('WHATSAPP_SERVER') . '/sessions/status/' . $request->sessname);
-            return response($result);
-        } catch (\Exception $e) {
-            return response($this->response, 500);
-        }
+        return WhatsApp::connect();
     }
 
-    public function find(Request $request)
+    public function logout()
     {
-        try {
-            $result = Http::get(env('WHATSAPP_SERVER') . '/sessions/find/' . $request->sessname);
-            return response($result);
-        } catch (\Exception $e) {
-            return response($this->response, 500);
-        }
-    }
-
-    public function delete(Request $request)
-    {
-        try {
-
-            $response = Http::delete(env('WHATSAPP_SERVER') . '/sessions/delete/' . $request->sessname);
-
-            Cache::forget('session');
-
-            return response($response);
-        } catch (\Exception $e) {
-            return response($this->response, 500);
-        }
+        return WhatsApp::logout();
     }
 }

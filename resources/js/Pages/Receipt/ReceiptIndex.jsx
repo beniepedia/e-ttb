@@ -93,7 +93,7 @@ const ReceiptIndex = () => {
 
 
     return (
-        <div className='py-4 px-3'>
+        <div className='py-4 px-3 lg:mx-64'>
             <Head title='List TTB'></Head>
             <div className="mb-5">
                 <div className='input-group shadow-md rounded-lg'>

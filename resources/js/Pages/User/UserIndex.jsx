@@ -1,10 +1,11 @@
 import React from 'react'
 import Layout from '@/Layouts/Main'
 import Input from '@/Components/Input'
+import { Inertia } from '@inertiajs/inertia'
 import Label from '@/Components/Label'
 import Button from '@/Components/Button'
 import { useForm, usePage } from '@inertiajs/inertia-react'
-import { replace } from 'lodash'
+import Modal from '@/Components/Modal'
 
 const UserIndex = () => {
     const { auth } = usePage().props
@@ -38,8 +39,14 @@ const UserIndex = () => {
         clearErrors();
     }
 
+    const onHandleClick = (tableName) => {
+        Inertia.delete(route("reset.table", { tablename: tableName }), {
+            replace: true
+        })
+    }
+
     return (
-        <div className='px-4 py-6'>
+        <div className='px-4 py-6 lg:mx-64'>
             <div className='avatar flex justify-center'>
                 <div className='w-1/2 md:w-1/3 lg:w-1/5 rounded-full border-white border-4 shadow-lg'>
                     <img src={'/images/assets/profile_default.png'} alt='profile image' />
@@ -51,6 +58,35 @@ const UserIndex = () => {
                 <p className='text-2xl'>{auth.user.name.toUpperCase()}</p>
                 <p className='text-xl'>{auth.user.email}</p>
             </div>
+
+            {/* Button */}
+
+            {auth.user.user_type === "admin" && (
+                <>
+                    <div className='flex mb-5 justify-between'>
+                        <a href='#confirm1' className='btn btn-error  shadow'>
+                            Reset Receipt Table
+                        </a>
+                        <a href='#confirm2' className='btn btn-error shadow'>
+                            Reset Custmomer Table
+                        </a>
+
+                    </div>
+
+                    <Modal title='Warning...' id="confirm1" message="Apakah yakin ingin menghapus tabel receipt?. Seluruh isi dari tabel ini akan terhapus secara permanent dan tidak bisa dikembalikan."
+                    >
+                        <a href='#' className='btn btn-ghost'>Batal</a>
+                        <a href='#' className='btn btn-ghost text-red-600' onClick={() => onHandleClick("receipts")}>Ya, Lanjutkan!</a>
+                    </Modal>
+
+                    <Modal title='Warning...' id="confirm2" message="Apakah yakin ingin menghapus tabel customer?. Seluruh isi dari tabel ini akan terhapus secara permanent dan tidak bisa dikembalikan."
+                    >
+                        <a href='#' className='btn btn-ghost'>Batal</a>
+                        <a href='#' className='btn btn-ghost text-red-600' onClick={() => onHandleClick("customers")}>Ya, Lanjutkan!</a>
+                    </Modal>
+                </>
+            )}
+
 
             <p className='font-semibold'>Ganti Password</p>
             <div className="divider my-1"></div>
@@ -103,7 +139,7 @@ const UserIndex = () => {
                     <Button type='submit' className='w-full' processing={processing}>UPDATE</Button>
                 </div>
             </form>
-        </div>
+        </div >
     )
 }
 
