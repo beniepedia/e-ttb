@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -50,7 +51,7 @@ if (!function_exists('make_ttb')) {
             $img->save(public_path($path . 'ttb_' . $id . '.png'));
             return true;
         } catch (\Throwable $e) {
-            // return report($e);
+            Log::error($e->getMessage());
             return false;
         }
     }
