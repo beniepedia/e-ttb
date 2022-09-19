@@ -11,7 +11,7 @@ if (!function_exists('make_ttb')) {
 
         try {
 
-            $path = 'images/ttb/';
+            $path = public_path('images/ttb');
 
             if (!File::isDirectory($path)) {
                 File::makeDirectory($path, 0777, true, true);
@@ -48,7 +48,7 @@ if (!function_exists('make_ttb')) {
             $img->insert($qr, 'center', 415, 242);
 
             // return $img->response('png');
-            $img->save(public_path($path . 'ttb_' . $id . '.png'));
+            $img->save($path . '/ttb_' . $id . '.png');
             return true;
         } catch (\Throwable $e) {
             Log::error($e->getMessage());
