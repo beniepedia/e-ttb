@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { usePage, Head } from '@inertiajs/inertia-react'
+import { usePage, Head, Link } from '@inertiajs/inertia-react'
 import Layout from '@/Layouts/Main'
 import ButtonUpdateStatus from '@/Components/Receipts/ButtonUpdateStatus'
 import Modal from '@/Components/Modal'
@@ -9,6 +9,8 @@ import { format, formatDistanceToNowStrict } from 'date-fns'
 import { id } from 'date-fns/locale'
 import ButtonIsTaken from '@/Components/Receipts/ButtonIsTaken'
 import { isEmpty } from 'lodash'
+import * as Icon from 'react-bootstrap-icons'
+
 
 const ReceiptDetail = () => {
     const { receipt, processing, auth } = usePage().props
@@ -141,8 +143,13 @@ const ReceiptDetail = () => {
                             <tr>
                                 <td>Customer</td>
                                 <td>:</td>
-                                <td className='hover:bg-blue-100'>
-                                    <a href="">{receipt.customer.name}</a>
+                                <td className='hover:bg-blue-300'>
+                                    <Link href={route('customer.show', receipt.customer.id)}
+                                        className='flex items-center gap-2 tooltip tooltip-bottom'
+                                        data-tip="Detail Customer" >
+                                        {receipt.customer.name}
+                                        <Icon.ArrowRight />
+                                    </Link>
                                 </td>
                             </tr>
                             <tr>

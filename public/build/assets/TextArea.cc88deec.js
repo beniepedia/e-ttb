@@ -1,1 +1,0 @@
-import{r as c,a as d}from"./app.e5db22d1.js";function p({name:e,value:a,className:r,placeHolder:t="",required:s,handleChange:o,disable:n}){const x=c.exports.useRef();return d("textarea",{className:"textarea textarea-bordered w-full "+r,name:e,value:a,ref:x,placeholder:t,required:s,onChange:l=>o(l),disabled:n})}export{p as T};

@@ -128,7 +128,7 @@ const ReceiptAdd = ({ customers, auth, user }) => {
             </div>
 
             <form onSubmit={handleSubmit}>
-                <div className='m-4'>
+                <div className='m-4 lg:mx-64'>
                     <div className='flex gap-4'>
 
                         <div className='flex-none w-1/3'>

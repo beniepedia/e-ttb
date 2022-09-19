@@ -61,7 +61,7 @@ const CustomerAdd = () => {
       <div className='bg-slate-300 p-4'>
         <h2 className='font-semibold text-slate-600'>TAMBAH CUSTOMER</h2>
       </div>
-      <div className='my-5'>
+      <div className='my-5 lg:mx-64'>
         <form onSubmit={handleSubmit} noValidate>
           <div className='px-4'>
             <div>

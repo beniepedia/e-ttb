@@ -14,7 +14,7 @@ export default function CustomerList({ customers }) {
                 customers.length ? customers.map((customer, i) => {
                     return (
 
-                        <div className='flex items-center justify-between py-2 border-t border-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700' key={i}>
+                        <div className='flex items-center justify-between py-2 border-t border-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 lg:mx-64' key={i}>
                             <div className='flex items-center mx-5'>
                                 {/* <img src="https://placeimg.com/80/80/people" className='w-11 rounded-full' /> */}
                                 <Avatar

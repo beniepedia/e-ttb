@@ -50,12 +50,10 @@ class CustomersController extends Controller
         return redirect(url()->previous())->with('message', 'Data customer berhasil ditambah');
     }
 
-    public function show($id)
+    public function show(Customers $customers)
     {
-        $customer = Customers::with('receipts')->find($id);
+        $customer = $customers->with('receipts')->firstOrFail();
 
-        if (!$customer) return to_route('customers');
-
-        return Inertia::render('Customers/CustomerDetail', compact('customer'));
+        return Inertia::render('Customers/CustomerDetail', ['customer' => $customer]);
     }
 }

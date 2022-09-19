@@ -47,7 +47,7 @@ export default function Main({ auth, children, href, menu = true }) {
             <Navbar auth={auth} href={href} appName={children.props.appName} />
             <div className=''>
 
-                <section className='bg-gray-200 dark:bg-slate-800 min-h-screen py-16'>
+                <section className='bg-gray-200 dark:bg-slate-800 min-h-screen py-16 lg:bg-gradient-to-tr from-slate-100 to-green-200'>
 
                     {/* Form Search */}
                     {children}
