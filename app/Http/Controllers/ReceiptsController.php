@@ -132,7 +132,7 @@ class ReceiptsController extends Controller
             $constraint->aspectRatio();
         });
 
-        $image->save($fileNameSave);
+        $image->save(public_path($fileNameSave));
 
         return $fileNameSave;
     }
