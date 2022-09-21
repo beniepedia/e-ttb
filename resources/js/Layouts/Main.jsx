@@ -15,8 +15,8 @@ export default function Main({ auth, children, href, menu = true }) {
 
     const Menu = () => {
         return (
-            <div className="btm-nav border-t-2">
-                <Link href={route('dashboard')} className={route().current('dashboard') ? 'menu-active dark:bg-white' : ''}>
+            <div className="btm-nav border-t-2" style={{ boxShadow: '0px 0px 25px 0px rgba(0,0,0,.1)' }}>
+                <Link href={route('dashboard')} className={route().current('dashboard') ? 'menu-active dark: ' : ''}>
                     <Icon.HouseFill className='text-lg text-slate-300' />
                     <span className="btm-nav-label text-xs text-slate-400">Home</span>
                 </Link>

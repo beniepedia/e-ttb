@@ -3,6 +3,7 @@ import ButtonBack from './ButtonBack';
 import { Link } from '@inertiajs/inertia-react';
 import Modal from './Modal';
 import Avatar from 'react-avatar';
+import Notifications from './Notifications';
 
 export default function Navbar({ auth, appName, href }) {
 
@@ -18,6 +19,7 @@ export default function Navbar({ auth, appName, href }) {
                     </Link>
                 </div>
                 <div className="flex-none">
+                    <Notifications />
 
                     <div className="dropdown dropdown-end">
                         <label tabIndex="0" className="btn btn-ghost btn-circle avatar border-2 border-slate-300">
@@ -31,6 +33,7 @@ export default function Navbar({ auth, appName, href }) {
                                 {/* <a className="justify-between" href={route('user.index')}>
                                     {auth.user.name.toUpperCase()}
                                 </a> */}
+
                                 <Link href={route('user.index')} className='font-semibold'>
                                     {auth.user.name.toUpperCase()}
                                 </Link>

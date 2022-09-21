@@ -50,6 +50,11 @@ class Customers extends Model
 
     public function receipts()
     {
-        return $this->hasMany(Receipts::class, 'customer_id');
+        return $this->hasMany(Receipts::class, 'customer_id', 'id');
     }
+
+    // public function resolveRouteBinding($value, $field = null)
+    // {
+    //     return $this->with('receipts');
+    // }
 }

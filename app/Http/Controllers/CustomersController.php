@@ -3,32 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CustomerCollection;
-use App\Http\Resources\CustomerResource;
-use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Customers;
-use Illuminate\Support\Str;
-// use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\Request;
 
 class CustomersController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
 
         $customers = new CustomerCollection(
-            Customers::filter(Request::all('search'))
+            Customers::filter($request->all('search'))
                 ->orderBy('name')
                 ->paginate(20)
         );
 
-        if (Request::wantsJson()) {
+        if ($request->wantsJson()) {
             return $customers;
         }
 
         return Inertia::render('Customers/Index', [
-            'filters' => Request::all('search'),
+            'filters' => $request->all('search'),
             'customers' => $customers,
         ]);
     }
@@ -38,21 +33,23 @@ class CustomersController extends Controller
         return Inertia::render('Customers/CustomerAdd');
     }
 
-    public function store()
+    public function store(Request $request)
     {
 
-        Request::validate([
+        $request->validate([
             'name' => 'required|min:3',
             'phone' => 'required|numeric',
         ]);
 
-        Customers::create(Request::only('name', 'phone', 'whatsapp', 'address'));
+        Customers::create($request->only('name', 'phone', 'whatsapp', 'address'));
         return redirect(url()->previous())->with('message', 'Data customer berhasil ditambah');
     }
 
-    public function show(Customers $customers)
+    public function show(Customers $customers, Request $request)
     {
-        $customer = $customers->with('receipts')->firstOrFail();
+        // $customers->load('receipts');
+
+        $customer = $customers->with('receipts')->findOrFail($request->id);
 
         return Inertia::render('Customers/CustomerDetail', ['customer' => $customer]);
     }
