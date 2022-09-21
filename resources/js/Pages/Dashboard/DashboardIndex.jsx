@@ -3,13 +3,11 @@ import { Head, usePage, Link } from '@inertiajs/inertia-react'
 import Layout from '@/Layouts/Main'
 import * as Icon from 'react-bootstrap-icons'
 import CardInfo from '@/Components/Dashboard/CardInfo'
-import { format } from 'date-fns'
-import { id } from 'date-fns/locale'
 import { greetings } from '@/Helper'
 import { toast } from 'react-toastify'
-import Button from '@/Components/Button'
 import SendMessage from '@/Components/SendMessage'
 import axios from 'axios'
+import ReceiptIsDone from '@/Components/Dashboard/ReceiptIsDone'
 
 
 const Dashboard = () => {
@@ -123,144 +121,11 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                {data.receipt_status.length && (
-                    <div className='my-8 shadow-md'>
-                        <div className='p-3 bg-teal-500 rounded-t-lg text-white font-semibold'>
-                            List TTB Selesai
-                        </div>
-                        <div className="max-h-96 overflow-scroll  rounded-b-lg">
+                <div className="my-8 shadow-md">
+                    <ReceiptIsDone data={data} processing={processing} handleClick={onclick} />
+                </div>
 
-                            {data.receipt_status.map((receipt) => {
-                                return (
-                                    <div tabIndex={0} className="collapse" key={receipt.id}>
-                                        <input type="checkbox" className='peer' />
-                                        <div className="collapse-title  bg-white text-black-content peer-checked:bg-amber-200 peer-checked:text-amber-200-content">
-                                            No. Register : {receipt.receipt_code}
-                                        </div>
-                                        <div className="collapse-content bg-white text-white-content peer-checked:bg-amber-100 peer-checked:text-sky-300-content">
-                                            <table className='my-5 text-center w-full table-compact'>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>No. TTB</td>
-                                                        <td>:</td>
-                                                        <td>{receipt.receipt_number}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Tgl Masuk</td>
-                                                        <td>:</td>
-                                                        <td>{format(new Date(receipt.delivery_date), 'dd LLLL yyyy', { locale: id })}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Customer</td>
-                                                        <td>:</td>
-                                                        <td>{receipt.customer.name} </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Teknisi</td>
-                                                        <td>:</td>
-                                                        <td>{receipt.user.name}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Status</td>
-                                                        <td>:</td>
-                                                        <td className={`badge badge-${receipt.status == 'Berhasil' ? 'success' : 'error'}`}>{receipt.status}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <div className='text-right'>
-                                                <Link
-                                                    href={route('receipt.show', receipt.receipt_code)}
-                                                    className='btn btn-ghost btn-circle mr-3'
-                                                >
-                                                    <Icon.InfoCircleFill className='text-xl text-sky-600' />
-                                                </Link>
-                                                {
-                                                    receipt.customer.whatsapp && <Button
-                                                        className='btn-success btn-sm'
-                                                        processing={processing}
-                                                        handleClick={() => onclick(receipt)}
-                                                    >
-                                                        {
-                                                            !processing && <Icon.Whatsapp className='text-xl text-green-700' />
-                                                        }&nbsp;&nbsp;Kirim Pesan
-                                                    </Button>
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
-                                )
-                            })}
-
-
-
-
-
-                        </div>
-                    </div>
-                )}
-
-
-
-
-                {/* <div className='my-8'>
-
-                    <h2 className='text-md my-3'>TTB SELESAI</h2>
-                    <div className="overflow-auto">
-                        <table className="table w-full">
-                            <thead>
-                                <tr>
-                                    <td>KODE TTB</td>
-                                    <td>TGL MASUK</td>
-                                    <td>CUSTOMER</td>
-                                    <td>TEKNISI</td>
-                                    <td>STATUS</td>
-                                    <td className='text-center'>AKSI</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    data.receipt_status.length ?
-                                        data.receipt_status.map((value, index) => {
-                                            return (
-                                                <tr key={index}>
-                                                    <td>{value.receipt_code}</td>
-                                                    <td>{format(new Date(value.delivery_date), 'dd LLLL yyyy', { locale: id })}</td>
-                                                    <td>{value.customer.name}</td>
-                                                    <td>{value.handle_by}</td>
-                                                    <td>{value.status}</td>
-                                                    <td className='flex justify-center'>
-                                                        <Link
-                                                            href={route('receipt.show', value.receipt_code)}
-                                                            className='btn btn-ghost btn-circle'
-                                                        >
-                                                            <Icon.InfoCircleFill className='text-xl text-sky-600' />
-                                                        </Link>
-
-                                                        {
-                                                            value.customer.whatsapp && <Button
-                                                                className='btn-ghost btn-md btn-circle'
-                                                                processing={processing}
-                                                                handleClick={() => onclick(value)}
-                                                            >
-                                                                {
-                                                                    !processing && <Icon.Whatsapp className='text-xl text-green-700' />
-                                                                }
-                                                            </Button>
-                                                        }
-                                                    </td>
-                                                </tr>
-                                            )
-                                        }) :
-                                        <tr>
-                                            <td colSpan={6} align="center">Tidak ada data</td>
-                                        </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div> */}
-
-                <div className='mt-10'>
+                <div className='mt-8'>
                     <SendMessage customers={data.customers} />
                 </div>
             </div>

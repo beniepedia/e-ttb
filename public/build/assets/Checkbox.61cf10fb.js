@@ -1,0 +1,1 @@
+import{a as t}from"./app.6627afe2.js";function s({name:e,value:o,handleChange:c,className:a}){return t("input",{type:"checkbox",name:e,value:o,className:"checkbox "+a,onChange:n=>c(n)})}export{s as C};

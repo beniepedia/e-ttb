@@ -1,0 +1,1 @@
+import{a as e}from"./app.6627afe2.js";function t({forInput:l,value:a,children:r}){return e("label",{htmlFor:l,className:"label font-medium",children:e("span",{className:"label-text",children:a||r})})}export{t as L};
