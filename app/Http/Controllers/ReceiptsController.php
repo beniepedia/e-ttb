@@ -175,7 +175,7 @@ class ReceiptsController extends Controller
                     "number" => $request->whatsapp,
                     "message" => [
                         "image" => [
-                            "url" => url("images/ttb") . "/ttb_" . $this->receipt_code . ".png",
+                            "url" => url("images/ttb") . "/ttb_" . $receipts->receipt_code . ".png",
                         ],
                         "caption" => $caption,
                     ]
