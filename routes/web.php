@@ -50,9 +50,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::controller(ReceiptsController::class)->group(function () {
         Route::get('/receipts', 'index')->name('receipts');
+
         Route::post('/receipts', 'store')->name('receipts.store');
+        Route::post('/receipts/{receipts:id}/upload-image', 'upload_image')->name('receipts.imageupload');
+        Route::post('receipts/{receipts:id}/send_receipt', 'send_receipt')->name('receipts.send');
+
         Route::get('/receipts/create', 'create')->name('receipts.create');
         Route::get('/receipts/{receipts:receipt_code}', 'show')->name('receipt.show');
+
+        Route::get('/receipts/{receipts:receipt_code}/print-label', 'print_label')->name('printlabel');
 
         Route::put('/receipts/taken', 'taken')->name('receipts.taken');
         Route::patch('/receipts', 'patch')->name('receipts.updatePatch');

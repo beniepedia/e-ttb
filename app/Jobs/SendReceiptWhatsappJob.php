@@ -76,7 +76,7 @@ class SendReceiptWhatsappJob implements ShouldQueue
                     "caption" => $caption,
                 ]
             ]);
-        } catch (\Throwable $e) {
+        } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
     }

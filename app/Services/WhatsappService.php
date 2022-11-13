@@ -27,8 +27,9 @@ class WhatsappService
 
     public function status()
     {
+        $req = $this->Request('post', 'status');
 
-        return $this->Request('post', 'status');
+        if ($req['success']) return true;
     }
 
     public function logout()
@@ -38,12 +39,27 @@ class WhatsappService
 
     private function Request($method, $url, $data = null)
     {
-        try {
-            $response = Http::$method(join(DIRECTORY_SEPARATOR, [$this->serverUrl, $url]), $data);
-            return $response->json();
-        } catch (\Throwable $exeption) {
-            Log::error($exeption->getMessage());
-            return response()->json('eroor', 500);
+        // try {
+        $response = Http::$method(join(DIRECTORY_SEPARATOR, [$this->serverUrl, $url]), $data);
+
+        return $response;
+
+        $result = ['success' => true, 'message' => ''];
+
+        if ($response->status() == 200) {
+            $resData = (array)$response->json();
+
+            if (!empty($resData['success'])) {
+                $result['success'] = true;
+                $result['message'] = $resData['message'];
+            } else {
+                $result['success'] = false;
+            }
+        } else {
+            Log::error('Gagal mengirim pesan whatsapp. Server whatsapp tidak online atau alamat server salah.');
+            $result['success'] = false;
         }
+
+        return $result;
     }
 }
