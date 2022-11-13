@@ -22,6 +22,7 @@ const ReceiptDetail = () => {
     const inputUploadRef = useRef(null);
     const [loading, setLoading] = useState(false);
     const [loadingSend, setLoadingSend] = useState(false);
+    const [progress, setProgress] = useState(null);
 
     const dateDiff = (date) => {
         const newDate = formatDistanceToNowStrict(new Date(date), {
@@ -79,7 +80,11 @@ const ReceiptDetail = () => {
                 onBefore: () => {
                     setLoading(true);
                 },
+                onProgress: (progress) => {
+                    setProgress(progress.percentage);
+                },
                 onSuccess: () => {
+                    setProgress(null);
                     setLoading(false);
                 },
             }
@@ -139,7 +144,7 @@ const ReceiptDetail = () => {
                         disabled={loading}
                         onClick={uploadHandleClick}
                     >
-                        Upload
+                        {progress && progress + "%"} Upload
                         <Icon.Camera className="ml-3 text-xl" />
                     </button>
                 </div>
