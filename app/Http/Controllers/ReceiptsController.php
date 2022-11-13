@@ -175,8 +175,7 @@ class ReceiptsController extends Controller
                     "number" => $request->whatsapp,
                     "message" => [
                         "image" => [
-                            "url" => "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png",
-                            // "url" => url("images/ttb") . "/ttb_" . $this->receipt_code . ".png",
+                            "url" => url("images/ttb") . "/ttb_" . $this->receipt_code . ".png",
                         ],
                         "caption" => $caption,
                     ]
@@ -226,6 +225,7 @@ class ReceiptsController extends Controller
         $qrcode = base64_encode(QrCode::format('png')
             ->size(200)
             ->errorCorrection('Q')
+            ->margin(2)
             ->generate($receipts->receipt_code));
 
         return Inertia::render('Receipt/PrintLabel', compact('qrcode', 'receipts'));
