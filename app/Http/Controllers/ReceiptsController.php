@@ -92,7 +92,7 @@ class ReceiptsController extends Controller
 
             $this->_makeImageTtb($validation);
 
-            return to_route('receipts')->with('message', 'TTB Berhasil dibuat');
+            return to_route('receipt.show', $validation['receipt_code'])->with('message', 'TTB Berhasil dibuat');
         } catch (\Throwable $e) {
             Log::error($e->getMessage());
         }

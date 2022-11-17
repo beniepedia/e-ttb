@@ -94,12 +94,12 @@ const ReceiptDetail = () => {
     return (
         <>
             {loadingSend && <Loading />}
-            <div className="mt-10 mx-3 relative">
+            <div className="mt-10 mx-3 relative px-3 lg:mx-64">
                 <Head title="TTB Detail"></Head>
 
-                <div className="absolute flex flex-row gap-2 right-0 -top-5 z-10">
+                <div className="absolute flex flex-col gap-2 right-0 -top-5 z-10">
                     <button
-                        className="btn btn-warning text-2xl btn-circle tooltip tooltip-bottom pl-[0.7rem] shadow-lg"
+                        className="btn btn-warning text-2xl btn-circle tooltip tooltip-left pl-[0.7rem] shadow-lg"
                         data-tip="Cetak Label"
                         onClick={() =>
                             window.open(
@@ -116,6 +116,19 @@ const ReceiptDetail = () => {
                         onClick={handleSend}
                     >
                         <Icon.Receipt />
+                    </button>
+
+                    <button
+                        className={`btn btn-error text-2xl btn-circle tooltip tooltip-left pl-[0.7rem] shadow-lg`}
+                        data-tip="Kirim link ke whatsapp"
+                        onClick={() => {
+                            window.open(
+                                "https://api.whatsapp.com/send?text=" +
+                                    window.location.href
+                            );
+                        }}
+                    >
+                        <Icon.Share />
                     </button>
                 </div>
 
@@ -330,14 +343,21 @@ const ReceiptDetail = () => {
                                         {receipt.user.name}
                                     </td>
                                 </tr>
-                                {receipt.status != "Pending" ||
+                                {/* {receipt.status != "Pending" ||
                                     (receipt.handle_by != "" && (
                                         <tr>
                                             <td>Teknisi</td>
                                             <td>:</td>
                                             <td>{receipt.handle_by}</td>
                                         </tr>
-                                    ))}
+                                    ))} */}
+                                {receipt.handle_by != "" && (
+                                    <tr>
+                                        <td>Teknisi</td>
+                                        <td>:</td>
+                                        <td>{receipt.handle_by}</td>
+                                    </tr>
+                                )}
                                 <tr>
                                     <td>Barang</td>
                                     <td>:</td>
@@ -369,10 +389,10 @@ const ReceiptDetail = () => {
                                         <div className="flex gap-2">
                                             <Status
                                                 status={receipt.status}
-                                                className="rounded-full px-3 py-1"
+                                                className="rounded-full px-3 py-1 dark:text-slate-700"
                                             />
                                             {receipt.isTaken && (
-                                                <div className="rounded-full px-3 py-1 bg-success">
+                                                <div className="rounded-full px-3 py-1 bg-success dark:text-slate-700">
                                                     Sudah Diambil
                                                 </div>
                                             )}
