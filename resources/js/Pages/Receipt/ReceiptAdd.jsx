@@ -24,6 +24,10 @@ const ReceiptAdd = ({ customers, auth, user, auto_number }) => {
             label: "Toner",
             value: "Toner",
         },
+        {
+            label: "Laptop",
+            value: "Laptop",
+        },
     ];
 
     const { data, setData, post, errors, processing } = useForm({
@@ -50,6 +54,10 @@ const ReceiptAdd = ({ customers, auth, user, auto_number }) => {
         {
             label: "Kotak",
             value: "kotak",
+        },
+        {
+            label: "Charger Laptop",
+            value: "charger",
         },
     ]);
 
@@ -126,7 +134,7 @@ const ReceiptAdd = ({ customers, auth, user, auto_number }) => {
             </div>
 
             <form onSubmit={handleSubmit}>
-                <div className="m-4 lg:mx-64">
+                <div className="m-4">
                     <div className="flex gap-4">
                         <div className="flex-none w-1/3">
                             <Label>Nomor Kartu</Label>

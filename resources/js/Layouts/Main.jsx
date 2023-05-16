@@ -78,9 +78,11 @@ export default function Main({ auth, children, href, menu = true }) {
             <Alert />
             <Navbar auth={auth} href={href} appName={children.props.appName} />
             <div className="">
-                <section className="bg-gray-200 dark:bg-slate-800 min-h-screen py-16">
+                <section className="bg-gray-200 dark:bg-slate-800 min-h-screen  flex justify-center ">
                     {/* Form Search */}
-                    {children}
+                    <div className="max-w-2xl w-full md:border-x-2 py-16 shadow-lg">
+                        {children}
+                    </div>
                 </section>
 
                 {/* Bottom Navigation */}

@@ -38,7 +38,14 @@ class CustomersController extends Controller
 
         $request->validate([
             'name' => 'required|min:3',
-            'phone' => 'required|numeric',
+            'phone' => 'required|string|min:10|unique:customers,phone',
+        ], [
+            'required' => 'Masukkan :attribute customer',
+            'min' => 'Panjang :attribute minimal :min karakter',
+            'unique' => ':attribute sudah pernah digunakan'
+        ], [
+            'name' => 'nama',
+            'phone' => 'No. handphone'
         ]);
 
         Customers::create($request->only('name', 'phone', 'whatsapp', 'address'));
@@ -52,5 +59,29 @@ class CustomersController extends Controller
         $customer = $customers->with('receipts')->findOrFail($request->id);
 
         return Inertia::render('Customers/CustomerDetail', ['customer' => $customer]);
+    }
+
+    public function edit(Customers $customer, Request $request)
+    {
+
+        if ($request->method() == "POST") {
+            $request->validate([
+                'name' => 'required|min:3',
+                'phone' => 'required|string|min:10|unique:customers,phone,' . $customer->id,
+            ], [
+                'required' => 'Masukkan :attribute customer',
+                'min' => 'Panjang :attribute minimal :min karakter',
+                'unique' => ':attribute sudah pernah digunakan'
+            ], [
+                'name' => 'nama',
+                'phone' => 'No. handphone'
+            ]);
+
+            $customer->update($request->only(['name', 'phone', 'whatsapp', 'address']));
+
+            return redirect()->route('customer.show', [$customer])->with('message', 'Data customer berhasil diupdate');
+        }
+
+        return Inertia::render('Customers/CustomerEdit', ['customer' => $customer]);
     }
 }

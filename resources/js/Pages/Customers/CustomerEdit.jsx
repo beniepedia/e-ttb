@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "@/Layouts/Main";
-import { Head, useForm } from "@inertiajs/inertia-react";
+import { Head, Link, useForm } from "@inertiajs/inertia-react";
 import Input from "@/Components/Input";
 import Label from "@/Components/Label";
 import TextArea from "@/Components/TextArea";
@@ -8,13 +8,14 @@ import Button from "@/Components/Button";
 import Checkbox from "@/Components/Checkbox";
 import { phoneFormatter } from "@/Helper";
 
-const CustomerAdd = () => {
+const CustomerEdit = (props) => {
+    const { customer } = props;
     const { data, setData, post, processing, errors, reset, clearErrors } =
         useForm({
-            name: "",
-            phone: "",
-            whatsapp: "",
-            address: "",
+            name: customer.name,
+            phone: customer.phone,
+            whatsapp: customer.whatsapp,
+            address: customer.address,
         });
 
     const [state, setState] = useState(false);
@@ -30,7 +31,7 @@ const CustomerAdd = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("customers.store"), {
+        post(route("customer.edit", customer.id), {
             onSuccess: () => {
                 clear();
             },
@@ -49,7 +50,7 @@ const CustomerAdd = () => {
 
             setData("whatsapp", phone);
         } else {
-            setData("whatsapp", "");
+            setData("whatsapp", customer.whatsapp);
         }
     }, [data.phone, state]);
 
@@ -61,11 +62,9 @@ const CustomerAdd = () => {
         <>
             <Head title="Tambah Customer" />
             <div className="bg-slate-300 p-4">
-                <h2 className="font-semibold text-slate-600">
-                    TAMBAH CUSTOMER
-                </h2>
+                <h2 className="font-semibold text-slate-600">EDIT CUSTOMER</h2>
             </div>
-            <div className="my-5">
+            <div className="my-5 ">
                 <form onSubmit={handleSubmit} noValidate>
                     <div className="px-4">
                         <div>
@@ -142,20 +141,20 @@ const CustomerAdd = () => {
                             />
                         </div>
 
-                        <div className="mt-5">
+                        <div className="mt-5 grid grid-flow-col gap-3">
+                            <Link
+                                href={route("customers")}
+                                className="btn w-full shadow-md"
+                            >
+                                Cancel
+                            </Link>
+
                             <Button
                                 type="submit"
                                 processing={processing}
                                 className="btn-success w-full mb-3 shadow-md"
-                                children="TAMBAH"
+                                children="Update"
                             />
-                            <button
-                                type="button"
-                                className="btn btn-warning w-full shadow-md"
-                                onClick={() => clear()}
-                            >
-                                RESET
-                            </button>
                         </div>
                     </div>
                 </form>
@@ -164,18 +163,18 @@ const CustomerAdd = () => {
     );
 };
 
-CustomerAdd.layout = (page) => (
+CustomerEdit.layout = (page) => (
     <Layout
         auth={page.props.auth}
         errors={page.props.errors}
         children={page}
         href={route(
             route().params.history
-                ? route().params.history + ".create"
+                ? route().params.history + ".edit"
                 : "customers"
         )}
         menu={false}
     />
 );
 
-export default CustomerAdd;
+export default CustomerEdit;

@@ -28,7 +28,7 @@ class ReceiptsController extends Controller
     public function index()
     {
         $receipts = new ReceiptCollection(
-            Receipts::filter(Request::only('search'))
+            Receipts::filter(Request::only('search', 'status'))
                 ->latest()
                 ->paginate(10)
         );
@@ -39,7 +39,7 @@ class ReceiptsController extends Controller
 
         return Inertia::render('Receipt/ReceiptIndex', [
             'receipts' => $receipts,
-            'filters' => Request::all('search'),
+            'filters' => Request::all('search', 'status'),
         ]);
     }
 
@@ -100,8 +100,8 @@ class ReceiptsController extends Controller
 
     public function show(Receipts $receipts)
     {
-
-        return Inertia::render('Receipt/ReceiptDetail', ['receipt' => $receipts]);
+        $user = User::where("user_type", '!=', 'kasir')->get();
+        return Inertia::render('Receipt/ReceiptDetail', ['receipt' => $receipts, 'users' => $user]);
     }
 
     public function taken()

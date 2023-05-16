@@ -15,14 +15,15 @@ import { useRef } from "react";
 import axios from "axios";
 import { toast } from "@/Components/Alert";
 import Loading from "@/Components/Loading";
+import Button from "@/Components/Button";
 
 const ReceiptDetail = () => {
-    const { receipt, processing, auth } = usePage().props;
-
+    const { receipt, processing, auth, users } = usePage().props;
     const inputUploadRef = useRef(null);
     const [loading, setLoading] = useState(false);
     const [loadingSend, setLoadingSend] = useState(false);
     const [progress, setProgress] = useState(null);
+    const [showOptionUser, setShowOptionUser] = useState(false);
 
     const dateDiff = (date) => {
         const newDate = formatDistanceToNowStrict(new Date(date), {
@@ -32,6 +33,22 @@ const ReceiptDetail = () => {
         // let n = newDate.replace('sekitar', '')
 
         return `${newDate} yang lalu`;
+    };
+
+    const handleChangeHandleBy = (e) => {
+        const data = {
+            handle_by: e.target.value,
+            id: receipt.id,
+        };
+
+        Inertia.patch(route("receipts.updatePatch"), data, {
+            preserveScroll: true,
+            preserveState: true,
+            replace: true,
+            onFinish: () => {
+                setShowOptionUser(false);
+            },
+        });
     };
 
     const handleSend = async () => {
@@ -94,8 +111,8 @@ const ReceiptDetail = () => {
     return (
         <>
             {loadingSend && <Loading />}
-            <div className="mt-10 mx-3 relative px-3 lg:mx-64">
-                <Head title="TTB Detail"></Head>
+            <div className="mt-10 mx-3 relative">
+                <Head title={`Detail TTB ${receipt.receipt_number}`}></Head>
 
                 <div className="absolute flex flex-col gap-2 right-0 -top-5 z-10">
                     <button
@@ -171,7 +188,10 @@ const ReceiptDetail = () => {
                             data={{
                                 id: receipt.id,
                                 status: "proses",
-                                handle_by: auth.user.name,
+                                handle_by:
+                                    auth.user.user_type == "kasir"
+                                        ? receipt.handle_by
+                                        : auth.user.name,
                             }}
                             disable={processing}
                         >
@@ -355,7 +375,72 @@ const ReceiptDetail = () => {
                                     <tr>
                                         <td>Teknisi</td>
                                         <td>:</td>
-                                        <td>{receipt.handle_by}</td>
+                                        <td className="flex gap-3 items-center">
+                                            {showOptionUser ? (
+                                                <>
+                                                    <select
+                                                        name=""
+                                                        id=""
+                                                        className="select select-sm focus:outline-none"
+                                                        onChange={(e) =>
+                                                            handleChangeHandleBy(
+                                                                e
+                                                            )
+                                                        }
+                                                    >
+                                                        <option
+                                                            value=""
+                                                            disabled
+                                                            selected
+                                                        >
+                                                            Pilih teknisi
+                                                        </option>
+                                                        {users.map(
+                                                            (user, index) => {
+                                                                return (
+                                                                    <option
+                                                                        value={
+                                                                            user.name
+                                                                        }
+                                                                    >
+                                                                        {
+                                                                            user.name
+                                                                        }
+                                                                    </option>
+                                                                );
+                                                            }
+                                                        )}
+                                                    </select>
+                                                    <button
+                                                        onClick={() =>
+                                                            setShowOptionUser(
+                                                                false
+                                                            )
+                                                        }
+                                                    >
+                                                        <Icon.XCircleFill />
+                                                    </button>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    {receipt.handle_by}
+                                                    {auth.user.user_type ==
+                                                        "kasir" ||
+                                                        (auth.user.user_type ==
+                                                            "admin" && (
+                                                            <button
+                                                                onClick={() =>
+                                                                    setShowOptionUser(
+                                                                        true
+                                                                    )
+                                                                }
+                                                            >
+                                                                <Icon.Pencil />
+                                                            </button>
+                                                        ))}
+                                                </>
+                                            )}
+                                        </td>
                                     </tr>
                                 )}
                                 <tr>

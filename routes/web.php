@@ -45,6 +45,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/customers', 'store')->name('customers.store');
         Route::get('/customers/create', 'create')->name('customers.create');
         Route::get('/customers/{id}', 'show')->name('customer.show');
+        Route::any('/customers/{customer:id}/edit', 'edit')->name('customer.edit');
     });
 
 

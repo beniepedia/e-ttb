@@ -60,9 +60,12 @@ class Receipts extends Model
     {
         $query->when($filter['search'] ?? null,  function ($query, $keyword) {
             $query->where('receipt_code', '=', $keyword)
+                ->orWhere('receipt_number', '=', $keyword)
                 ->orwhereHas('customer',  function ($q) use ($keyword) {
                     $q->where('name', 'LIKE', "%" . $keyword . "%");
                 });
+        })->when($filter['status'] ?? null,  function ($query, $keyword) {
+            $query->where('status', '=', $keyword);
         });
     }
 }

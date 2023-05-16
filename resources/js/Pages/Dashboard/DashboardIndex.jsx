@@ -60,7 +60,7 @@ const Dashboard = () => {
         <>
             <Head title="Dashboard" />
 
-            <div className="py-5 px-3 lg:mx-64">
+            <div className="py-5 px-3">
                 <div className="bg-gradient-to-br from-teal-50 via-teal-100 to-teal-300 shadow-md py-4 px-6 h-32 rounded-2xl text-gray-500">
                     <h3>Selamat Datang,</h3>
                     <div className="flex items-center justify-between mt-3">

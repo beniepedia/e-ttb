@@ -1,45 +1,52 @@
-import React, { useEffect } from 'react';
-import Button from '@/Components/Button';
-import Guest from '@/Layouts/Guest';
-import Layout from '@/Layouts/Main';
-import Input from '@/Components/Input';
-import Label from '@/Components/Label';
-import { Head, Link, useForm } from '@inertiajs/inertia-react';
+import React, { useEffect } from "react";
+import Button from "@/Components/Button";
+import Guest from "@/Layouts/Guest";
+import Layout from "@/Layouts/Main";
+import Input from "@/Components/Input";
+import Label from "@/Components/Label";
+import { Head, Link, useForm } from "@inertiajs/inertia-react";
 
 const Register = () => {
     const { data, setData, post, processing, errors, reset } = useForm({
-        name: '',
-        email: '',
-        user_type: '',
-        password: '',
-        password_confirmation: '',
+        name: "",
+        email: "",
+        user_type: "",
+        password: "",
+        password_confirmation: "",
     });
 
     useEffect(() => {
         return () => {
-            reset('password', 'password_confirmation');
+            reset("password", "password_confirmation");
         };
     }, []);
 
     const onHandleChange = (event) => {
-        setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
+        setData(
+            event.target.name,
+            event.target.type === "checkbox"
+                ? event.target.checked
+                : event.target.value
+        );
     };
 
     const submit = (e) => {
         e.preventDefault();
 
-        post(route('register'));
+        post(route("register"));
     };
 
     return (
-        <div className=''>
+        <div className="">
             <Head title="Register" />
-            <div className='bg-slate-300 p-4'>
-                <h2 className='font-semibold text-slate-600'>TAMBAH PENGGUNA</h2>
+            <div className="bg-slate-300 p-4">
+                <h2 className="font-semibold text-slate-600">
+                    TAMBAH PENGGUNA
+                </h2>
             </div>
             {/* <ValidationErrors errors={errors} /> */}
 
-            <div className="p-4 lg:mx-64">
+            <div className="p-4">
                 <form onSubmit={submit} noValidate>
                     <div>
                         <Label>Nama</Label>
@@ -51,11 +58,9 @@ const Register = () => {
                             autoComplete="name"
                             isFocused={true}
                             handleChange={onHandleChange}
-                            className={errors.name && 'input-error'}
+                            className={errors.name && "input-error"}
                         />
-                        <div className="invalid-feedback">
-                            {errors.name}
-                        </div>
+                        <div className="invalid-feedback">{errors.name}</div>
                     </div>
 
                     <div className="mt-2">
@@ -64,20 +69,27 @@ const Register = () => {
                             type="email"
                             name="email"
                             value={data.email}
-                            className={errors.email && 'input-error'}
+                            className={errors.email && "input-error"}
                             autoComplete="username"
                             handleChange={onHandleChange}
                             required
                         />
-                        <div className="invalid-feedback">
-                            {errors.email}
-                        </div>
+                        <div className="invalid-feedback">{errors.email}</div>
                     </div>
 
                     <div className="mt-2">
                         <Label>Jabatan</Label>
-                        <select className={`select w-full ${errors.user_type && `select-error`} `} value={data.user_type} name='user_type' onChange={(e) => onHandleChange(e)}>
-                            <option value="" disabled>Pilih</option>
+                        <select
+                            className={`select w-full ${
+                                errors.user_type && `select-error`
+                            } `}
+                            value={data.user_type}
+                            name="user_type"
+                            onChange={(e) => onHandleChange(e)}
+                        >
+                            <option value="" disabled>
+                                Pilih
+                            </option>
                             <option value="admin">Admin</option>
                             <option value="teknisi">Teknisi</option>
                             <option value="kasir">Kasir</option>
@@ -93,7 +105,7 @@ const Register = () => {
                             type="password"
                             name="password"
                             value={data.password}
-                            className={errors.password && 'input-error'}
+                            className={errors.password && "input-error"}
                             autoComplete="new-password"
                             handleChange={onHandleChange}
                             required
@@ -110,7 +122,9 @@ const Register = () => {
                             type="password"
                             name="password_confirmation"
                             value={data.password_confirmation}
-                            className={errors.password_confirmation && 'input-error'}
+                            className={
+                                errors.password_confirmation && "input-error"
+                            }
                             handleChange={onHandleChange}
                             required
                         />
@@ -132,15 +146,15 @@ const Register = () => {
             </div>
         </div>
     );
-}
+};
 
-Register.layout = page => (
+Register.layout = (page) => (
     <Layout
         auth={page.props.auth}
         children={page}
-        href={route('dashboard')}
+        href={route("dashboard")}
         menu={false}
     />
-)
+);
 
-export default Register
+export default Register;
