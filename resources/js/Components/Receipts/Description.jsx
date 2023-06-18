@@ -12,8 +12,6 @@ export default function Description({ receipt }) {
 
     const [disable, setDisable] = useState(true);
 
-    console.log(auth);
-
     const { data, setData, patch, processing } = useForm({
         id: receipt.id,
         repair: receipt.repair || "",

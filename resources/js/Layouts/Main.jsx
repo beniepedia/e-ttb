@@ -14,7 +14,7 @@ export default function Main({ auth, children, href, menu = true }) {
     const Menu = () => {
         return (
             <div
-                className="btm-nav border-t-2"
+                className="btm-nav border-t-2 md:hidden"
                 style={{ boxShadow: "0px 0px 25px 0px rgba(0,0,0,.1)" }}
             >
                 <Link
@@ -56,7 +56,7 @@ export default function Main({ auth, children, href, menu = true }) {
                         TTB
                     </span>
                 </Link>
-                <Link
+                {/* <Link
                     href={route("whatsapp")}
                     className={
                         route().current("whatsapp")
@@ -68,7 +68,7 @@ export default function Main({ auth, children, href, menu = true }) {
                     <span className="btm-nav-label text-xs text-slate-400">
                         Whatsapp
                     </span>
-                </Link>
+                </Link> */}
             </div>
         );
     };
@@ -78,9 +78,9 @@ export default function Main({ auth, children, href, menu = true }) {
             <Alert />
             <Navbar auth={auth} href={href} appName={children.props.appName} />
             <div className="">
-                <section className="bg-gray-200 dark:bg-slate-800 min-h-screen  flex justify-center ">
+                <section className="bg-slate-500 dark:bg-slate-800 min-h-screen flex justify-center ">
                     {/* Form Search */}
-                    <div className="max-w-2xl w-full md:border-x-2 py-16 shadow-lg">
+                    <div className="max-w-2xl w-full md:border-x-2 py-16 shadow-lg bg-slate-200 dark:bg-slate-700">
                         {children}
                     </div>
                 </section>

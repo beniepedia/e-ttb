@@ -20,10 +20,13 @@ export default function ReceiptList({ receipts, processing }) {
     };
 
     return receipts.length ? (
-        <div className="grid md:grid-cols-4 grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-3 grid-cols-2 gap-4">
             {receipts.map((receipt, index) => {
                 return (
-                    <div className="card w-full bg-base-100 shadow" key={index}>
+                    <div
+                        className="card w-full bg-base-100 shadow border-2 border-slate-500"
+                        key={index}
+                    >
                         <figure className="relative">
                             <a href={receipt.image} target="_blank">
                                 <img

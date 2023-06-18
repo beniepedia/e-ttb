@@ -10,7 +10,6 @@ class DashboardController extends Controller
 {
     public function index(Receipts $receipts)
     {
-
         $receiptToday = $receipts->whereDate('created_at', now()->today())->get()->count();
         $receiptTotal = $receipts->all()->count();
         $receiptActive = $receipts->where('isTaken', 0)->count();

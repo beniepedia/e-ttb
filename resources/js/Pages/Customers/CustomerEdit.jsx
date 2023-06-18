@@ -60,7 +60,9 @@ const CustomerEdit = (props) => {
 
     return (
         <>
-            <Head title="Tambah Customer" />
+            <Head>
+                <title>Edit Customer</title>
+            </Head>
             <div className="bg-slate-300 p-4">
                 <h2 className="font-semibold text-slate-600">EDIT CUSTOMER</h2>
             </div>

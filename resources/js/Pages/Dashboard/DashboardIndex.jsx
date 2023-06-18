@@ -58,7 +58,9 @@ const Dashboard = () => {
 
     return (
         <>
-            <Head title="Dashboard" />
+            <Head>
+                <title>Dashboard</title>
+            </Head>
 
             <div className="py-5 px-3">
                 <div className="bg-gradient-to-br from-teal-50 via-teal-100 to-teal-300 shadow-md py-4 px-6 h-32 rounded-2xl text-gray-500">

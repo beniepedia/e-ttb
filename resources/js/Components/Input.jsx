@@ -1,16 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 
 export default function Input({
-    type = 'text',
+    type = "text",
     name,
     value,
     className,
     autoComplete,
-    placeHolder = '',
+    placeHolder = "",
     required,
     isFocused,
     handleChange,
-    disabled
+    disabled,
 }) {
     const input = useRef();
 
@@ -26,11 +26,8 @@ export default function Input({
                 type={type}
                 name={name}
                 value={value}
-                min='0'
-                className={
-                    `input input-bordered w-full ` +
-                    className
-                }
+                min="0"
+                className={`input shadow rounded w-full ` + className}
                 ref={input}
                 autoComplete={autoComplete}
                 placeholder={placeHolder}

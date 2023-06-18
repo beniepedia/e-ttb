@@ -60,22 +60,19 @@ const ReceiptDetail = () => {
         }
 
         setLoadingSend(true);
-        const { status, data } = await axios.post(
-            route("receipts.send", receipt.id),
-            {
-                whatsapp: receipt.customer.whatsapp,
-            }
-        );
 
-        setLoadingSend(false);
-
-        if (status === 200) {
-            toast.success("E-TTB Berhasil dikirim ke customer");
-        } else {
-            toast.error(
-                "E-TTB gagal dikirim ke customer. Coba beberapa saat lagi"
-            );
-        }
+        axios
+            .post(route("receipts.send", receipt.id))
+            .then(({ data }) => {
+                toast.success(data.message);
+            })
+            .catch((error) => {
+                // console.log(error.message);
+                toast.error("Gagal mengirim kartu tanda terima ke whatsapp");
+            })
+            .finally(() => {
+                setLoadingSend(false);
+            });
     };
 
     const uploadHandleClick = () => {
@@ -111,10 +108,12 @@ const ReceiptDetail = () => {
     return (
         <>
             {loadingSend && <Loading />}
-            <div className="mt-10 mx-3 relative">
-                <Head title={`Detail TTB ${receipt.receipt_number}`}></Head>
+            <div className=" relative">
+                <Head>
+                    <title>{`Detail Tanda Terima No. TTB ${receipt.receipt_number}`}</title>
+                </Head>
 
-                <div className="absolute flex flex-col gap-2 right-0 -top-5 z-10">
+                <div className="absolute flex flex-col gap-2 right-3 top-3 z-10">
                     <button
                         className="btn btn-warning text-2xl btn-circle tooltip tooltip-left pl-[0.7rem] shadow-lg"
                         data-tip="Cetak Label"
@@ -126,6 +125,7 @@ const ReceiptDetail = () => {
                     >
                         <Icon.Printer />
                     </button>
+
                     <button
                         className={`btn btn-success text-2xl btn-circle tooltip tooltip-left pl-[0.7rem] shadow-lg`}
                         disabled={loadingSend}
@@ -147,223 +147,246 @@ const ReceiptDetail = () => {
                     >
                         <Icon.Share />
                     </button>
-                </div>
 
-                <div className="avatar flex justify-center">
-                    <div className="w-1/2 md:w-1/3 lg:w-1/5 rounded-full border-white border-4 shadow-lg">
-                        <a href={"/" + receipt.image} target="_blank">
-                            <img
-                                src={"/" + receipt.image}
-                                alt={receipt.image}
-                            />
-                        </a>
-                    </div>
-                </div>
-                <div className="flex justify-center mt-3">
-                    <input
-                        type="file"
-                        className="hidden"
-                        ref={inputUploadRef}
-                        accept="image/*"
-                        onChange={onUploadChange}
-                    />
                     <button
-                        className={`btn btn-outline btn-dark shadow-md btn-sm ${
-                            loading && "loading"
-                        }`}
+                        className={`btn btn-dark text-2xl btn-circle tooltip tooltip-left pl-[0.7rem] shadow-lg`}
                         disabled={loading}
+                        data-tip="Upload gambar"
                         onClick={uploadHandleClick}
                     >
-                        {progress && progress + "%"} Upload
-                        <Icon.Camera className="ml-3 text-xl" />
+                        <Icon.Camera />
                     </button>
                 </div>
-                {receipt.status === "Pending" && (
-                    <div className="alert shadow-md mt-5 flex flex-col">
-                        <h2 className="block">
-                            Tanda Terima ini belum ditangani
-                        </h2>
-                        <ButtonUpdateStatus
-                            variant="primary"
-                            data={{
-                                id: receipt.id,
-                                status: "proses",
-                                handle_by:
-                                    auth.user.user_type == "kasir"
-                                        ? receipt.handle_by
-                                        : auth.user.name,
-                            }}
-                            disable={processing}
+
+                <div
+                    className={`h-72 md:h-[25rem] bg-cover shadow-md`}
+                    style={{ backgroundImage: `url(/${receipt.image})` }}
+                >
+                    {progress && (
+                        <div
+                            className={`w-full h-full flex justify-center items-center ${
+                                progress && "bg-slate-700/70"
+                            }`}
                         >
-                            PROSES Sekarang
-                        </ButtonUpdateStatus>
-                    </div>
-                )}
-
-                {!receipt.isTaken &&
-                receipt.status != "Pending" &&
-                receipt.status != "Proses" ? (
-                    <div className="alert shadow-md mt-5 flex flex-col">
-                        <h2 className="block">
-                            Ubah status ttb menjadi sudah diambil ?
-                        </h2>
-                        <ButtonIsTaken id={receipt.id} />
-                    </div>
-                ) : (
-                    ""
-                )}
-
-                {/* Button Handle */}
-                {receipt.status === "Proses" && (
-                    <div className="mt-5 flex justify-between items-center alert shadow-md ">
-                        <div>
-                            <h2>Status Pengerjaan :</h2>
+                            <div
+                                className="radial-progress text-base-200 "
+                                style={{
+                                    "--value": progress,
+                                    "--thickness": "4px",
+                                }}
+                            >
+                                {progress && progress + "%"}
+                            </div>
                         </div>
-                        <div className="">
-                            <a
-                                href="#modal-gagal"
-                                className="btn btn-sm btn-error shadow-md"
-                            >
-                                gagal
-                            </a>
-                            <a
-                                href={
-                                    receipt.cost == "0" ||
-                                    isEmpty(receipt.repair)
-                                        ? "#confirmation"
-                                        : "#modal-sukses"
-                                }
-                                className="btn btn-sm btn-success shadow-md"
-                            >
-                                Berhasil
-                            </a>
+                    )}
+                </div>
 
-                            <Modal
-                                id="modal-gagal"
-                                title="Perhatian!"
-                                message="Yakin ingin merubah status pengerjaan Batal / Gagal ?"
-                            >
-                                <a href="#" className="btn btn-sm">
-                                    tidak
-                                </a>
-                                <ButtonUpdateStatus
-                                    className="block shadow-md"
-                                    children="Yakin"
-                                    data={{ id: receipt.id, status: "gagal" }}
-                                />
-                            </Modal>
-
-                            <Modal
-                                id="confirmation"
-                                title="Perhatian!"
-                                message="Keterangan perbaikan atau biaya perbaikan belum diisi..."
-                            >
-                                <a href="#" className="btn btn-ghost">
-                                    TUTUP
-                                </a>
-                            </Modal>
-
-                            <Modal
-                                id="modal-sukses"
-                                title="Perhatian!"
-                                message="Yakin ingin merubah status pengerjaan Sukses / Berhasil ?"
-                            >
-                                <a href="#" className="btn btn-sm">
-                                    tidak
-                                </a>
-                                <ButtonUpdateStatus
-                                    className="block shadow-md"
-                                    children="Yakin"
-                                    data={{
-                                        id: receipt.id,
-                                        status: "berhasil",
-                                    }}
-                                />
-                            </Modal>
-                        </div>
+                <div className="mx-3">
+                    <div className="flex justify-center mt-3">
+                        <input
+                            type="file"
+                            className="hidden"
+                            ref={inputUploadRef}
+                            accept="image/*"
+                            onChange={onUploadChange}
+                        />
                     </div>
-                )}
+                    {receipt.status === "Pending" && (
+                        <div className="alert shadow-md mt-5 flex flex-col">
+                            <h2 className="block">
+                                Tanda Terima ini belum ditangani
+                            </h2>
+                            <ButtonUpdateStatus
+                                variant="primary"
+                                data={{
+                                    id: receipt.id,
+                                    status: "proses",
+                                    handle_by:
+                                        auth.user.user_type == "kasir"
+                                            ? receipt.handle_by
+                                            : auth.user.name,
+                                }}
+                                disable={processing}
+                            >
+                                PROSES Sekarang
+                            </ButtonUpdateStatus>
+                        </div>
+                    )}
 
-                {/* list */}
-                <div className="mt-8">
-                    <div className="overflow-x-scroll">
-                        <table className="table text-left table-zebra table-compact  w-full rounded-lg shadow-md">
-                            <tbody className="">
-                                <tr>
-                                    <td>No Kartu </td>
-                                    <td>:</td>
-                                    <td className="font-semibold">
-                                        {receipt.receipt_number} -{" "}
-                                        <a
-                                            href={`/images/ttb/ttb_${receipt.receipt_code}.png`}
-                                            target="_blank"
-                                            className="tooltip tooltip-bottom text-sky-600"
-                                            data-tip="Kartu Tanda Terima Barang"
-                                        >
-                                            ( {receipt.receipt_code} )
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Tanggal Masuk</td>
-                                    <td>:</td>
-                                    <td>
-                                        {format(
-                                            new Date(receipt.delivery_date),
-                                            "dd LLLL yyyy",
-                                            { locale: id }
-                                        )}{" "}
-                                        <br />{" "}
-                                        <span className="italic text-slate-500">
-                                            ( {dateDiff(receipt.delivery_date)}{" "}
-                                            )
-                                        </span>
-                                    </td>
-                                </tr>
-                                {receipt.isTaken && (
+                    {!receipt.isTaken &&
+                    receipt.status != "Pending" &&
+                    receipt.status != "Proses" ? (
+                        <div className="alert shadow-md mt-5 flex flex-col">
+                            <h2 className="block">
+                                Ubah status ttb menjadi sudah diambil ?
+                            </h2>
+                            <ButtonIsTaken id={receipt.id} />
+                        </div>
+                    ) : (
+                        ""
+                    )}
+
+                    {/* Button Handle */}
+                    {receipt.status === "Proses" && (
+                        <div className="mt-5 flex justify-between items-center alert shadow-md ">
+                            <div>
+                                <h2>Status Pengerjaan :</h2>
+                            </div>
+                            <div className="">
+                                <a
+                                    href="#modal-gagal"
+                                    className="btn btn-sm btn-error shadow-md"
+                                >
+                                    gagal
+                                </a>
+                                <a
+                                    href={
+                                        receipt.cost == "0" ||
+                                        isEmpty(receipt.repair)
+                                            ? "#confirmation"
+                                            : "#modal-sukses"
+                                    }
+                                    className="btn btn-sm btn-success shadow-md"
+                                >
+                                    Berhasil
+                                </a>
+
+                                <Modal
+                                    id="modal-gagal"
+                                    title="Perhatian!"
+                                    message="Yakin ingin merubah status pengerjaan Batal / Gagal ?"
+                                >
+                                    <a href="#" className="btn btn-sm">
+                                        tidak
+                                    </a>
+                                    <ButtonUpdateStatus
+                                        className="block shadow-md"
+                                        children="Yakin"
+                                        data={{
+                                            id: receipt.id,
+                                            status: "gagal",
+                                        }}
+                                    />
+                                </Modal>
+
+                                <Modal
+                                    id="confirmation"
+                                    title="Perhatian!"
+                                    message="Keterangan perbaikan atau biaya perbaikan belum diisi..."
+                                >
+                                    <a href="#" className="btn btn-ghost">
+                                        TUTUP
+                                    </a>
+                                </Modal>
+
+                                <Modal
+                                    id="modal-sukses"
+                                    title="Perhatian!"
+                                    message="Yakin ingin merubah status pengerjaan Sukses / Berhasil ?"
+                                >
+                                    <a href="#" className="btn btn-sm">
+                                        tidak
+                                    </a>
+                                    <ButtonUpdateStatus
+                                        className="block shadow-md"
+                                        children="Yakin"
+                                        data={{
+                                            id: receipt.id,
+                                            status: "berhasil",
+                                        }}
+                                    />
+                                </Modal>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* list */}
+                    <div className="mt-8">
+                        <div className="overflow-x-scroll">
+                            <table className="table text-left table-zebra table-compact  w-full rounded-lg shadow-md">
+                                <tbody className="">
                                     <tr>
-                                        <td>Tanggal Ambil</td>
+                                        <td>No Kartu </td>
+                                        <td>:</td>
+                                        <td className="font-semibold">
+                                            {receipt.receipt_number} -{" "}
+                                            <a
+                                                href={`/images/ttb/ttb_${receipt.receipt_code}.png`}
+                                                target="_blank"
+                                                className="tooltip tooltip-bottom text-sky-600"
+                                                data-tip="Kartu Tanda Terima Barang"
+                                            >
+                                                ( {receipt.receipt_code} )
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tanggal Masuk</td>
                                         <td>:</td>
                                         <td>
                                             {format(
-                                                new Date(receipt.pickup_date),
+                                                new Date(receipt.delivery_date),
                                                 "dd LLLL yyyy",
                                                 { locale: id }
-                                            )}
-                                            <br />
+                                            )}{" "}
+                                            <br />{" "}
                                             <span className="italic text-slate-500">
                                                 ({" "}
-                                                {dateDiff(receipt.pickup_date)}{" "}
+                                                {dateDiff(
+                                                    receipt.delivery_date
+                                                )}{" "}
                                                 )
                                             </span>
                                         </td>
                                     </tr>
-                                )}
-                                <tr>
-                                    <td>Customer</td>
-                                    <td>:</td>
-                                    <td className="hover:bg-blue-300">
-                                        <Link
-                                            href={route(
-                                                "customer.show",
-                                                receipt.customer.id
-                                            )}
-                                            className="flex items-center gap-2 tooltip tooltip-bottom"
-                                            data-tip="Detail Customer"
-                                        >
-                                            {receipt.customer.name}
-                                            <Icon.ArrowRight />
-                                        </Link>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Penerima</td>
-                                    <td>:</td>
-                                    <td className="capitalize">
-                                        {receipt.user.name}
-                                    </td>
-                                </tr>
-                                {/* {receipt.status != "Pending" ||
+                                    {receipt.isTaken && (
+                                        <tr>
+                                            <td>Tanggal Ambil</td>
+                                            <td>:</td>
+                                            <td>
+                                                {format(
+                                                    new Date(
+                                                        receipt.pickup_date
+                                                    ),
+                                                    "dd LLLL yyyy",
+                                                    { locale: id }
+                                                )}
+                                                <br />
+                                                <span className="italic text-slate-500">
+                                                    ({" "}
+                                                    {dateDiff(
+                                                        receipt.pickup_date
+                                                    )}{" "}
+                                                    )
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    )}
+                                    <tr>
+                                        <td>Customer</td>
+                                        <td>:</td>
+                                        <td className="hover:bg-blue-300">
+                                            <Link
+                                                href={route(
+                                                    "customer.show",
+                                                    receipt.customer.id
+                                                )}
+                                                className="flex items-center gap-2 tooltip tooltip-bottom"
+                                                data-tip="Detail Customer"
+                                            >
+                                                {receipt.customer.name}
+                                                <Icon.ArrowRight />
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Penerima</td>
+                                        <td>:</td>
+                                        <td className="capitalize">
+                                            {receipt.user.name}
+                                        </td>
+                                    </tr>
+                                    {/* {receipt.status != "Pending" ||
                                     (receipt.handle_by != "" && (
                                         <tr>
                                             <td>Teknisi</td>
@@ -371,124 +394,131 @@ const ReceiptDetail = () => {
                                             <td>{receipt.handle_by}</td>
                                         </tr>
                                     ))} */}
-                                {receipt.handle_by != "" && (
-                                    <tr>
-                                        <td>Teknisi</td>
-                                        <td>:</td>
-                                        <td className="flex gap-3 items-center">
-                                            {showOptionUser ? (
-                                                <>
-                                                    <select
-                                                        name=""
-                                                        id=""
-                                                        className="select select-sm focus:outline-none"
-                                                        onChange={(e) =>
-                                                            handleChangeHandleBy(
-                                                                e
-                                                            )
-                                                        }
-                                                    >
-                                                        <option
-                                                            value=""
-                                                            disabled
-                                                            selected
-                                                        >
-                                                            Pilih teknisi
-                                                        </option>
-                                                        {users.map(
-                                                            (user, index) => {
-                                                                return (
-                                                                    <option
-                                                                        value={
-                                                                            user.name
-                                                                        }
-                                                                    >
-                                                                        {
-                                                                            user.name
-                                                                        }
-                                                                    </option>
-                                                                );
+                                    {receipt.handle_by != "" && (
+                                        <tr>
+                                            <td>Teknisi</td>
+                                            <td>:</td>
+                                            <td className="flex gap-3 items-center">
+                                                {showOptionUser ? (
+                                                    <>
+                                                        <select
+                                                            name=""
+                                                            id=""
+                                                            className="select select-sm focus:outline-none"
+                                                            onChange={(e) =>
+                                                                handleChangeHandleBy(
+                                                                    e
+                                                                )
                                                             }
-                                                        )}
-                                                    </select>
-                                                    <button
-                                                        onClick={() =>
-                                                            setShowOptionUser(
-                                                                false
-                                                            )
-                                                        }
-                                                    >
-                                                        <Icon.XCircleFill />
-                                                    </button>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    {receipt.handle_by}
-                                                    {auth.user.user_type ==
-                                                        "kasir" ||
-                                                        (auth.user.user_type ==
-                                                            "admin" && (
-                                                            <button
-                                                                onClick={() =>
-                                                                    setShowOptionUser(
-                                                                        true
-                                                                    )
-                                                                }
+                                                        >
+                                                            <option
+                                                                value=""
+                                                                disabled
+                                                                selected
                                                             >
-                                                                <Icon.Pencil />
-                                                            </button>
-                                                        ))}
-                                                </>
-                                            )}
+                                                                Pilih teknisi
+                                                            </option>
+                                                            {users.map(
+                                                                (
+                                                                    user,
+                                                                    index
+                                                                ) => {
+                                                                    return (
+                                                                        <option
+                                                                            value={
+                                                                                user.name
+                                                                            }
+                                                                        >
+                                                                            {
+                                                                                user.name
+                                                                            }
+                                                                        </option>
+                                                                    );
+                                                                }
+                                                            )}
+                                                        </select>
+                                                        <button
+                                                            onClick={() =>
+                                                                setShowOptionUser(
+                                                                    false
+                                                                )
+                                                            }
+                                                        >
+                                                            <Icon.XCircleFill />
+                                                        </button>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        {receipt.handle_by}
+                                                        {auth.user.user_type ==
+                                                            "kasir" ||
+                                                            (auth.user
+                                                                .user_type ==
+                                                                "admin" && (
+                                                                <button
+                                                                    onClick={() =>
+                                                                        setShowOptionUser(
+                                                                            true
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    <Icon.Pencil />
+                                                                </button>
+                                                            ))}
+                                                    </>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    )}
+                                    <tr>
+                                        <td>Barang</td>
+                                        <td>:</td>
+                                        <td>
+                                            <p className="capitalize">
+                                                {receipt.category} -{" "}
+                                                {receipt.barang}
+                                            </p>
                                         </td>
                                     </tr>
-                                )}
-                                <tr>
-                                    <td>Barang</td>
-                                    <td>:</td>
-                                    <td>
-                                        <p className="capitalize">
-                                            {receipt.category} -{" "}
-                                            {receipt.barang}
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Kelengkapan</td>
-                                    <td>:</td>
-                                    <td>
-                                        {receipt.kelengkapan
-                                            ? receipt.kelengkapan.join(" | ")
-                                            : "Tidak ada"}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Kerusakan</td>
-                                    <td>:</td>
-                                    <td>{receipt.kerusakan}</td>
-                                </tr>
-                                <tr>
-                                    <td>Status </td>
-                                    <td>:</td>
-                                    <td>
-                                        <div className="flex gap-2">
-                                            <Status
-                                                status={receipt.status}
-                                                className="rounded-full px-3 py-1 dark:text-slate-700"
-                                            />
-                                            {receipt.isTaken && (
-                                                <div className="rounded-full px-3 py-1 bg-success dark:text-slate-700">
-                                                    Sudah Diambil
-                                                </div>
-                                            )}
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                    <tr>
+                                        <td>Kelengkapan</td>
+                                        <td>:</td>
+                                        <td>
+                                            {receipt.kelengkapan
+                                                ? receipt.kelengkapan.join(
+                                                      " | "
+                                                  )
+                                                : "Tidak ada"}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kerusakan</td>
+                                        <td>:</td>
+                                        <td>{receipt.kerusakan}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status </td>
+                                        <td>:</td>
+                                        <td>
+                                            <div className="flex gap-2">
+                                                <Status
+                                                    status={receipt.status}
+                                                    className="rounded-full px-3 py-1 dark:text-slate-700"
+                                                />
+                                                {receipt.isTaken && (
+                                                    <div className="rounded-full px-3 py-1 bg-success dark:text-slate-700">
+                                                        Sudah Diambil
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        {/* description */}
+                        <Description receipt={receipt} />
                     </div>
-                    {/* description */}
-                    <Description receipt={receipt} />
                 </div>
             </div>
         </>

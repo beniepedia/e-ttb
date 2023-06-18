@@ -8,16 +8,51 @@ import Notifications from "./Notifications";
 export default function Navbar({ auth, appName, href }) {
     return (
         <>
-            <div className="navbar fixed border-b-2 dark:border-none drop-shadow-sm bg-blue-500 dark:bg-slate-700 z-50">
-                <div className="flex-1">
-                    {href && <ButtonBack href={href} />}
+            <div className="navbar fixed  dark:border-none drop-shadow-sm bg-gradient-to-t from-green-400 to-green-500 dark:bg-gradient-to-t dark:from-green-800 dark:to-green-800 z-50">
+                <div className="flex-1 md:justify-between ">
+                    <div className="flex items-center">
+                        {href && <ButtonBack href={href} />}
 
-                    <Link
-                        href={route("dashboard")}
-                        className="btn btn-ghost normal-case  text-2xl text-white"
-                    >
-                        {appName}
-                    </Link>
+                        <Link
+                            href={route("dashboard")}
+                            className="btn btn-ghost normal-case  text-xl text-white"
+                        >
+                            {appName}
+                        </Link>
+                    </div>
+
+                    <ul className="mr-5 md:flex space-x-4 text-white hidden">
+                        <Link
+                            href="/dashboard"
+                            className={`cursor-pointer hover:bg-green-300 dark:hover:bg-green-700 p-3 rounded-md ${
+                                route().current("dashboard")
+                                    ? "bg-green-300 dark:bg-green-700"
+                                    : ""
+                            }`}
+                        >
+                            Dashboard
+                        </Link>
+                        <Link
+                            href="/customers"
+                            className={`cursor-pointer hover:bg-green-300 dark:hover:bg-green-700 p-3 rounded-md ${
+                                route().current("customers")
+                                    ? "bg-green-300 dark:bg-green-700"
+                                    : ""
+                            }`}
+                        >
+                            Customer
+                        </Link>
+                        <Link
+                            href="/receipts"
+                            className={`cursor-pointer hover:bg-green-300 dark:hover:bg-green-700 p-3 rounded-md ${
+                                route().current("receipts")
+                                    ? "bg-green-300 dark:bg-green-700"
+                                    : ""
+                            }`}
+                        >
+                            TTB
+                        </Link>
+                    </ul>
                 </div>
                 <div className="flex-none">
                     <Notifications />

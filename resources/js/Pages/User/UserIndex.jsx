@@ -6,6 +6,7 @@ import Label from "@/Components/Label";
 import Button from "@/Components/Button";
 import { useForm, usePage } from "@inertiajs/inertia-react";
 import Modal from "@/Components/Modal";
+import _ from "lodash";
 
 const UserIndex = () => {
     const { auth } = usePage().props;
@@ -31,6 +32,12 @@ const UserIndex = () => {
             onSuccess: () => {
                 clear();
             },
+        });
+    };
+
+    const handleInputSession = (e) => {
+        Inertia.post(route("setting.store"), {
+            whatsapp_session: e.target.value,
         });
     };
 
@@ -115,6 +122,20 @@ const UserIndex = () => {
                         </a>
                     </Modal>
                 </>
+            )}
+
+            {auth.user.user_type === "admin" && (
+                <div className="mb-4">
+                    <p className="font-semibold">WhatsApp Session</p>
+                    <div className="divider my-1"></div>
+                    {/* <Label>Whatsapp Session</Label> */}
+                    <Input
+                        type="text"
+                        placeHolder="Masukkan nama session whatsapp"
+                        name={"whatsapp_session"}
+                        handleChange={_.debounce(handleInputSession, 1000)}
+                    />
+                </div>
             )}
 
             <p className="font-semibold">Ganti Password</p>

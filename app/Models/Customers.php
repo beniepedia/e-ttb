@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 
 class Customers extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use Notifiable;
 
     protected $fillable = ['name', 'phone', 'whatsapp', 'address'];
 
@@ -53,8 +55,8 @@ class Customers extends Model
         return $this->hasMany(Receipts::class, 'customer_id', 'id');
     }
 
-    // public function resolveRouteBinding($value, $field = null)
-    // {
-    //     return $this->with('receipts');
-    // }
+    public function routeNotificationForWhatsapp($notifiable)
+    {
+        return $this->whatsapp;
+    }
 }

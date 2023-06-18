@@ -18,7 +18,9 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ReceiptFormRequest;
 use App\Http\Resources\ReceiptCollection;
+use App\Notifications\sendNotificationReceiptCustomer;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Throwable;
 
 class ReceiptsController extends Controller
 {
@@ -88,9 +90,13 @@ class ReceiptsController extends Controller
             }
 
 
-            Receipts::create($validation);
+            $receipt = Receipts::create($validation);
 
-            $this->_makeImageTtb($validation);
+            $this->_makeImageTtb($receipt);
+
+            $customer = Customers::find($receipt->customer_id);
+
+            $customer->notify(new sendNotificationReceiptCustomer($receipt));
 
             return to_route('receipt.show', $validation['receipt_code'])->with('message', 'TTB Berhasil dibuat');
         } catch (\Throwable $e) {
@@ -138,69 +144,10 @@ class ReceiptsController extends Controller
         }
     }
 
-    public function send_receipt(Receipts $receipts, \Illuminate\Http\Request $request)
-    {
-        if ($request->whatsapp && WhatsApp::status()) {
-
-            try {
-                // $receipt = $receipts->where('receipt_code', $this->receipt_code)->first();
-
-                $kelengkapan = $receipts->kelengkapan ? Arr::join($receipts->kelengkapan, ', ') : 'Tidak ada';
-                $pelanggan = ucfirst($receipts->customer->name);
-                $user = ucfirst($receipts->user->name);
-                $date = now()->parse($receipts->delivery_date);
-
-                $hari = format_date($date, "l");
-                $tanggal = format_date($date, "d F Y");
-                $jam = format_date($date, 'H:s');
-
-                $caption  = "\n*KARTU TANDA TERIMA*\n\n";
-                $caption .= "No. Register : $receipts->receipt_code\n";
-                $caption .= "No. Kartu : $receipts->receipt_number\n";
-                $caption .= "Hari : $hari\n";
-                $caption .= "Tanggal : $tanggal\n";
-                $caption .= "Jam : $jam\n";
-                $caption .= "Penerima : $user\n";
-                $caption .= "Customer : $pelanggan\n";
-                $caption .= "Barang : $receipts->barang\n";
-                $caption .= "Kelengkapan : $kelengkapan\n";
-                $caption .= "Kerusakan : $receipts->kerusakan\n\n";
-                $caption .= "------------------------------------------\n";
-                $caption .= "*Info Lanjut Hub :* \n";
-                $caption .= "HP : 08116407788\n\n";
-                $caption .= "_Tunjukkan kartu ini pada saat ingin mengambil barang anda..._";
-
-
-                return WhatsApp::send([
-                    "number" => $request->whatsapp,
-                    "message" => [
-                        "image" => [
-                            "url" => url("images/ttb") . "/ttb_" . $receipts->receipt_code . ".png",
-                        ],
-                        "caption" => $caption,
-                    ]
-                ]);
-            } catch (\Exception $e) {
-                Log::error($e->getMessage());
-                return response()->json([
-                    'success' => false,
-                    'message' => '',
-                ], 500);
-            }
-        } else {
-            Log::error("Server whatsapp tidak aktif atau nomor customer tidak ditemukan.");
-            return response()->json([
-                'success' => false,
-                'message' => '',
-            ], 500);
-        }
-    }
-
     private function _formatImage($file)
     {
 
         $path = 'images/barang/';
-
 
         if (!File::isDirectory(public_path($path))) {
             File::makeDirectory(public_path($path), 0777, true, true);
@@ -210,8 +157,7 @@ class ReceiptsController extends Controller
 
         $image = Image::make($file->getRealPath());
 
-
-        $image->fit(400, 300, function ($constraint) {
+        $image->fit(800, 600, function ($constraint) {
             $constraint->aspectRatio();
         });
 
@@ -231,15 +177,26 @@ class ReceiptsController extends Controller
         return Inertia::render('Receipt/PrintLabel', compact('qrcode', 'receipts'));
     }
 
+    public function send_receipt(Receipts $receipts)
+    {
+
+        try {
+            $receipts->load('customer');
+
+            $customer = $receipts->customer;
+
+            $customer->notify(new sendNotificationReceiptCustomer($receipts));
+            return response()->json(['message' => 'Berhasil mengirim kartu tanda terima ke customer ' . $customer->name], 200);
+        } catch (Throwable $t) {
+            return response()->json(['message' => 'Berhasil mengirim kartu tanda terima ke customer '], 400);
+        }
+    }
+
     private function _makeImageTtb($data)
     {
         $customer = Customers::find($data['customer_id']);
 
         $createImage = make_ttb($data['receipt_code'], $data['receipt_number'], $customer->name);
-
-        // if ($customer->whatsapp && $this->_checkWhatsappConnection()) {
-        //     dispatch(new SendReceiptWhatsappJob($data['receipt_code'], $customer->whatsapp))->delay(now()->addSecond(5));
-        // }
 
         return $createImage;
     }

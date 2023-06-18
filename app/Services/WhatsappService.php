@@ -20,6 +20,16 @@ class WhatsappService
         return $this->Request('post', 'send-message', $data);
     }
 
+    public function sendMessage(array $data)
+    {
+        return $this->Request('post', 'send-message', $data);
+    }
+
+    public function sendMedia(array $data)
+    {
+        return $this->Request('post', 'send-media', $data);
+    }
+
     public function connect()
     {
         return $this->Request('post', 'connect');
@@ -37,29 +47,33 @@ class WhatsappService
         return $this->Request('delete', 'logout');
     }
 
-    private function Request($method, $url, $data = null)
+    private function Request($method, $url, $data = [])
     {
         // try {
-        $response = Http::$method(join(DIRECTORY_SEPARATOR, [$this->serverUrl, $url]), $data);
+        $response = Http::withHeaders([
+            'accept' => 'application/json',
+            'session' => 'ettb'
+        ])->$method("$this->serverUrl/$url", $data);
 
-        return $response;
-
-        $result = ['success' => true, 'message' => ''];
-
-        if ($response->status() == 200) {
-            $resData = (array)$response->json();
-
-            if (!empty($resData['success'])) {
-                $result['success'] = true;
-                $result['message'] = $resData['message'];
-            } else {
-                $result['success'] = false;
-            }
-        } else {
-            Log::error('Gagal mengirim pesan whatsapp. Server whatsapp tidak online atau alamat server salah.');
-            $result['success'] = false;
+        if (!$response->ok()) {
+            $message = $response->json()["message"];
+            Log::error("Gagal mengirim pesan whatsapp", ["error" => $message]);
+            return [
+                'success' => false,
+                'message' => $message,
+                'error_code' => $response->status()
+            ];
         }
 
-        return $result;
+        $respon = $response->json()['data'];
+        Log::info("Berhasil mengirim pesan whatsapp ke", ['nomor' => $respon['remoteJid']]);
+        return [
+            'success' => true,
+            'data' => [
+                'id' => $respon['id'],
+                'remoteJid' => $respon['remoteJid']
+            ],
+            'error_code' => $response->status()
+        ];
     }
 }

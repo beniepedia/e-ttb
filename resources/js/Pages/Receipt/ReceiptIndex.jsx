@@ -25,8 +25,6 @@ const ReceiptIndex = () => {
     });
 
     const prevValues = usePrevious(query);
-
-    const [state, setState] = useState(null);
     const [openScan, setOpenScan] = useState(false);
     const [page, setPage] = useState("");
     const [item, setItem] = useState([]);
@@ -82,7 +80,9 @@ const ReceiptIndex = () => {
 
     return (
         <div className="py-4 px-3">
-            <Head title="List TTB"></Head>
+            <Head>
+                <title>List Tanda Terima</title>
+            </Head>
             <div className="mb-5">
                 <div className="input-group shadow-md rounded-lg">
                     <input

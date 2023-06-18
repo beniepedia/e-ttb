@@ -1,13 +1,16 @@
 <?php
 
+use App\Facades\WhatsApp;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReceiptsController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WhatsappController;
+use App\Notifications\sendNotificationReceiptCustomer;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,14 +23,17 @@ use App\Http\Controllers\WhatsappController;
 |
 */
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
+Route::get('/send', function () {
+    $customer = \App\Models\Customers::find(1);
+
+    $receipt = \App\Models\Receipts::firstWhere('customer_id', $customer->id);
+
+    // try {
+    //     $customer->notify(new sendNotificationReceiptCustomer($receipt));
+    // } catch (\Exception $e) {
+    //     echo $e->getMessage();
+    // }
+});
 
 Route::get('/', function () {
     return Inertia::render('Auth/Login');
@@ -54,7 +60,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::post('/receipts', 'store')->name('receipts.store');
         Route::post('/receipts/{receipts:id}/upload-image', 'upload_image')->name('receipts.imageupload');
-        Route::post('receipts/{receipts:id}/send_receipt', 'send_receipt')->name('receipts.send');
+        Route::post('receipts/{receipts}/send_receipt', 'send_receipt')->name('receipts.send');
 
         Route::get('/receipts/create', 'create')->name('receipts.create');
         Route::get('/receipts/{receipts:receipt_code}', 'show')->name('receipt.show');
@@ -69,6 +75,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get("/user", "index")->name("user.index");
         Route::post("/changepassword", "changePassword")->name("change_password");
         Route::delete("/reset-table", "resetTable")->name("reset.table");
+    });
+
+    Route::controller(SettingController::class)->group(function () {
+        Route::post('/setting', 'store')->name('setting.store');
     });
 
     Route::controller(WhatsappController::class)->group(function () {
