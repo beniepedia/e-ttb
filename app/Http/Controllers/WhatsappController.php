@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Facades\WhatsApp;
 use App\Jobs\SendReceiptWhatsappJob;
+use Exception;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -29,13 +30,16 @@ class WhatsappController extends Controller
 
     public function sendMessage(Request $request)
     {
+        try {
+            WhatsApp::sendMessage([
+                'to' => $request->to,
+                'text' => $request->text,
+            ]);
 
-        $req = WhatsApp::send([
-            'number' => $request->id,
-            'message' => $request->message,
-        ]);
-
-        return $req;
+            return response()->json(['success' => true], 200);
+        } catch (Exception $e) {
+            return response()->json(['success' => false], 400);
+        }
     }
 
 

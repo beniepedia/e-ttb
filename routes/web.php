@@ -23,20 +23,24 @@ use App\Notifications\sendNotificationReceiptCustomer;
 |
 */
 
-Route::get('/send', function () {
-    $customer = \App\Models\Customers::find(1);
+// Route::get('/send', function () {
 
-    $receipt = \App\Models\Receipts::firstWhere('customer_id', $customer->id);
+//     WhatsApp::sendMessage([
+//         'to' => '6282174416077',
+//         'text' => 'asdasdas'
+//     ]);
 
-    // try {
-    //     $customer->notify(new sendNotificationReceiptCustomer($receipt));
-    // } catch (\Exception $e) {
-    //     echo $e->getMessage();
-    // }
-});
+//     exit;
+
+//     $customer = \App\Models\Customers::find(1);
+
+//     $receipt = \App\Models\Receipts::firstWhere('customer_id', $customer->id);
+
+// });
 
 Route::get('/', function () {
-    return Inertia::render('Auth/Login');
+    // return Inertia::render('Auth/Login');
+    return redirect()->route('login');
 });
 
 
