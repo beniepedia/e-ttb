@@ -55,7 +55,7 @@ export default function SendMessage({ customers }) {
     };
     return (
         <div className="card bg-white dark:bg-slate-900 shadow-md">
-            <div className="card-body p-3">
+            <div className="card-body py-9 px-5">
                 <div className="card-title text-slate-600">Kirim Whatsapp</div>
                 <div>
                     <Label>No. Tujuan</Label>
@@ -75,14 +75,16 @@ export default function SendMessage({ customers }) {
                     <TextArea
                         name="text"
                         value={data.text}
+                        className={"textarea-bordered h-48"}
                         handleChange={handleChange}
-                        placeHolder=""
+                        placeHolder="Masukkan pesan whatsapp yang akan dikirim"
                     ></TextArea>
                 </div>
                 <div className="text-right mt-2">
                     <Button
                         handleClick={onHandleClick}
                         type="button"
+                        className="btn-success"
                         processing={processing}
                     >
                         Kirim

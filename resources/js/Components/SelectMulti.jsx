@@ -1,7 +1,6 @@
-import React from 'react'
-import Select from 'react-select'
-import makeAnimated from 'react-select/animated'
-
+import React from "react";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
 
 export default function SelectMulti({
     value,
@@ -14,20 +13,18 @@ export default function SelectMulti({
     const animatedComponents = makeAnimated();
 
     const customStyles = {
-
         control: (preventDefault) => ({
             ...preventDefault,
-            borderRadius: 9,
+            borderRadius: 5,
             padding: 6,
-
         }),
 
         option: (provided, state) => ({
             ...provided,
             borderRadius: 5,
-            overflow: "hidden"
+            overflow: "hidden",
         }),
-    }
+    };
 
     return (
         <Select
@@ -40,19 +37,18 @@ export default function SelectMulti({
             placeholder="Pilih ..."
             noOptionsMessage={() => "Tidak ada opsi lain"}
             closeMenuOnSelect={closeMenuOnSelect}
-            delimiter=','
+            delimiter=","
             // onInputChange={onInputChange}
             onChange={onHandleChange}
             theme={(theme) => ({
                 ...theme,
-                borderRadius: 10,
+                borderRadius: 5,
                 colors: {
                     ...theme.colors,
-                    primary25: '#86EFAC',
-                    primary: '#94A3B8',
+                    primary25: "#86efac",
+                    primary: "#65a30d",
                 },
             })}
-
         ></Select>
-    )
+    );
 }

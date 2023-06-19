@@ -186,18 +186,19 @@ const ReceiptAdd = ({ customers, auth, user, auto_number }) => {
                     <div className="flex gap-3 my-2">
                         <div className="w-1/3">
                             <Label>Kategori</Label>
-                            <Select
-                                name="category"
-                                handleChange={onHandleChange}
-                            >
-                                {option.map((val, index) => {
-                                    return (
-                                        <option value={val.value} key={index}>
-                                            {val.label}
-                                        </option>
-                                    );
-                                })}
-                            </Select>
+
+                            <SelectMulti
+                                closeMenuOnSelect={true}
+                                option={option}
+                                onHandleChange={(e) =>
+                                    setData({ ...data, category: e.value })
+                                }
+                            />
+                            {errors.category && (
+                                <div className="invalid-feedback -mb-3">
+                                    {errors.category}
+                                </div>
+                            )}
                         </div>
                         <div className="flex-1">
                             <Label>Nama / Tipe Barang</Label>

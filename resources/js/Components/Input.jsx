@@ -27,7 +27,10 @@ export default function Input({
                 name={name}
                 value={value}
                 min="0"
-                className={`input shadow rounded w-full ` + className}
+                className={
+                    `input shadow rounded focus:outline-none focus:border-green-600 border-2 w-full ` +
+                    className
+                }
                 ref={input}
                 autoComplete={autoComplete}
                 placeholder={placeHolder}

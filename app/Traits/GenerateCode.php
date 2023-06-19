@@ -13,7 +13,7 @@ trait GenerateCode
             ->select('id', 'receipt_number', 'created_at', DB::raw('MAX(receipt_number) as MAX_ID'))
             ->orderBy('receipt_number', 'desc')
             ->orderBy('created_at', 'desc')
-            ->groupBy('id')
+            ->groupBy('id', 'receipt_number')
             ->first();
 
         $MAX_ID = $query->MAX_ID ?? 0;

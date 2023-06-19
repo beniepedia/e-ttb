@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 
 export default function TextArea({
     name,
     value,
     className,
-    placeHolder = '',
+    placeHolder = "",
     required,
     handleChange,
     disable,
@@ -13,7 +13,10 @@ export default function TextArea({
 
     return (
         <textarea
-            className={`textarea textarea-bordered w-full ` + className}
+            className={
+                `textarea rounded focus:outline-none focus:border-green-600 border-2 shadow w-full ` +
+                className
+            }
             name={name}
             value={value}
             ref={input}
@@ -21,8 +24,6 @@ export default function TextArea({
             required={required}
             onChange={(e) => handleChange(e)}
             disabled={disable}
-        >
-        </textarea>
-
+        ></textarea>
     );
 }

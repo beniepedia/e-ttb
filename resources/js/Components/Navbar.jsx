@@ -8,7 +8,7 @@ import Notifications from "./Notifications";
 export default function Navbar({ auth, appName, href }) {
     return (
         <>
-            <div className="navbar fixed  dark:border-none drop-shadow-sm bg-gradient-to-t from-green-400 to-green-500 dark:bg-gradient-to-t dark:from-green-800 dark:to-green-800 z-50">
+            <div className="navbar fixed  dark:border-none shadow bg-gradient-to-t from-green-400 to-green-500 dark:bg-gradient-to-t dark:from-green-800 dark:to-green-800 z-50">
                 <div className="flex-1 md:justify-between ">
                     <div className="flex items-center">
                         {href && <ButtonBack href={href} />}

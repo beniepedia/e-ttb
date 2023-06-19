@@ -24,7 +24,7 @@ export default function ReceiptList({ receipts, processing }) {
             {receipts.map((receipt, index) => {
                 return (
                     <div
-                        className="card w-full bg-base-100 shadow border-2 border-slate-500"
+                        className="card w-full bg-base-100 shadow border-2 border-slate-500 overflow-hidden"
                         key={index}
                     >
                         <figure className="relative">

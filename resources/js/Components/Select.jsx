@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef } from "react";
 
 export default function Select({
     name,
@@ -6,14 +6,16 @@ export default function Select({
     multiple,
     children,
     handleChange,
-    disabled
+    disabled,
 }) {
-
     const select = useRef();
 
     return (
         <select
-            className={'select w-full ' + className}
+            className={
+                "select focus:outline-none rounded focus:border-green-600 border-2 w-full " +
+                className
+            }
             name={name}
             ref={select}
             onChange={handleChange}
@@ -22,5 +24,5 @@ export default function Select({
         >
             {children}
         </select>
-    )
+    );
 }
