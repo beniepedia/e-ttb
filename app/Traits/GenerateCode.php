@@ -11,9 +11,9 @@ trait GenerateCode
     {
         $query = DB::table('receipts')
             ->select('id', 'receipt_number', 'created_at', DB::raw('MAX(receipt_number) as MAX_ID'))
+            ->groupBy('id', 'receipt_number', 'created_at')
             ->orderBy('receipt_number', 'desc')
             ->orderBy('created_at', 'desc')
-            ->groupBy('id', 'receipt_number')
             ->first();
 
         $MAX_ID = $query->MAX_ID ?? 0;
