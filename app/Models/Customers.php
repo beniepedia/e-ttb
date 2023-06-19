@@ -46,7 +46,7 @@ class Customers extends Model
     protected function name(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => ucwords($value),
+            get: fn ($value) => ucwords(strtolower($value)),
         );
     }
 

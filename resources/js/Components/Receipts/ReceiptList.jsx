@@ -39,7 +39,7 @@ export default function ReceiptList({ receipts, processing }) {
                             <Status status={receipt.status} />
                         </figure>
                         <div className="card-body p-0">
-                            <h1 className="card-title text-4xl flex justify-around bg-slate-100 py-2">
+                            <h1 className="card-title text-4xl flex justify-around bg-slate-300 py-2">
                                 {receipt.receipt_number}
                             </h1>
 

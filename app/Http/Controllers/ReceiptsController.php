@@ -90,17 +90,18 @@ class ReceiptsController extends Controller
             }
 
 
-            $receipt = Receipts::create($validation);
+            $receipt = Receipts::creat($validation);
 
             $this->_makeImageTtb($receipt);
 
-            $customer = Customers::find($receipt->customer_id);
+            // $customer = Customers::find($receipt->customer_id);
 
-            $customer->notify(new sendNotificationReceiptCustomer($receipt));
+            // $customer->notify(new sendNotificationReceiptCustomer($receipt));
 
             return to_route('receipt.show', $validation['receipt_code'])->with('message', 'TTB Berhasil dibuat');
         } catch (\Throwable $e) {
             Log::error($e->getMessage());
+            return Redirect::back();
         }
     }
 
