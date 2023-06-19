@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,5 +28,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Inertia::version(function () {
+            return md5_file(public_path('mix-manifest.json'));
+        });
+
+        Inertia::share([
+            'manifest' => json_decode(file_get_contents(public_path('manifest.json')), true),
+            'serviceWorker' => file_get_contents(public_path('service-worker.js')),
+        ]);
     }
 }
