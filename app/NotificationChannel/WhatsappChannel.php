@@ -26,18 +26,19 @@ class WhatsappChannel
             return;
         }
 
+        $sendData = [
+            'to' => $data['to'] ?? $id,
+            'text' => $data['text']
+        ];
+
         if (isset($data['media']) && !empty($data['media'])) {
-            $send = WhatsApp::sendMedia([
-                'to' => $id,
-                'text' => $data['text'],
-                'media' => $data['media']
-            ]);
+            $sendData['media'] = $data['media'];
+            $send = WhatsApp::sendMedia($sendData);
         } else {
-            $send = WhatsApp::sendMessage([
-                'to' => $id,
-                'text' => $data['text'],
-            ]);
+            $send = WhatsApp::sendMessage($sendData);
         }
+
+        // dd($sendData);
 
         if (!$send['success']) {
             throw new Exception($send['message']);
