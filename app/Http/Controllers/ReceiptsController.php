@@ -186,8 +186,6 @@ class ReceiptsController extends Controller
 
             $customer = $receipts->customer;
 
-            dd($customer);
-
             $customer->notify(new sendNotificationReceiptCustomer($receipts));
             return response()->json(['message' => 'Berhasil mengirim kartu tanda terima ke customer ' . $customer->name], 200);
         } catch (Throwable $t) {

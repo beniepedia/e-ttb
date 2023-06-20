@@ -23,15 +23,15 @@ use App\Notifications\sendNotificationReceiptCustomer;
 |
 */
 
-Route::get('/send', function () {
+// Route::get('/send', function () {
 
-    $receipt = \App\Models\Receipts::firstwhere('receipt_number', '116');
-    $receipt->load('customer');
+//     $receipt = \App\Models\Receipts::firstwhere('receipt_number', '116');
+//     $receipt->load('customer');
 
-    $customer = $receipt->customer;
+//     $customer = $receipt->customer;
 
-    $customer->notify(new sendNotificationReceiptCustomer($receipt));
-});
+//     $customer->notify(new sendNotificationReceiptCustomer($receipt));
+// });
 
 Route::get('/', function () {
     // return Inertia::render('Auth/Login');
