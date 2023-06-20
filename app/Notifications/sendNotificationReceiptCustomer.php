@@ -73,7 +73,7 @@ class sendNotificationReceiptCustomer extends Notification
 
         return [
             'text' => $caption,
-            'media' => url(public_path("images/ttb/ttb_" . $this->receipt->receipt_code)),
+            'media' => url("images/ttb/ttb_" . $this->receipt->receipt_code . ".png"),
         ];
     }
 }
