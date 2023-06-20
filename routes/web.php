@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Client\StatusController;
 use App\Facades\WhatsApp;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,9 @@ Route::get('/', function () {
     // return Inertia::render('Auth/Login');
     return redirect()->route('login');
 });
+
+Route::get("/cek-status", [StatusController::class, 'check_status'])->name('client.status.check');
+Route::post("/cek-status/{receipts:receipt_code}", [StatusController::class, 'check'])->name('client.status.process')->middleware('throttle:5,1');
 
 
 Route::middleware(['auth', 'verified'])->group(function () {

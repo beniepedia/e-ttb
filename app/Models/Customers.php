@@ -15,7 +15,11 @@ class Customers extends Model
     use SoftDeletes;
     use Notifiable;
 
-    protected $fillable = ['name', 'phone', 'whatsapp', 'address'];
+    protected $casts = [
+        'location' => 'json'
+    ];
+
+    protected $fillable = ['name', 'phone', 'whatsapp', 'address', 'location'];
 
 
     public function scopeFilter($query, array $filter)

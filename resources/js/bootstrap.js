@@ -31,35 +31,37 @@ if ("serviceWorker" in navigator) {
 
 // bootstrap.js
 
-window.addEventListener('load', () => {
-    if (!navigator.onLine) {
-        const offlineMessage = document.createElement('div');
-        offlineMessage.innerText = 'Tidak ada koneksi internet.';
-        offlineMessage.style.backgroundColor = '#ff0000';
-        offlineMessage.style.color = '#ffffff';
-        offlineMessage.style.padding = '10px';
-        offlineMessage.style.textAlign = 'center';
-        document.body.appendChild(offlineMessage);
-    }
-});
+// window.addEventListener('load', () => {
+//     if (!navigator.onLine) {
+//         const offlineMessage = document.createElement('div');
+//         offlineMessage.innerText = 'Tidak ada koneksi internet.';
+//         offlineMessage.style.backgroundColor = '#ff0000';
+//         offlineMessage.style.color = '#ffffff';
+//         offlineMessage.style.padding = '10px';
+//         offlineMessage.style.textAlign = 'center';
+//         document.body.appendChild(offlineMessage);
+//     }
+// });
 
-window.addEventListener('online', () => {
-    const offlineMessage = document.querySelector('.offline-message');
-    if (offlineMessage) {
-        offlineMessage.remove();
-    }
-});
+// window.addEventListener('online', () => {
+//     const offlineMessage = document.querySelector('.offline-message');
+//     if (offlineMessage) {
+//         offlineMessage.remove();
+//     }
+// });
 
-window.addEventListener('offline', () => {
-    const offlineMessage = document.createElement('div');
-    offlineMessage.innerText = 'Tidak ada koneksi internet.';
-    offlineMessage.style.backgroundColor = '#ff0000';
-    offlineMessage.style.color = '#ffffff';
-    offlineMessage.style.padding = '10px';
-    offlineMessage.style.textAlign = 'center';
-    offlineMessage.classList.add('offline-message');
-    document.body.appendChild(offlineMessage);
-});
+// window.addEventListener('offline', () => {
+//     const offlineMessage = document.createElement('div');
+//     offlineMessage.innerText = 'Tidak ada koneksi internet.';
+//     offlineMessage.style.backgroundColor = '#ff0000';
+//     offlineMessage.style.color = '#ffffff';
+//     offlineMessage.style.padding = '10px';
+//     offlineMessage.style.textAlign = 'center';
+//     offlineMessage.classList.add('offline-message');
+//     document.body.appendChild(offlineMessage);
+// });
+
+
 
 // ... Kode lainnya dalam bootstrap.js
 

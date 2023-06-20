@@ -302,7 +302,7 @@ const ReceiptDetail = () => {
 
                     {/* list */}
                     <div className="mt-8">
-                        <div className="overflow-x-scroll">
+                        <div className="overflow-x-auto">
                             <table className="table text-left table-zebra table-compact  w-full rounded-lg shadow-md">
                                 <tbody className="">
                                     <tr>
