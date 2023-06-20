@@ -73,7 +73,7 @@ class sendNotificationReceiptCustomer extends Notification
 
         return [
             'text' => $caption,
-            'media' => "http://office.bpjnbabel.com/images/logo.png",
+            'media' => url(public_path("images/ttb/ttb_" . $this->receipt->receipt_code)),
         ];
     }
 }

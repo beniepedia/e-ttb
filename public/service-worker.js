@@ -6,5 +6,5 @@ const { NetworkFirst, CacheFirst } = workbox.strategies;
 
 registerRoute(
     new RegExp('.*'),
-    new CacheFirst()
+    new NetworkFirst()
 );
