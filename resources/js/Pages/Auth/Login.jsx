@@ -39,14 +39,14 @@ export default function Login({ status, canResetPassword }) {
             <Head title="Log in" />
 
             {status && (
-                <div className="mb-4 font-medium text-sm text-green-600">
+                <div className="alert bg-green-600 text-white mb-3 rounded p-2">
                     {status}
                 </div>
             )}
-            <h3 className="text-xl text-gray-500 font-semibold text-center mb-1">
+            <h3 className="text-xl text-slate-600 font-semibold text-center mb-3">
                 SILAHKAN LOGIN
             </h3>
-            <p className="text-sm text-slate-500 mb-4 text-center">
+            <p className="text-sm text-slate-500 mb-5 text-center">
                 Gunakan alamat email yang sudah terdaftar untuk masuk ke
                 aplikasi.
             </p>
@@ -92,24 +92,24 @@ export default function Login({ status, canResetPassword }) {
                             name="remember"
                             value={data.remember}
                             handleChange={onHandleChange}
-                            className="checkbox-primary"
+                            className="checkbox"
                         />
 
-                        <span className="ml-2 text-sm text-gray-600">
+                        <span className="ml-2 text-sm text-slate-600">
                             Remember me
                         </span>
                     </label>
                 </div>
 
-                <div className="flex items-center justify-end mt-6 mb-6">
-                    {/* {canResetPassword && (
+                <div className="flex items-center justify-between my-10">
+                    {canResetPassword && (
                         <Link
                             href={route("password.request")}
                             className="underline text-sm text-gray-600 hover:text-gray-900"
                         >
-                            Forgot your password?
+                            Lupa kata sandi ?
                         </Link>
-                    )} */}
+                    )}
 
                     <Button
                         className="ml-4 sm:btn-sm md:btn-md"

@@ -159,7 +159,7 @@ const ReceiptDetail = () => {
                 </div>
 
                 <div
-                    className={`h-72 md:h-[25rem] bg-cover shadow-md`}
+                    className={`h-72 md:h-[25rem] bg-cover shadow-md bg-center`}
                     style={{ backgroundImage: `url(/${receipt.image})` }}
                 >
                     {progress && (

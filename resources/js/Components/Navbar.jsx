@@ -8,7 +8,7 @@ import Notifications from "./Notifications";
 export default function Navbar({ auth, appName, href }) {
     return (
         <>
-            <div className="navbar fixed  dark:border-none shadow bg-gradient-to-t from-green-400 to-green-500 dark:bg-gradient-to-t dark:from-green-800 dark:to-green-800 z-50">
+            <div className="navbar fixed  dark:border-none shadow bg-emerald-600 dark:bg-slate-800 z-50">
                 <div className="flex-1 md:justify-between ">
                     <div className="flex items-center">
                         {href && <ButtonBack href={href} />}
@@ -24,9 +24,9 @@ export default function Navbar({ auth, appName, href }) {
                     <ul className="mr-5 md:flex space-x-4 text-white hidden">
                         <Link
                             href="/dashboard"
-                            className={`cursor-pointer hover:bg-green-300 dark:hover:bg-green-700 p-3 rounded-md ${
+                            className={`cursor-pointer hover:bg-emerald-500 dark:hover:bg-slate-700 p-3 rounded-md ${
                                 route().current("dashboard")
-                                    ? "bg-green-300 dark:bg-green-700"
+                                    ? "bg-emerald-500 dark:bg-emerald-500"
                                     : ""
                             }`}
                         >
@@ -34,9 +34,9 @@ export default function Navbar({ auth, appName, href }) {
                         </Link>
                         <Link
                             href="/customers"
-                            className={`cursor-pointer hover:bg-green-300 dark:hover:bg-green-700 p-3 rounded-md ${
+                            className={`cursor-pointer hover:bg-emerald-500 dark:hover:bg-slate-700 p-3 rounded-md ${
                                 route().current("customers")
-                                    ? "bg-green-300 dark:bg-green-700"
+                                    ? "bg-emerald-500 dark:bg-emerald-500"
                                     : ""
                             }`}
                         >
@@ -44,9 +44,9 @@ export default function Navbar({ auth, appName, href }) {
                         </Link>
                         <Link
                             href="/receipts"
-                            className={`cursor-pointer hover:bg-green-300 dark:hover:bg-green-700 p-3 rounded-md ${
+                            className={`cursor-pointer hover:bg-emerald-500 dark:hover:bg-slate-700 p-3 rounded-md ${
                                 route().current("receipts")
-                                    ? "bg-green-300 dark:bg-green-700"
+                                    ? "bg-emerald-500 dark:bg-emerald-500"
                                     : ""
                             }`}
                         >

@@ -90,7 +90,7 @@ class ReceiptsController extends Controller
             }
 
 
-            $receipt = Receipts::creat($validation);
+            $receipt = Receipts::create($validation);
 
             $this->_makeImageTtb($receipt);
 
