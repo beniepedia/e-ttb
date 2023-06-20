@@ -1,6 +1,6 @@
 {
   "resources/js/app.jsx": {
-    "file": "assets/app.8722ba6d.js",
+    "file": "assets/app.b2060d12.js",
     "src": "resources/js/app.jsx",
     "isEntry": true,
     "dynamicImports": [
@@ -11,6 +11,7 @@
       "resources/js/Pages/Auth/Register.jsx",
       "resources/js/Pages/Auth/ResetPassword.jsx",
       "resources/js/Pages/Auth/VerifyEmail.jsx",
+      "resources/js/Pages/Client/StatusCheck.jsx",
       "resources/js/Pages/Customers/CustomerAdd.jsx",
       "resources/js/Pages/Customers/CustomerDetail.jsx",
       "resources/js/Pages/Customers/CustomerEdit.jsx",
@@ -25,11 +26,11 @@
       "resources/js/Pages/Whatsapp/WhatsappIndex.jsx"
     ],
     "css": [
-      "assets/app.c82e88fa.css"
+      "assets/app.edb37ebc.css"
     ]
   },
   "resources/js/Pages/Welcome.jsx": {
-    "file": "assets/Welcome.d492ad78.js",
+    "file": "assets/Welcome.ac857d5d.js",
     "src": "resources/js/Pages/Welcome.jsx",
     "isDynamicEntry": true,
     "imports": [
@@ -37,140 +38,191 @@
     ]
   },
   "resources/js/Pages/Auth/ConfirmPassword.jsx": {
-    "file": "assets/ConfirmPassword.48732642.js",
+    "file": "assets/ConfirmPassword.5cf7bae6.js",
     "src": "resources/js/Pages/Auth/ConfirmPassword.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Button.d440c55b.js",
-      "_Guest.66d2f8ad.js",
-      "_Input.98d2bdaf.js",
-      "_Label.148c6f9e.js",
-      "_ValidationErrors.6801dec9.js"
+      "_Button.21b9be17.js",
+      "_Guest.669cca4a.js",
+      "_Input.11667998.js",
+      "_Label.df7ec2a5.js",
+      "_ValidationErrors.99ec1af4.js"
     ]
   },
-  "_Button.d440c55b.js": {
-    "file": "assets/Button.d440c55b.js",
+  "_Button.21b9be17.js": {
+    "file": "assets/Button.21b9be17.js",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_Guest.66d2f8ad.js": {
-    "file": "assets/Guest.66d2f8ad.js",
+  "_Guest.669cca4a.js": {
+    "file": "assets/Guest.669cca4a.js",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_Input.98d2bdaf.js": {
-    "file": "assets/Input.98d2bdaf.js",
+  "_Input.11667998.js": {
+    "file": "assets/Input.11667998.js",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_Label.148c6f9e.js": {
-    "file": "assets/Label.148c6f9e.js",
+  "_Label.df7ec2a5.js": {
+    "file": "assets/Label.df7ec2a5.js",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_ValidationErrors.6801dec9.js": {
-    "file": "assets/ValidationErrors.6801dec9.js",
+  "_ValidationErrors.99ec1af4.js": {
+    "file": "assets/ValidationErrors.99ec1af4.js",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
   "resources/js/Pages/Auth/ForgotPassword.jsx": {
-    "file": "assets/ForgotPassword.7a67c2e5.js",
+    "file": "assets/ForgotPassword.b5cbd60a.js",
     "src": "resources/js/Pages/Auth/ForgotPassword.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Button.d440c55b.js",
-      "_Guest.66d2f8ad.js",
-      "_Input.98d2bdaf.js",
-      "_ValidationErrors.6801dec9.js"
+      "_Button.21b9be17.js",
+      "_Guest.669cca4a.js",
+      "_Input.11667998.js",
+      "_ValidationErrors.99ec1af4.js"
     ]
   },
   "resources/js/Pages/Auth/Login.jsx": {
-    "file": "assets/Login.1c404ef5.js",
+    "file": "assets/Login.b3c19d1c.js",
     "src": "resources/js/Pages/Auth/Login.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Button.d440c55b.js",
-      "_Checkbox.8a35c0be.js",
-      "_Guest.66d2f8ad.js",
-      "_Input.98d2bdaf.js"
+      "_Button.21b9be17.js",
+      "_Checkbox.0f4190ed.js",
+      "_Guest.669cca4a.js",
+      "_Input.11667998.js"
     ]
   },
-  "_Checkbox.8a35c0be.js": {
-    "file": "assets/Checkbox.8a35c0be.js",
+  "_Checkbox.0f4190ed.js": {
+    "file": "assets/Checkbox.0f4190ed.js",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
   "resources/js/Pages/Auth/Register.jsx": {
-    "file": "assets/Register.039b0883.js",
+    "file": "assets/Register.db631cbb.js",
     "src": "resources/js/Pages/Auth/Register.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Button.d440c55b.js",
-      "_Main.3b11d486.js",
-      "_Input.98d2bdaf.js",
-      "_Label.148c6f9e.js"
+      "_Button.21b9be17.js",
+      "_Main.61d9306c.js",
+      "_Input.11667998.js",
+      "_Label.df7ec2a5.js",
+      "_Alert.34a30928.js"
     ]
   },
-  "_Main.3b11d486.js": {
-    "file": "assets/Main.3b11d486.js",
+  "_Main.61d9306c.js": {
+    "file": "assets/Main.61d9306c.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Alert.34a30928.js"
+    ]
+  },
+  "_Alert.34a30928.js": {
+    "file": "assets/Alert.34a30928.js",
     "imports": [
       "resources/js/app.jsx"
     ],
     "css": [
-      "assets/Main.29dac0ea.css"
+      "assets/Alert.f7657221.css"
     ]
   },
   "resources/js/Pages/Auth/ResetPassword.jsx": {
-    "file": "assets/ResetPassword.8fd575c3.js",
+    "file": "assets/ResetPassword.3c748987.js",
     "src": "resources/js/Pages/Auth/ResetPassword.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Button.d440c55b.js",
-      "_Guest.66d2f8ad.js",
-      "_Input.98d2bdaf.js",
-      "_ValidationErrors.6801dec9.js"
+      "_Button.21b9be17.js",
+      "_Guest.669cca4a.js",
+      "_Input.11667998.js",
+      "_ValidationErrors.99ec1af4.js"
     ]
   },
   "resources/js/Pages/Auth/VerifyEmail.jsx": {
-    "file": "assets/VerifyEmail.20b369ea.js",
+    "file": "assets/VerifyEmail.47afea70.js",
     "src": "resources/js/Pages/Auth/VerifyEmail.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Button.d440c55b.js",
-      "_Guest.66d2f8ad.js"
+      "_Button.21b9be17.js",
+      "_Guest.669cca4a.js"
     ]
   },
+  "resources/js/Pages/Client/StatusCheck.jsx": {
+    "file": "assets/StatusCheck.22ad87f8.js",
+    "src": "resources/js/Pages/Client/StatusCheck.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_Button.21b9be17.js",
+      "_Input.11667998.js",
+      "resources/js/app.jsx",
+      "_index.dbcb883f.js",
+      "_index.7f05af33.js",
+      "_Guest.669cca4a.js",
+      "_index.fefb1b11.js",
+      "_Alert.34a30928.js",
+      "_whatsapp.9ab3ec02.js",
+      "_axios.cd6af229.js"
+    ]
+  },
+  "_index.fefb1b11.js": {
+    "file": "assets/index.fefb1b11.js",
+    "imports": [
+      "_axios.cd6af229.js"
+    ]
+  },
+  "_whatsapp.9ab3ec02.js": {
+    "file": "assets/whatsapp.9ab3ec02.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Alert.34a30928.js"
+    ]
+  },
+  "_index.dbcb883f.js": {
+    "file": "assets/index.dbcb883f.js",
+    "imports": [
+      "_index.7f05af33.js"
+    ]
+  },
+  "_index.7f05af33.js": {
+    "file": "assets/index.7f05af33.js"
+  },
+  "_axios.cd6af229.js": {
+    "file": "assets/axios.cd6af229.js"
+  },
   "resources/js/Pages/Customers/CustomerAdd.jsx": {
-    "file": "assets/CustomerAdd.3a16f5cb.js",
+    "file": "assets/CustomerAdd.4fc299b3.js",
     "src": "resources/js/Pages/Customers/CustomerAdd.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Main.3b11d486.js",
-      "_Input.98d2bdaf.js",
-      "_Label.148c6f9e.js",
-      "_TextArea.98a18c63.js",
-      "_Button.d440c55b.js",
-      "_Checkbox.8a35c0be.js",
+      "_Main.61d9306c.js",
+      "_Input.11667998.js",
+      "_Label.df7ec2a5.js",
+      "_TextArea.0027f5eb.js",
+      "_Button.21b9be17.js",
+      "_Checkbox.0f4190ed.js",
       "_Helper.78819a5b.js",
+      "_Alert.34a30928.js",
       "_axios.cd6af229.js",
       "_index.7f05af33.js"
     ]
   },
-  "_TextArea.98a18c63.js": {
-    "file": "assets/TextArea.98a18c63.js",
+  "_TextArea.0027f5eb.js": {
+    "file": "assets/TextArea.0027f5eb.js",
     "imports": [
       "resources/js/app.jsx"
     ]
@@ -182,124 +234,112 @@
       "_index.7f05af33.js"
     ]
   },
-  "_axios.cd6af229.js": {
-    "file": "assets/axios.cd6af229.js"
-  },
-  "_index.7f05af33.js": {
-    "file": "assets/index.7f05af33.js"
-  },
   "resources/js/Pages/Customers/CustomerDetail.jsx": {
-    "file": "assets/CustomerDetail.c7325083.js",
+    "file": "assets/CustomerDetail.4940d5d8.js",
     "src": "resources/js/Pages/Customers/CustomerDetail.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Main.3b11d486.js",
-      "_lodash.1b4cc1e8.js",
+      "_Main.61d9306c.js",
+      "_lodash.f9a43a07.js",
       "_index.dbcb883f.js",
       "_index.7f05af33.js",
-      "_whatsapp.0a907077.js",
-      "_pencil.5356c299.js"
+      "_Alert.34a30928.js",
+      "_whatsapp.9ab3ec02.js",
+      "_pencil.e9c93f68.js",
+      "_info-circle-fill.a7fbc446.js"
     ]
   },
-  "_lodash.1b4cc1e8.js": {
-    "file": "assets/lodash.1b4cc1e8.js",
+  "_lodash.f9a43a07.js": {
+    "file": "assets/lodash.f9a43a07.js",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_index.dbcb883f.js": {
-    "file": "assets/index.dbcb883f.js",
-    "imports": [
-      "_index.7f05af33.js"
-    ]
-  },
-  "_whatsapp.0a907077.js": {
-    "file": "assets/whatsapp.0a907077.js",
+  "_pencil.e9c93f68.js": {
+    "file": "assets/pencil.e9c93f68.js",
     "imports": [
       "resources/js/app.jsx",
-      "_Main.3b11d486.js"
+      "_Alert.34a30928.js"
     ]
   },
-  "_pencil.5356c299.js": {
-    "file": "assets/pencil.5356c299.js",
+  "_info-circle-fill.a7fbc446.js": {
+    "file": "assets/info-circle-fill.a7fbc446.js",
     "imports": [
       "resources/js/app.jsx",
-      "_Main.3b11d486.js"
+      "_Alert.34a30928.js"
     ]
   },
   "resources/js/Pages/Customers/CustomerEdit.jsx": {
-    "file": "assets/CustomerEdit.accfef65.js",
+    "file": "assets/CustomerEdit.6195229e.js",
     "src": "resources/js/Pages/Customers/CustomerEdit.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Main.3b11d486.js",
-      "_Input.98d2bdaf.js",
-      "_Label.148c6f9e.js",
-      "_TextArea.98a18c63.js",
-      "_Button.d440c55b.js",
-      "_Checkbox.8a35c0be.js",
+      "_Main.61d9306c.js",
+      "_Input.11667998.js",
+      "_Label.df7ec2a5.js",
+      "_TextArea.0027f5eb.js",
+      "_Button.21b9be17.js",
+      "_Checkbox.0f4190ed.js",
       "_Helper.78819a5b.js",
+      "_Alert.34a30928.js",
       "_axios.cd6af229.js",
       "_index.7f05af33.js"
     ]
   },
   "resources/js/Pages/Customers/Index.jsx": {
-    "file": "assets/Index.daff6ac9.js",
+    "file": "assets/Index.91946bc6.js",
     "src": "resources/js/Pages/Customers/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
-      "_Main.3b11d486.js",
+      "_Main.61d9306c.js",
       "resources/js/app.jsx",
-      "_index.es.e75540f9.js",
+      "_index.es.e10d8c1a.js",
       "_index.fefb1b11.js",
-      "_Input.98d2bdaf.js",
+      "_Input.11667998.js",
+      "_Alert.34a30928.js",
       "_axios.cd6af229.js"
     ]
   },
-  "_index.es.e75540f9.js": {
-    "file": "assets/index.es.e75540f9.js",
+  "_index.es.e10d8c1a.js": {
+    "file": "assets/index.es.e10d8c1a.js",
     "imports": [
       "resources/js/app.jsx",
-      "_Main.3b11d486.js"
-    ]
-  },
-  "_index.fefb1b11.js": {
-    "file": "assets/index.fefb1b11.js",
-    "imports": [
-      "_axios.cd6af229.js"
+      "_Alert.34a30928.js"
     ]
   },
   "resources/js/Pages/Dashboard/DashboardIndex.jsx": {
-    "file": "assets/DashboardIndex.7a3e5683.js",
+    "file": "assets/DashboardIndex.6b6e828c.js",
     "src": "resources/js/Pages/Dashboard/DashboardIndex.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Main.3b11d486.js",
+      "_Main.61d9306c.js",
       "_Helper.78819a5b.js",
-      "_Label.148c6f9e.js",
-      "_TextArea.98a18c63.js",
-      "_Button.d440c55b.js",
-      "_lodash.1b4cc1e8.js",
-      "_useStateManager-68425271.esm.14c4a0fd.js",
+      "_Alert.34a30928.js",
+      "_Label.df7ec2a5.js",
+      "_TextArea.0027f5eb.js",
+      "_Button.21b9be17.js",
+      "_lodash.f9a43a07.js",
+      "_useStateManager-68425271.esm.01bae5c4.js",
       "_index.fefb1b11.js",
       "_index.dbcb883f.js",
       "_index.7f05af33.js",
-      "_whatsapp.0a907077.js",
+      "_info-circle-fill.a7fbc446.js",
+      "_whatsapp.9ab3ec02.js",
       "_axios.cd6af229.js"
     ]
   },
-  "_useStateManager-68425271.esm.14c4a0fd.js": {
-    "file": "assets/useStateManager-68425271.esm.14c4a0fd.js",
+  "_useStateManager-68425271.esm.01bae5c4.js": {
+    "file": "assets/useStateManager-68425271.esm.01bae5c4.js",
     "imports": [
-      "_Main.3b11d486.js",
+      "_Main.61d9306c.js",
       "resources/js/app.jsx"
     ]
   },
   "resources/js/Pages/Receipt/PrintLabel.jsx": {
-    "file": "assets/PrintLabel.7d615702.js",
+    "file": "assets/PrintLabel.709d03be.js",
     "src": "resources/js/Pages/Receipt/PrintLabel.jsx",
     "isDynamicEntry": true,
     "imports": [
@@ -307,108 +347,115 @@
     ]
   },
   "resources/js/Pages/Receipt/ReceiptAdd copy.jsx": {
-    "file": "assets/ReceiptAdd copy.88e84b8b.js",
+    "file": "assets/ReceiptAdd copy.04e864fa.js",
     "src": "resources/js/Pages/Receipt/ReceiptAdd copy.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Main.3b11d486.js",
-      "_Input.98d2bdaf.js",
-      "_Button.d440c55b.js",
-      "_Label.148c6f9e.js",
-      "_TextArea.98a18c63.js",
-      "_ImageUpload.63f57fa0.js",
-      "_useStateManager-68425271.esm.14c4a0fd.js"
+      "_Main.61d9306c.js",
+      "_Input.11667998.js",
+      "_Button.21b9be17.js",
+      "_Label.df7ec2a5.js",
+      "_TextArea.0027f5eb.js",
+      "_ImageUpload.382c1256.js",
+      "_Alert.34a30928.js",
+      "_useStateManager-68425271.esm.01bae5c4.js"
     ]
   },
-  "_ImageUpload.63f57fa0.js": {
-    "file": "assets/ImageUpload.63f57fa0.js",
+  "_ImageUpload.382c1256.js": {
+    "file": "assets/ImageUpload.382c1256.js",
     "imports": [
       "resources/js/app.jsx",
-      "_useStateManager-68425271.esm.14c4a0fd.js",
-      "_Main.3b11d486.js"
+      "_useStateManager-68425271.esm.01bae5c4.js",
+      "_Main.61d9306c.js"
     ]
   },
   "resources/js/Pages/Receipt/ReceiptAdd.jsx": {
-    "file": "assets/ReceiptAdd.ad6dc25a.js",
+    "file": "assets/ReceiptAdd.ec64e2a2.js",
     "src": "resources/js/Pages/Receipt/ReceiptAdd.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Main.3b11d486.js",
-      "_Input.98d2bdaf.js",
-      "_Button.d440c55b.js",
-      "_Label.148c6f9e.js",
-      "_TextArea.98a18c63.js",
-      "_ImageUpload.63f57fa0.js",
-      "_useStateManager-68425271.esm.14c4a0fd.js"
+      "_Main.61d9306c.js",
+      "_Input.11667998.js",
+      "_Button.21b9be17.js",
+      "_Label.df7ec2a5.js",
+      "_TextArea.0027f5eb.js",
+      "_ImageUpload.382c1256.js",
+      "_Alert.34a30928.js",
+      "_useStateManager-68425271.esm.01bae5c4.js"
     ]
   },
   "resources/js/Pages/Receipt/ReceiptDetail.jsx": {
-    "file": "assets/ReceiptDetail.484be2c9.js",
+    "file": "assets/ReceiptDetail.07f414d4.js",
     "src": "resources/js/Pages/Receipt/ReceiptDetail.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Main.3b11d486.js",
-      "_ButtonIsTaken.15e18b4e.js",
-      "_TextArea.98a18c63.js",
-      "_Button.d440c55b.js",
-      "_Label.148c6f9e.js",
-      "_Input.98d2bdaf.js",
+      "_Main.61d9306c.js",
+      "_ButtonIsTaken.f1a8b0b9.js",
+      "_TextArea.0027f5eb.js",
+      "_Button.21b9be17.js",
+      "_Label.df7ec2a5.js",
+      "_Input.11667998.js",
       "_Helper.78819a5b.js",
-      "_lodash.1b4cc1e8.js",
+      "_lodash.f9a43a07.js",
       "_index.fefb1b11.js",
+      "_Alert.34a30928.js",
       "_index.dbcb883f.js",
       "_index.7f05af33.js",
-      "_pencil.5356c299.js",
+      "_pencil.e9c93f68.js",
       "_axios.cd6af229.js"
     ]
   },
-  "_ButtonIsTaken.15e18b4e.js": {
-    "file": "assets/ButtonIsTaken.15e18b4e.js",
+  "_ButtonIsTaken.f1a8b0b9.js": {
+    "file": "assets/ButtonIsTaken.f1a8b0b9.js",
     "imports": [
       "resources/js/app.jsx",
-      "_Main.3b11d486.js"
+      "_Alert.34a30928.js",
+      "_Main.61d9306c.js"
     ]
   },
   "resources/js/Pages/Receipt/ReceiptIndex.jsx": {
-    "file": "assets/ReceiptIndex.298d030d.js",
+    "file": "assets/ReceiptIndex.ddfd2222.js",
     "src": "resources/js/Pages/Receipt/ReceiptIndex.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Main.3b11d486.js",
-      "_ButtonIsTaken.15e18b4e.js",
-      "_index.es.e75540f9.js",
-      "_lodash.1b4cc1e8.js",
-      "_Button.d440c55b.js",
+      "_Main.61d9306c.js",
+      "_ButtonIsTaken.f1a8b0b9.js",
+      "_index.es.e10d8c1a.js",
+      "_Alert.34a30928.js",
+      "_lodash.f9a43a07.js",
+      "_Button.21b9be17.js",
       "_index.fefb1b11.js",
       "_axios.cd6af229.js"
     ]
   },
   "resources/js/Pages/User/UserIndex.jsx": {
-    "file": "assets/UserIndex.10bfd69e.js",
+    "file": "assets/UserIndex.7680e366.js",
     "src": "resources/js/Pages/User/UserIndex.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Main.3b11d486.js",
-      "_Input.98d2bdaf.js",
-      "_Label.148c6f9e.js",
-      "_Button.d440c55b.js",
-      "_lodash.1b4cc1e8.js"
+      "_Main.61d9306c.js",
+      "_Input.11667998.js",
+      "_Label.df7ec2a5.js",
+      "_Button.21b9be17.js",
+      "_lodash.f9a43a07.js",
+      "_Alert.34a30928.js"
     ]
   },
   "resources/js/Pages/Whatsapp/WhatsappIndex.jsx": {
-    "file": "assets/WhatsappIndex.1fd17b9f.js",
+    "file": "assets/WhatsappIndex.09fc3875.js",
     "src": "resources/js/Pages/Whatsapp/WhatsappIndex.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Main.3b11d486.js",
+      "_Main.61d9306c.js",
       "_index.fefb1b11.js",
-      "_Button.d440c55b.js",
+      "_Button.21b9be17.js",
+      "_Alert.34a30928.js",
       "_axios.cd6af229.js"
     ]
   }
