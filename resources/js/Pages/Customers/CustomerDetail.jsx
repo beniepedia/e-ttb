@@ -55,7 +55,7 @@ const CustomerDetail = () => {
                         <tr>
                             <th>Alamat 2</th>
                             {/* <td>:</td> */}
-                            <td> : {customer.location.display_name}</td>
+                            <td> : {customer?.location?.display_name}</td>
                         </tr>
                     </tbody>
                 </table>
