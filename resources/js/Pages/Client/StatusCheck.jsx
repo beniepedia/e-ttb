@@ -25,20 +25,23 @@ const StatusCheck = () => {
         setData(null);
         setLoading(true);
 
+        let geotag = null;
+        const location =
+            (await JSON.parse(window.localStorage.getItem("location"))) || null;
+
+        if (location) {
+            geotag = await reverseGeotag(location.latitude, location.longitude);
+        }
+
         try {
             const { data } = await axios.post(
                 route("client.status.process", { receipt_code: value }),
-                {},
                 {
-                    headers: {
-                        location:
-                            window.localStorage.getItem("location") || null,
-                    },
+                    location: geotag,
                 }
             );
             setData(data);
         } catch (error) {
-            // console.log(error.response.status);
             setData(null);
             if (error?.response?.status == 429) {
                 toast.error(
@@ -54,6 +57,17 @@ const StatusCheck = () => {
         } finally {
             setLoading(false);
             setValue("");
+        }
+    };
+
+    const reverseGeotag = async (latitude, longitude) => {
+        try {
+            const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+            const { data } = await axios.get(url);
+
+            return data || null;
+        } catch {
+            return false;
         }
     };
 

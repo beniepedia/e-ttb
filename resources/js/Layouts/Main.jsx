@@ -96,7 +96,7 @@ export default function Main({ auth, children, href, menu = true }) {
             <div className="">
                 <section className="bg-stone-400 dark:bg-slate-800 min-h-screen flex justify-center ">
                     {/* Form Search */}
-                    <div className="max-w-2xl w-full md:border-x-2 py-16 shadow-lg bg-stone-200 dark:bg-slate-700">
+                    <div className="max-w-2xl w-full md:border-x-2 py-16 shadow-lg bg-stone-100 dark:bg-slate-700">
                         {children}
                     </div>
                 </section>

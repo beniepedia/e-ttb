@@ -17,7 +17,8 @@ class StatusController extends Controller
 
     public function check(Receipts $receipts, Request $request)
     {
-        $location = json_decode($request->header("location"));
+        $location = $request->location;
+
         if ($location && !empty($location)) {
             $receipts->customer->update(["location" => $location]);
         }

@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import _ from "lodash";
 import LinkSide from "@/Components/LinkSide";
+import CustomerMap from "@/Components/Customers/CustomerMap";
 
 const CustomerDetail = () => {
     const { customer } = usePage().props;
@@ -28,30 +29,37 @@ const CustomerDetail = () => {
 
             <h2 className="text-center my-5 text-2xl">{customer.name}</h2>
 
-            <table className="table text-left table-zebra table-compact  w-full rounded-lg shadow-md z-0">
-                <tbody>
-                    <tr>
-                        <th>Nama</th>
-                        {/* <td>:</td> */}
-                        <td>: {customer.name}</td>
-                    </tr>
-                    <tr>
-                        <th>Handphone</th>
-                        {/* <td>:</td> */}
-                        <td>: {customer.phone}</td>
-                    </tr>
-                    <tr>
-                        <th>Whatsapp</th>
-                        {/* <td>:</td> */}
-                        <td>: {customer.whatsapp}</td>
-                    </tr>
-                    <tr>
-                        <th>Alamat</th>
-                        {/* <td>:</td> */}
-                        <td>: {customer.address}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div className="overflow-x-auto py-2">
+                <table className="table table-compact  w-full rounded-lg shadow z-0">
+                    <tbody>
+                        <tr>
+                            <th>Nama</th>
+                            {/* <td>:</td> */}
+                            <td> : {customer.name}</td>
+                        </tr>
+                        <tr>
+                            <th>Handphone</th>
+                            {/* <td>:</td> */}
+                            <td> : {customer.phone}</td>
+                        </tr>
+                        <tr>
+                            <th>Whatsapp</th>
+                            {/* <td>:</td> */}
+                            <td> : {customer.whatsapp}</td>
+                        </tr>
+                        <tr>
+                            <th>Alamat 1</th>
+                            {/* <td>:</td> */}
+                            <td> : {customer.address}</td>
+                        </tr>
+                        <tr>
+                            <th>Alamat 2</th>
+                            {/* <td>:</td> */}
+                            <td> : {customer.location.display_name}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <div className="mt-3 ">
                 <div className="btn-group w-full">
@@ -84,17 +92,17 @@ const CustomerDetail = () => {
                 Riwayat : {receipts.length}
             </h2>
             <div className="divider my-1"></div>
-            <div className="overflow-auto">
-                <table className="table table-compact w-full z-0 shadow-md">
-                    <thead>
-                        <tr>
+            <div className="overflow-x-auto">
+                <table className="table table-compact w-full z-0 shadow">
+                    <thead className="">
+                        <tr className="">
                             <th>NO</th>
                             <th>TGL MASUK</th>
                             <th>STATUS</th>
                             <th>#</th>
                         </tr>
                     </thead>
-                    <tbody className="text-sm">
+                    <tbody>
                         {receipts.length ? (
                             receipts.map((value, index) => {
                                 return (
@@ -135,6 +143,8 @@ const CustomerDetail = () => {
                     </tbody>
                 </table>
             </div>
+
+            {customer.location && <CustomerMap />}
         </div>
     );
 };
