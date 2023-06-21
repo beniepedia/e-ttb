@@ -1,60 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Head, usePage, Link } from "@inertiajs/inertia-react";
-import Layout from "@/Layouts/Main";
-import * as Icon from "react-bootstrap-icons";
 import CardInfo from "@/Components/Dashboard/CardInfo";
-import { greetings } from "@/Helper";
-import { toast } from "react-toastify";
-import SendMessage from "@/Components/SendMessage";
-import axios from "axios";
 import ReceiptIsDone from "@/Components/Dashboard/ReceiptIsDone";
-import { currency } from "@/Helper";
+import SendMessage from "@/Components/SendMessage";
+import Layout from "@/Layouts/Main";
+import { Head, Link, usePage } from "@inertiajs/inertia-react";
+import * as Icon from "react-bootstrap-icons";
 
 const Dashboard = () => {
     const { data, auth } = usePage().props;
-
-    const [processing, setProcessing] = useState(false);
-
-    const onclick = (value) => {
-        setProcessing(true);
-
-        let greet = greetings();
-
-        let message = `Selamat ${greet} Bapak/Ibu, Kami informasikan\n`;
-        message += `Tanda Terima atas nama ( *${value.customer.name}* )\n`;
-        message += `No. TTB ( *${value.receipt_number}* )\n`;
-        message += `sudah selesai dan bisa diambil. Status pengerjaan *${value.status}*. \n\n`;
-
-        if (value.status === "Berhasil") {
-            message += `Perbaikan : ${value.repair}\n`;
-            message += `Biaya : Rp. ${currency(value.cost)}\n\n`;
-        }
-
-        message += `Terima Kasih...🙏🙏🙏\n\n`;
-        message += `Info Lanjut Hub:\n`;
-        message += `📱 HP/WA: 08116407788`;
-
-        axios
-            .post(route("whatsapp.sendMessage"), {
-                id: value.customer.whatsapp,
-                message: {
-                    text: message,
-                },
-            })
-            .then(({ data }) => {
-                if (data.success) {
-                    toast.success("Pesan berhasil dikirim...");
-                } else {
-                    toast.error("Pesan gagal dikirim...");
-                }
-            })
-            .catch((err) => {
-                toast.error("Server whastapp down...");
-            })
-            .finally(() => {
-                setProcessing(false);
-            });
-    };
 
     return (
         <>
@@ -127,11 +79,7 @@ const Dashboard = () => {
                 </div>
 
                 <div className="my-8 shadow-md">
-                    <ReceiptIsDone
-                        data={data}
-                        processing={processing}
-                        handleClick={onclick}
-                    />
+                    <ReceiptIsDone {...data} />
                 </div>
 
                 <div className="mt-8">

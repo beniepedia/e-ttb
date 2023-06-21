@@ -8,7 +8,23 @@ export default function Main({ auth, children, href, menu = true }) {
     const { flash } = usePage().props;
 
     if (flash.message) {
-        toast.success(flash.message);
+        let types =
+            typeof flash.message == "object" ? flash.message.type : "success";
+
+        let message =
+            typeof flash.message == "object"
+                ? flash.message.message
+                : flash.message;
+
+        if (types == "error") {
+            toast.error(message);
+        } else if (types == "warning") {
+            toast.warning(message);
+        } else if (types == "info") {
+            toast.info(message);
+        } else {
+            toast.success(message);
+        }
     }
 
     const Menu = () => {

@@ -25,7 +25,6 @@ use App\Notifications\sendNotificationReceiptCustomer;
 */
 
 // Route::get('/send', function () {
-
 //     $receipt = \App\Models\Receipts::firstwhere('receipt_number', '116');
 //     $receipt->load('customer');
 
@@ -64,6 +63,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/receipts', 'store')->name('receipts.store');
         Route::post('/receipts/{receipts:id}/upload-image', 'upload_image')->name('receipts.imageupload');
         Route::post('receipts/{receipts}/send_receipt', 'send_receipt')->name('receipts.send');
+        Route::post('receipts/{receipts}/confirmation', 'confirmation')->name('receipts.confirmation');
 
         Route::get('/receipts/create', 'create')->name('receipts.create');
         Route::get('/receipts/{receipts:receipt_code}', 'show')->name('receipt.show');

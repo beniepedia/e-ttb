@@ -1,11 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@/Components/Button";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import * as Icon from "react-bootstrap-icons";
 import { Link } from "@inertiajs/inertia-react";
+import { Inertia } from "@inertiajs/inertia";
+import { toast } from "@/Components/Alert";
 
-const ReceiptIsDone = ({ data, processing, handleClick }) => {
+const ReceiptIsDone = ({ ...data }) => {
+    const [sending, setSending] = useState(false);
+
+    const handleclick = (value) => {
+        setSending(true);
+        Inertia.post(
+            route("receipts.confirmation", value),
+            {},
+            {
+                onFinish: (e) => {
+                    setSending(false);
+                },
+                onError: (e) => {
+                    console.log(e);
+                },
+                replace: true,
+            }
+        );
+    };
+
     return (
         <>
             {data.receipt_status.length ? (
@@ -13,7 +34,7 @@ const ReceiptIsDone = ({ data, processing, handleClick }) => {
                     <div className="p-3 dark:bg-teal-700 bg-teal-500 rounded-t-lg text-white font-semibold">
                         List TTB Selesai
                     </div>
-                    <div className="overflow-scroll  rounded-b-lg">
+                    <div className="overflow-x-auto  rounded-b-lg">
                         {data.receipt_status.map((receipt) => {
                             return (
                                 <div
@@ -22,12 +43,28 @@ const ReceiptIsDone = ({ data, processing, handleClick }) => {
                                     key={receipt.id}
                                 >
                                     <input type="checkbox" className="peer" />
-                                    <div className="collapse-title dark:bg-slate-700 bg-white text-black-content peer-checked:dark:bg-slate-800 peer-checked:bg-amber-200 peer-checked:text-amber-200-content">
-                                        No. Register : {receipt.receipt_code}
+                                    <div className="collapse-title dark:bg-slate-700 bg-white text-black-content peer-checked:dark:bg-slate-800 peer-checked:bg-amber-200 peer-checked:text-amber-200-content font-semibold">
+                                        Customer - {receipt.customer.name}{" "}
+                                        <span
+                                            className={`badge badge-${
+                                                receipt.status == "Berhasil"
+                                                    ? "success"
+                                                    : "error"
+                                            }`}
+                                        >
+                                            {receipt.status}
+                                        </span>
                                     </div>
                                     <div className="collapse-content dark:bg-slate-600 bg-white text-white-content peer-checked:dark:bg-slate-600 peer-checked:bg-amber-100 peer-checked:text-sky-300-content">
                                         <table className="my-5 text-center w-full table-compact">
                                             <tbody>
+                                                <tr>
+                                                    <td>No. Register</td>
+                                                    <td>:</td>
+                                                    <td>
+                                                        {receipt.receipt_code}
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <td>No. TTB</td>
                                                     <td>:</td>
@@ -91,12 +128,12 @@ const ReceiptIsDone = ({ data, processing, handleClick }) => {
                                             {receipt.customer.whatsapp && (
                                                 <Button
                                                     className="btn-success btn-sm"
-                                                    processing={processing}
+                                                    processing={sending}
                                                     handleClick={() =>
-                                                        handleClick(receipt)
+                                                        handleclick(receipt.id)
                                                     }
                                                 >
-                                                    {!processing && (
+                                                    {!sending && (
                                                         <Icon.Whatsapp className="text-xl text-green-700" />
                                                     )}
                                                     &nbsp;&nbsp;Kirim Pesan

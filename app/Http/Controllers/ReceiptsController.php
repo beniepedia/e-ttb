@@ -18,7 +18,9 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ReceiptFormRequest;
 use App\Http\Resources\ReceiptCollection;
+use App\Notifications\SendNotificationConfirmationToCustomer;
 use App\Notifications\sendNotificationReceiptCustomer;
+use Exception;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Throwable;
 
@@ -190,6 +192,24 @@ class ReceiptsController extends Controller
             return response()->json(['message' => 'Berhasil mengirim kartu tanda terima ke customer ' . $customer->name], 200);
         } catch (Throwable $t) {
             return response()->json(['message' => 'Berhasil mengirim kartu tanda terima ke customer '], 400);
+        }
+    }
+
+    public function confirmation(Receipts $receipts)
+    {
+
+        try {
+            $customer = $receipts->customer;
+
+            $customer->notify(new SendNotificationConfirmationToCustomer($receipts));
+
+            Log::info("Berhasil mengirim konfirmasi pesan whatsapp customer $customer->whatsapp", ["id" => $customer->id]);
+
+            return redirect()->back()->with("message", "Pesan whatsapp konfirmasi berhasil dikirim ke customer $customer->name");
+        } catch (Exception $e) {
+            Log::error("Gagal mengirim konfirmasi pesan whatsapp customer $customer->whatsapp", ["id" => $customer->id, "error" => $e->getMessage()]);
+
+            return redirect()->back()->with("message", ['type' => "error", "message" => "Gagal mengirim pesan whatsapp"]);
         }
     }
 

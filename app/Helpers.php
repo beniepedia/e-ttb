@@ -64,3 +64,23 @@ if (!function_exists('format_date')) {
         return $date->translatedFormat($format);
     }
 }
+
+if (!function_exists('greetings')) {
+    function greetings()
+    {
+        $date = date("H");
+        $message = "";
+
+        if ($date >= 00 && $date < 10) {
+            $message = "Selamat Pagi";
+        } else if ($date >= 10 && $date < 15) {
+            $message = "Selamat Siang";
+        } else if ($date >= 15 && $date < 19) {
+            $message = "Selamat Sore";
+        } else if ($date >= 19) {
+            $message = "Selamat Malam";
+        };
+
+        return $message;
+    }
+}

@@ -18,12 +18,16 @@ const Index = () => {
         search: filters.search || "",
     });
 
-    const [items, setItems] = useState(customers.data);
-    const [page, setPage] = useState(customers.links.next);
-
     const prevValues = usePrevious(query);
+    const [page, setPage] = useState("");
+    const [items, setItems] = useState([]);
 
-    useEffect(async () => {
+    useEffect(() => {
+        setItems(customers.data);
+        setPage(customers.links.next);
+    }, [customers]);
+
+    useEffect(() => {
         if (prevValues) {
             const search = Object.keys(pickBy(query)).length
                 ? pickBy(query)
@@ -32,10 +36,6 @@ const Index = () => {
             Inertia.get(route(route().current()), search, {
                 preserveState: true,
                 replace: true,
-                onSuccess: () => {
-                    setItems(customers.data);
-                    setPage(customers.links.next);
-                },
             });
         }
     }, [query]);
@@ -63,7 +63,7 @@ const Index = () => {
                     value={query.search}
                     handleChange={handleChange}
                     placeHolder="Cari...."
-                    className="input-bordered"
+                    className=""
                 ></Input>
             </div>
 
