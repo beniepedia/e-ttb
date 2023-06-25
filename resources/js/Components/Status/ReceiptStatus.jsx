@@ -1,10 +1,13 @@
 import React from "react";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
+import Button from "../Button";
+import { Link } from "@inertiajs/inertia-react";
+import ButtonPaymentChoice from "./ButtonPaymentChoice";
 
-const ReceiptStatus = ({ ...props }) => {
+const ReceiptStatus = ({ ...props }, showImage = true) => {
     const data = props;
-    console.log(data);
+
     const image = data.image.substring(
         data.image.lastIndexOf("/") + 1,
         data.image.lastIndexOf(".")
@@ -12,7 +15,7 @@ const ReceiptStatus = ({ ...props }) => {
     return (
         <>
             <div className="overflow-x-auto">
-                <table className="table table-compact w-full ">
+                <table className="table table-compact w-full dark:text-slate-400">
                     <tbody>
                         <tr>
                             <th>No. Register</th>
@@ -78,9 +81,19 @@ const ReceiptStatus = ({ ...props }) => {
                 </table>
             </div>
 
-            <div className={`mt-3 ${image == "no_image" ? "hidden" : "block"}`}>
-                <img src={`/${data.image}`} className="rounded-md" alt="..." />
-            </div>
+            {showImage && (
+                <div
+                    className={`mt-3 ${
+                        image == "no_image" ? "hidden" : "block"
+                    }`}
+                >
+                    <img
+                        src={`/${data.image}`}
+                        className="rounded-md"
+                        alt="..."
+                    />
+                </div>
+            )}
         </>
     );
 };

@@ -62,7 +62,7 @@ export default function Login({ status, canResetPassword }) {
                         isFocused={true}
                         handleChange={onHandleChange}
                         placeHolder="Masukkan alamat email"
-                        className={errors.email && "input-error"}
+                        className={`text-sm ${errors.email && "input-error"}`}
                     />
                     {errors.email && (
                         <div className="invalid-feedback">{errors.email}</div>
@@ -77,7 +77,9 @@ export default function Login({ status, canResetPassword }) {
                         value={data.password}
                         autoComplete="current-password"
                         handleChange={onHandleChange}
-                        className={errors.password && "input-error"}
+                        className={`text-sm ${
+                            errors.password && "input-error"
+                        }`}
                     />
                     {errors.password && (
                         <div className="invalid-feedback">

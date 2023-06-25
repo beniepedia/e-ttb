@@ -2,9 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* .invalid-feedback {
+    @apply text-red-600 mt-1 text-sm;
+} */
 
 .invalid-feedback {
-    @apply text-red-600 mt-1 text-sm;
+    font-size: 0.8rem !important;
+    color: rgb(212, 37, 37);
 }
 
 .snackbar {
@@ -35,10 +39,10 @@
     @apply border-slate-800 border-t-2;
 }
 
-.menu-active>svg {
+.menu-active > svg {
     @apply text-slate-800;
 }
 
-.menu-active>span {
+.menu-active > span {
     @apply text-slate-800;
 }

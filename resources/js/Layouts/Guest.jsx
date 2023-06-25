@@ -9,7 +9,7 @@ export default function Guest({ children }) {
                 <div className="flex justify-center py-6">
                     <Link href="/">
                         <ApplicationLogo
-                            className="w-40 h-40 fill-current text-slate-700 bg-stone-200/70 rounded-full p-3 shadow border-4
+                            className="w-32 h-32 fill-current text-slate-700 bg-white dark:bg-slate-800 rounded-3xl shadow dark:border-slate-700 border-4
                          border-slate-50"
                         />
                     </Link>

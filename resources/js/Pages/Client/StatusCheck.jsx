@@ -1,15 +1,38 @@
+import { Alert, toast } from "@/Components/Alert";
 import Button from "@/Components/Button";
 import Input from "@/Components/Input";
+import ButtonFooter from "@/Components/Status/ButtonFooter";
+import ButtonPaymentChoice from "@/Components/Status/ButtonPaymentChoice";
 import ReceiptStatus from "@/Components/Status/ReceiptStatus";
 import SkeletonReceiptCheck from "@/Components/Status/SkeletonReceiptCheck";
 import Guest from "@/Layouts/Guest";
-import { Head, Link } from "@inertiajs/inertia-react";
-import React, { useEffect, useState } from "react";
-import * as Icon from "react-bootstrap-icons";
+import { Head } from "@inertiajs/inertia-react";
 import axios from "axios";
-import { toast, Alert } from "@/Components/Alert";
+import { useEffect, useState } from "react";
 
 const StatusCheck = () => {
+    useEffect(() => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                ({ coords }) => {
+                    window.localStorage.setItem(
+                        "location",
+                        JSON.stringify({
+                            latitude: coords.latitude,
+                            longitude: coords.longitude,
+                        })
+                    );
+                },
+                (error) => {
+                    window.localStorage.removeItem("location");
+                },
+                {
+                    enableHighAccuracy: true,
+                }
+            );
+        }
+    }, []);
+
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState(null);
     const [error, setError] = useState("");
@@ -78,7 +101,7 @@ const StatusCheck = () => {
                 <title>Cek Status Tanda Terima</title>
             </Head>
             <Guest>
-                <div className="text-slate-700 mb-10">
+                <div className="text-slate-700 dark:text-slate-500 mb-10">
                     <h1 className="font-semibold text-center text-xl uppercase mb-10">
                         Cek status tanda terima
                     </h1>
@@ -87,19 +110,23 @@ const StatusCheck = () => {
                             name={"kode"}
                             value={value}
                             handleChange={(e) => setValue(e.target.value)}
-                            placeHolder="Masukkan nomor register"
+                            placeHolder="Masukkan nomor 
+                            register"
+                            className={"text-sm"}
                         ></Input>
                         <div className="text-sm text-red-500 mt-1 italic">
                             {error}
                         </div>
                         <Button
                             processing={loading}
-                            className="mt-3 w-full  btn-accent"
+                            className="mt-3 w-full  btn-accent dark:btn-success"
                             handleClick={handleClick}
                             loading={loading}
                         >
                             cek Tanda Terima
                         </Button>
+
+                        {/* <Button handleClick={pay}>Bayar</Button> */}
 
                         <div
                             className={`${
@@ -113,27 +140,15 @@ const StatusCheck = () => {
                             <div className="">
                                 {loading && <SkeletonReceiptCheck length={9} />}
                                 {data && <ReceiptStatus {...data} />}
+
+                                {/* {data && (
+                                    <ButtonPaymentChoice
+                                        {...data}
+                                    ></ButtonPaymentChoice>
+                                )} */}
                             </div>
 
-                            <div className="divider font-semibold">
-                                Hubungi Kami
-                            </div>
-
-                            <div className="flex gap-5 justify-center my-7">
-                                <div className="w-14 h-14 rounded-full bg-stone-500 flex justify-center items-center shadow">
-                                    <a href="tel:08116407788">
-                                        <Icon.Telephone className="  text-white text-2xl cursor-pointer " />
-                                    </a>
-                                </div>
-                                <div className="w-14 h-14 rounded-full bg-green-600 flex justify-center items-center shadow">
-                                    <a
-                                        href="https://wa.me/628116407788"
-                                        target="_blank"
-                                    >
-                                        <Icon.Whatsapp className="  text-white  text-2xl  cursor-pointer" />
-                                    </a>
-                                </div>
-                            </div>
+                            <ButtonFooter></ButtonFooter>
                         </div>
                     </div>
                 </div>

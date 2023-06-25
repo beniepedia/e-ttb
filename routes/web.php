@@ -9,6 +9,7 @@ use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReceiptsController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WhatsappController;
 use App\Notifications\sendNotificationReceiptCustomer;
@@ -41,6 +42,10 @@ Route::get('/', function () {
 Route::get("/cek-status", [StatusController::class, 'check_status'])->name('client.status.check');
 Route::post("/cek-status/{receipts:receipt_code}", [StatusController::class, 'check'])->name('client.status.process')->middleware('throttle:5,1');
 
+
+
+Route::get("/payment/{receipts:receipt_code}", [TransactionController::class, 'index'])->name("payment");
+Route::post("/transaction", [TransactionController::class, 'get_token'])->name("transaction.gettoken");
 
 Route::middleware(['auth', 'verified'])->group(function () {
 

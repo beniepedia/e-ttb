@@ -39,6 +39,9 @@ class HandleInertiaRequests extends Middleware
             'appName' => [
                 config('app.name'),
             ],
+            'midtrans_client_key' => [
+                config("midtrans.midtrans_client_key")
+            ],
             'auth' => [
                 'user' => $request->user(),
             ],
