@@ -9,10 +9,13 @@ use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReceiptsController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TelegramBotController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WhatsappController;
+use App\Notifications\NotificationTelegramToAdmin;
 use App\Notifications\sendNotificationReceiptCustomer;
+use Illuminate\Support\Facades\Notification;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,14 +28,15 @@ use App\Notifications\sendNotificationReceiptCustomer;
 |
 */
 
-// Route::get('/send', function () {
-//     $receipt = \App\Models\Receipts::firstwhere('receipt_number', '116');
-//     $receipt->load('customer');
+Route::get('/send', function () {
+    // $receipt = \App\Models\Receipts::firstwhere('receipt_number', '116');
+    // $receipt->load('customer');
 
-//     $customer = $receipt->customer;
+    // $customer = $receipt->customer;
 
-//     $customer->notify(new sendNotificationReceiptCustomer($receipt));
-// });
+    // $customer->notify(new sendNotificationReceiptCustomer($receipt));
+    Notification::send('', new NotificationTelegramToAdmin(['nama' => 'ahasd']));
+});
 
 Route::get('/', function () {
     // return Inertia::render('Auth/Login');
@@ -46,6 +50,8 @@ Route::post("/cek-status/{receipts:receipt_code}", [StatusController::class, 'ch
 
 Route::get("/payment/{receipts:receipt_code}", [TransactionController::class, 'index'])->name("payment");
 Route::post("/transaction", [TransactionController::class, 'get_token'])->name("transaction.gettoken");
+
+Route::post('/telegram-bot', [TelegramBotController::class, 'index']);
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
