@@ -19,7 +19,7 @@ class Customers extends Model
         'location' => 'json'
     ];
 
-    protected $fillable = ['name', 'phone', 'whatsapp', 'address', 'location'];
+    protected $fillable = ['name', 'phone', 'whatsapp', 'address', 'location', 'full_name', 'email'];
 
 
     public function scopeFilter($query, array $filter)

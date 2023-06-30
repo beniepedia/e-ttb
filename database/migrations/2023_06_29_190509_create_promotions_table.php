@@ -13,14 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('promotions', function (Blueprint $table) {
             $table->uuid("id")->primary();
-            $table->string("invoice_number");
-            $table->foreignId("receipt_id")->constrained()->cascadeOnUpdate()->restrictOnDelete();
-            $table->decimal("amount", 10, 2);
-            $table->json("payload")->nullable();
-            $table->string("expired_time", 20);
-            $table->string("transaction_status", 20)->default("UNPAID");
+            $table->string("code");
+            $table->string("name");
+            $table->integer("value")->default(0);
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('promotions');
     }
 };

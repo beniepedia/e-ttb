@@ -1,17 +1,25 @@
+import PaymentChannel from "@/Components/Payments/PaymentChannel";
+import PaymentInfo from "@/Components/Payments/PaymentInfo";
 import ButtonFooter from "@/Components/Status/ButtonFooter";
-import PaymentInfo from "@/Components/Status/PaymentInfo";
-import ReceiptStatus from "@/Components/Status/ReceiptStatus";
+import TransactionDetail from "@/Components/Transactions/TransactionDetail";
 import Guest from "@/Layouts/Guest";
-import { useForm, usePage } from "@inertiajs/inertia-react";
+import { Head, useForm, usePage } from "@inertiajs/inertia-react";
 
 const PaymentOnline = () => {
-    const { receipts, midtrans_client_key } = usePage().props;
+    const { receipts } = usePage().props;
+    const customer = receipts.customer;
+    const transaction = receipts.transaction;
+
     const { data, setData, errors, processing, post } = useForm({
-        full_name: "",
-        email: "",
-        address: "",
+        full_name: customer.full_name,
+        email: customer.email,
+        address: customer.address,
         receipt_id: receipts.id,
         phone: receipts.customer.phone,
+        payment_method: "",
+        amount: receipts.cost,
+        amount_total: receipts.cost,
+        discount: 0,
     });
 
     // const [loading, setLoading] = useState(false);
@@ -39,53 +47,44 @@ const PaymentOnline = () => {
         post(route("transaction.gettoken"), {
             preserveScroll: true,
         });
-
-        // axios
-        //     .post(route("transaction.gettoken"), data)
-        //     .then(({ data }) => {
-        //         window.snap.pay(data.token, {
-        //             onSuccess: () => {
-        //                 console.log("success");
-        //             },
-        //             onError: () => {
-        //                 console.log("error");
-        //             },
-        //             onPending: () => {
-        //                 console.log("pending");
-        //             },
-        //             onClose: () => {
-        //                 console.log("close");
-        //             },
-        //         });
-        //     })
-        //     .catch((error) => {
-        //         if (error?.response?.status == 422) {
-        //             setErrors(error?.response?.data?.errors);
-        //         }
-        //     })
-        //     .finally(() => {
-        //         setLoading(false);
-        //     });
     };
 
     return (
         <Guest>
-            <div className="text-slate-700 dark:text-slate-500 mb-10">
+            <Head>
+                <title>Pembayaran</title>
+            </Head>
+            <div className="text-slate-700 dark:text-slate-400 mb-10">
                 <h1 className="font-semibold text-center text-xl uppercase mb-10">
-                    PEMBAYARAN ONLINE
+                    PEMBAYARAN
                 </h1>
 
-                <div className="divider font-semibold">DETAIL TANDA TERIMA</div>
-                <ReceiptStatus {...receipts}></ReceiptStatus>
+                {/* <Divider>DETAIL TANDA TERIMA</Divider>
+                <ReceiptStatus {...receipts} showImage={false}></ReceiptStatus> */}
             </div>
 
-            <PaymentInfo
-                onHandleChange={onHandleChange}
-                data={data}
-                errors={errors}
-                onPress={pay}
-                loading={processing}
-            ></PaymentInfo>
+            {transaction && <TransactionDetail />}
+
+            {!transaction ||
+            transaction.transaction_status == "EXPIRED" ||
+            transaction.transaction_status == "FAILED" ? (
+                <>
+                    <PaymentChannel
+                        {...{ data, setData, errors }}
+                    ></PaymentChannel>
+
+                    <PaymentInfo
+                        onHandleChange={onHandleChange}
+                        data={data}
+                        setData={setData}
+                        errors={errors}
+                        onPress={pay}
+                        loading={processing}
+                    ></PaymentInfo>
+                </>
+            ) : (
+                ""
+            )}
 
             <ButtonFooter></ButtonFooter>
         </Guest>

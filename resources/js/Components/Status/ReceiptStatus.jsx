@@ -1,13 +1,9 @@
-import React from "react";
+import { currency } from "@/Helper";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
-import Button from "../Button";
-import { Link } from "@inertiajs/inertia-react";
-import ButtonPaymentChoice from "./ButtonPaymentChoice";
 
-const ReceiptStatus = ({ ...props }, showImage = true) => {
+const ReceiptStatus = ({ showImage = true, ...props }) => {
     const data = props;
-
     const image = data.image.substring(
         data.image.lastIndexOf("/") + 1,
         data.image.lastIndexOf(".")
@@ -76,6 +72,18 @@ const ReceiptStatus = ({ ...props }, showImage = true) => {
                             <th>Status</th>
                             <th>:</th>
                             <td>{data.status}</td>
+                        </tr>
+                        <tr>
+                            <th>Perbaikan</th>
+                            <th>:</th>
+                            <td>{data.repair}</td>
+                        </tr>
+                        <tr>
+                            <th>Biaya</th>
+                            <th>:</th>
+                            <td>
+                                {data.cost == 0 ? "-" : currency(data.cost)}
+                            </td>
                         </tr>
                     </tbody>
                 </table>

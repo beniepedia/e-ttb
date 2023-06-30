@@ -8,6 +8,7 @@ import { id } from "date-fns/locale";
 import _ from "lodash";
 import LinkSide from "@/Components/LinkSide";
 import CustomerMap from "@/Components/Customers/CustomerMap";
+import Avatar from "react-avatar";
 
 const CustomerDetail = () => {
     const { customer } = usePage().props;
@@ -19,18 +20,15 @@ const CustomerDetail = () => {
     return (
         <div className="px-4 py-6 w-full md:max-w-2xl">
             <div className="avatar flex justify-center">
-                <div className="w-1/2 md:w-1/3 lg:w-1/5 rounded-full border-white border-4 shadow-lg">
-                    <img
-                        src={"/images/assets/profile_default.png"}
-                        alt="profile image"
-                    />
+                <div className=" rounded-full border-white border-4 shadow-lg">
+                    <Avatar name={customer.name} />
                 </div>
             </div>
 
             <h2 className="text-center my-5 text-2xl">{customer.name}</h2>
 
             <div className="overflow-x-auto py-2">
-                <table className="table table-compact  w-full rounded-lg shadow z-0">
+                <table className="table w-full rounded-lg shadow z-0">
                     <tbody>
                         <tr>
                             <th>Nama</th>
@@ -55,7 +53,7 @@ const CustomerDetail = () => {
                         <tr>
                             <th>Alamat 2</th>
                             {/* <td>:</td> */}
-                            <td> : {customer.location.display_name}</td>
+                            <td> : {customer?.location?.display_name}</td>
                         </tr>
                     </tbody>
                 </table>

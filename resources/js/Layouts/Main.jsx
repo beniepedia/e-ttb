@@ -1,30 +1,12 @@
-import React from "react";
 import Navbar from "@/Components/Navbar";
-import * as Icon from "react-bootstrap-icons";
+import { showToast } from "@/Helper";
 import { Link, usePage } from "@inertiajs/inertia-react";
-import { Alert, toast } from "@/Components/Alert";
+import * as Icon from "react-bootstrap-icons";
 
 export default function Main({ auth, children, href, menu = true }) {
     const { flash } = usePage().props;
-
     if (flash.message) {
-        let types =
-            typeof flash.message == "object" ? flash.message.type : "success";
-
-        let message =
-            typeof flash.message == "object"
-                ? flash.message.message
-                : flash.message;
-
-        if (types == "error") {
-            toast.error(message);
-        } else if (types == "warning") {
-            toast.warning(message);
-        } else if (types == "info") {
-            toast.info(message);
-        } else {
-            toast.success(message);
-        }
+        showToast(flash);
     }
 
     const Menu = () => {
@@ -91,7 +73,6 @@ export default function Main({ auth, children, href, menu = true }) {
 
     return (
         <>
-            <Alert />
             <Navbar auth={auth} href={href} appName={children.props.appName} />
             <div className="">
                 <section className="bg-stone-400 dark:bg-slate-800 min-h-screen flex justify-center ">

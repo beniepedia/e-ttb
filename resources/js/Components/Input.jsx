@@ -28,7 +28,7 @@ export default function Input({
                 value={value}
                 min="0"
                 className={
-                    `input shadow rounded focus:outline-none focus:border-green-600 border-2 w-full ` +
+                    `input shadow rounded focus:outline-none focus:border-green-600 dark:focus:border-emerald-600 border-2 w-full ` +
                     className
                 }
                 ref={input}

@@ -1,10 +1,13 @@
+import "react-toastify/dist/ReactToastify.css";
 import "../css/app.css";
 
-import React from "react";
-import { render } from "react-dom";
 import { createInertiaApp } from "@inertiajs/inertia-react";
 import { InertiaProgress } from "@inertiajs/progress";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
+import React from "react";
+import { render } from "react-dom";
+// import { ToastContainer } from "react-toastify";
+import { Alert } from "@/Components/Alert";
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
@@ -22,7 +25,13 @@ createInertiaApp({
             return sharedData[key];
         };
 
-        return render(<App {...props} resolveShared={resolveShared} />, el);
+        return render(
+            <React.Fragment>
+                <App {...props} resolveShared={resolveShared} />
+                <Alert />
+            </React.Fragment>,
+            el
+        );
     },
 });
 

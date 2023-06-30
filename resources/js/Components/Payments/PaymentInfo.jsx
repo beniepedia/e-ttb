@@ -1,11 +1,21 @@
+import { usePage } from "@inertiajs/inertia-react";
 import Button from "../Button";
 import Input from "../Input";
 import TextArea from "../TextArea";
+import Divider from "../Divider";
+import Discount from "./Discount";
 
-const PaymentInfo = ({ onHandleChange, onPress, data, errors, loading }) => {
+const PaymentInfo = ({
+    onHandleChange,
+    onPress,
+    data,
+    errors,
+    loading,
+    setData,
+}) => {
     return (
         <>
-            <div className="divider font-semibold mt-5">INFO PEMBAYARAN</div>
+            <Divider className={"mt-7"}>INFO PEMBAYARAN</Divider>
 
             <div className="text-sm text-center">
                 Lengkapi formulir dibawah sebelum melanjutkan ke proses
@@ -24,24 +34,32 @@ const PaymentInfo = ({ onHandleChange, onPress, data, errors, loading }) => {
                 <Input
                     handleChange={(e) => onHandleChange(e)}
                     name={"email"}
+                    value={data.email}
                     className={`text-sm mt-2 ${errors?.email && "input-error"}`}
                     placeHolder="Masukkan email aktif"
                 ></Input>
                 <div className="invalid-feedback mb-2">{errors?.email}</div>
                 <TextArea
                     name={"address"}
+                    value={data.address}
                     handleChange={(e) => onHandleChange(e)}
                     placeHolder="Alamat lengkap"
                     className={`mt-2 -mb-1 ${errors?.address && "input-error"}`}
                 ></TextArea>
                 <div className="invalid-feedback mb-2">{errors?.address}</div>
 
+                <Discount data={data} setData={setData} />
+
                 <Button
-                    className="w-full mt-4 btn-accent"
+                    className="w-full mt-4 btn-accent dark:btn-primary"
                     handleClick={() => onPress()}
                     processing={loading}
                 >
-                    Bayar ( Rp. 200,000 )
+                    Bayar ( Rp.{" "}
+                    {new Intl.NumberFormat({
+                        locale: "id_ID",
+                    }).format(data.amount_total)}{" "}
+                    )
                 </Button>
             </div>
         </>

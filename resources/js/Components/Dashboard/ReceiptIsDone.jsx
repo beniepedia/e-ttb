@@ -56,7 +56,7 @@ const ReceiptIsDone = ({ ...data }) => {
                                         </span>
                                     </div>
                                     <div className="collapse-content dark:bg-slate-600 bg-white text-white-content peer-checked:dark:bg-slate-600 peer-checked:bg-amber-100 peer-checked:text-sky-300-content">
-                                        <table className="my-5 text-center w-full table-compact">
+                                        <table className="my-5 w-full table-center table-compact">
                                             <tbody>
                                                 <tr>
                                                     <td>No. Register</td>
@@ -136,7 +136,7 @@ const ReceiptIsDone = ({ ...data }) => {
                                                     {!sending && (
                                                         <Icon.Whatsapp className="text-xl text-green-700" />
                                                     )}
-                                                    &nbsp;&nbsp;Kirim Pesan
+                                                    &nbsp;&nbsp;Konfirmasi
                                                 </Button>
                                             )}
                                         </div>

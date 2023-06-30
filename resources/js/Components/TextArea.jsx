@@ -14,7 +14,7 @@ export default function TextArea({
     return (
         <textarea
             className={
-                `textarea rounded focus:outline-none focus:border-green-600 border-2 shadow w-full ` +
+                `textarea rounded dark:focus:border-emerald-600 focus:outline-none focus:border-green-600 border-2 shadow w-full ` +
                 className
             }
             name={name}

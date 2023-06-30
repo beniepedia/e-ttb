@@ -30,6 +30,7 @@ class StatusController extends Controller
             $receipts->customer->update(["location" => $location]);
         }
 
+        $receipts->load("transaction");
 
         return response()->json($receipts);
     }

@@ -1,16 +1,22 @@
-import { Alert, toast } from "@/Components/Alert";
 import Button from "@/Components/Button";
 import Input from "@/Components/Input";
 import ButtonFooter from "@/Components/Status/ButtonFooter";
-import ButtonPaymentChoice from "@/Components/Status/ButtonPaymentChoice";
+import ButtonPaymentChoice from "@/Components/Payments/ButtonPaymentChoice";
 import ReceiptStatus from "@/Components/Status/ReceiptStatus";
 import SkeletonReceiptCheck from "@/Components/Status/SkeletonReceiptCheck";
 import Guest from "@/Layouts/Guest";
 import { Head } from "@inertiajs/inertia-react";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { Inertia } from "@inertiajs/inertia";
 
 const StatusCheck = () => {
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState(null);
+    const [error, setError] = useState("");
+    const [value, setValue] = useState("");
+
     useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -32,11 +38,6 @@ const StatusCheck = () => {
             );
         }
     }, []);
-
-    const [loading, setLoading] = useState(false);
-    const [data, setData] = useState(null);
-    const [error, setError] = useState("");
-    const [value, setValue] = useState("");
 
     const handleClick = async () => {
         setError("");
@@ -63,6 +64,21 @@ const StatusCheck = () => {
                     location: geotag,
                 }
             );
+
+            if (data?.transaction != null) {
+                const status = data?.transaction?.transaction_status;
+
+                if (
+                    status == "UNPAID" ||
+                    status == "EXPIRED" ||
+                    status === "FAILED"
+                ) {
+                    Inertia.get(route("payment", data.receipt_code));
+                }
+
+                return;
+            }
+
             setData(data);
         } catch (error) {
             setData(null);
@@ -96,7 +112,6 @@ const StatusCheck = () => {
 
     return (
         <>
-            <Alert></Alert>
             <Head>
                 <title>Cek Status Tanda Terima</title>
             </Head>
@@ -141,11 +156,11 @@ const StatusCheck = () => {
                                 {loading && <SkeletonReceiptCheck length={9} />}
                                 {data && <ReceiptStatus {...data} />}
 
-                                {/* {data && (
+                                {data && data.cost > 0 && !data.transaction && (
                                     <ButtonPaymentChoice
                                         {...data}
                                     ></ButtonPaymentChoice>
-                                )} */}
+                                )}
                             </div>
 
                             <ButtonFooter></ButtonFooter>

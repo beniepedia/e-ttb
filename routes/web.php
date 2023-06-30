@@ -1,5 +1,6 @@
 <?php
 
+use App\Facades\Tripay;
 use App\Http\Controllers\Client\StatusController;
 use App\Facades\WhatsApp;
 use Inertia\Inertia;
@@ -11,6 +12,7 @@ use App\Http\Controllers\ReceiptsController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TelegramBotController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\TripayCallbackController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WhatsappController;
 use App\Notifications\NotificationTelegramToAdmin;
@@ -29,13 +31,21 @@ use Illuminate\Support\Facades\Notification;
 */
 
 Route::get('/send', function () {
+    session()->flash("message", 'asdasdasd');
+
+    // echo date("d/m/Y", 1688055735);
+
+    // $transaction = \App\Models\Transaction::with('customer')->first();
+
+    // dd($transaction);
+
     // $receipt = \App\Models\Receipts::firstwhere('receipt_number', '116');
     // $receipt->load('customer');
 
     // $customer = $receipt->customer;
 
     // $customer->notify(new sendNotificationReceiptCustomer($receipt));
-    Notification::send('', new NotificationTelegramToAdmin(['nama' => 'ahasd']));
+    // Notification::send('', new NotificationTelegramToAdmin(['nama' => 'ahasd']));
 });
 
 Route::get('/', function () {
@@ -47,9 +57,11 @@ Route::get("/cek-status", [StatusController::class, 'check_status'])->name('clie
 Route::post("/cek-status/{receipts:receipt_code}", [StatusController::class, 'check'])->name('client.status.process')->middleware('throttle:5,1');
 
 
+Route::post("/callback", TripayCallbackController::class);
 
 Route::get("/payment/{receipts:receipt_code}", [TransactionController::class, 'index'])->name("payment");
 Route::post("/transaction", [TransactionController::class, 'get_token'])->name("transaction.gettoken");
+Route::post("/transaction/promo", [TransactionController::class, 'promo'])->name("transaction.promo");
 
 Route::post('/telegram-bot', [TelegramBotController::class, 'index']);
 
