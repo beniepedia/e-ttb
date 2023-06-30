@@ -298,12 +298,7 @@ const ReceiptAdd = ({ customers, auth, user, auto_number }) => {
 };
 
 ReceiptAdd.layout = (page) => (
-    <Layout
-        auth={page.props.auth}
-        children={page}
-        href={route("receipts")}
-        menu={false}
-    />
+    <Layout children={page} href={route("receipts")} menu={false} />
 );
 
 export default ReceiptAdd;

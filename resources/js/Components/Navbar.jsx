@@ -4,6 +4,7 @@ import { Link } from "@inertiajs/inertia-react";
 import Modal from "./Modal";
 import Avatar from "react-avatar";
 import Notifications from "./Notifications";
+import * as Icon from "react-bootstrap-icons";
 
 export default function Navbar({ auth, appName, href }) {
     return (
@@ -24,32 +25,35 @@ export default function Navbar({ auth, appName, href }) {
                     <ul className="mr-5 md:flex space-x-4 text-white hidden">
                         <Link
                             href="/dashboard"
-                            className={`cursor-pointer hover:bg-emerald-500 dark:hover:bg-slate-700 p-3 rounded-md ${
+                            className={`cursor-pointer flex items-center gap-2 hover:bg-emerald-500 dark:hover:bg-slate-700 p-3 rounded-md ${
                                 route().current("dashboard")
                                     ? "bg-emerald-500 dark:bg-emerald-500"
                                     : ""
                             }`}
                         >
+                            <Icon.HouseDoorFill size={20} />
                             Dashboard
                         </Link>
                         <Link
                             href="/customers"
-                            className={`cursor-pointer hover:bg-emerald-500 dark:hover:bg-slate-700 p-3 rounded-md ${
+                            className={`cursor-pointer flex items-center gap-2 hover:bg-emerald-500 dark:hover:bg-slate-700 p-3 rounded-md ${
                                 route().current("customers")
                                     ? "bg-emerald-500 dark:bg-emerald-500"
                                     : ""
                             }`}
                         >
+                            <Icon.PersonBadgeFill size={20} />
                             Customer
                         </Link>
                         <Link
                             href="/receipts"
-                            className={`cursor-pointer hover:bg-emerald-500 dark:hover:bg-slate-700 p-3 rounded-md ${
+                            className={`cursor-pointer flex items-center gap-2 hover:bg-emerald-500 dark:hover:bg-slate-700 p-3 rounded-md ${
                                 route().current("receipts")
                                     ? "bg-emerald-500 dark:bg-emerald-500"
                                     : ""
                             }`}
                         >
+                            <Icon.Clipboard2CheckFill size={20} />
                             TTB
                         </Link>
                     </ul>
@@ -69,31 +73,45 @@ export default function Navbar({ auth, appName, href }) {
                         </label>
                         <ul
                             tabIndex="0"
-                            className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+                            className="menu menu-compact dropdown-content mt-3 shadow bg-base-100 rounded-box 
+                            overflow-hidden w-52"
                         >
+                            <div className="p-3 font-semibold text-white bg-emerald-600 mb-2 dark:bg-slate-700 dark:text-slate-200">
+                                {auth.user.name}
+                            </div>
                             <li>
                                 {/* <a className="justify-between" href={route('user.index')}>
                                     {auth.user.name.toUpperCase()}
                                 </a> */}
 
-                                <Link
-                                    href={route("user.index")}
-                                    className="font-semibold"
-                                >
-                                    {auth.user.name.toUpperCase()}
+                                <Link href={route("user.index")}>
+                                    <Icon.PersonBoundingBox size={20} />
+                                    Profil
                                 </Link>
                             </li>
                             {auth.user.user_type === "admin" && (
-                                <li>
-                                    <Link href={route("register")}>
-                                        Tambah User
-                                    </Link>
-                                </li>
+                                <>
+                                    <li>
+                                        <Link href={route("register")}>
+                                            <Icon.PersonPlusFill size={20} />
+                                            Tambah User
+                                        </Link>
+                                    </li>
+                                    <li className="">
+                                        <Link href={route("admin.setting")}>
+                                            <Icon.GearFill size={20} />
+                                            Pengaturan
+                                        </Link>
+                                    </li>
+                                </>
                             )}
-
                             <li>
-                                <a href="#log-out">Log Out</a>
+                                <a href="#log-out">
+                                    <Icon.BoxArrowLeft size={20} />
+                                    Keluar
+                                </a>
                             </li>
+                            <div className="mb-2"></div>
                         </ul>
                     </div>
                 </div>

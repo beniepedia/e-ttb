@@ -526,12 +526,7 @@ const ReceiptDetail = () => {
 };
 
 ReceiptDetail.layout = (page) => (
-    <Layout
-        auth={page.props.auth}
-        children={page}
-        menu={false}
-        href={route("receipts")}
-    />
+    <Layout children={page} menu={false} href={route("receipts")} />
 );
 
 export default ReceiptDetail;

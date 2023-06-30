@@ -96,8 +96,6 @@ const Index = () => {
     );
 };
 
-Index.layout = (page) => (
-    <Layout auth={page.props.auth} errors={page.props.errors} children={page} />
-);
+Index.layout = (page) => <Layout errors={page.props.errors} children={page} />;
 
 export default Index;

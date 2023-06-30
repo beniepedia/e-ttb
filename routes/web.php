@@ -9,7 +9,7 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReceiptsController;
-use App\Http\Controllers\SettingController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\TelegramBotController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TripayCallbackController;
@@ -64,6 +64,13 @@ Route::post("/transaction", [TransactionController::class, 'get_token'])->name("
 Route::post("/transaction/promo", [TransactionController::class, 'promo'])->name("transaction.promo");
 
 Route::post('/telegram-bot', [TelegramBotController::class, 'index']);
+
+Route::controller(SettingController::class)
+    ->prefix('admin')
+    ->middleware(['auth', 'admin'])
+    ->group(function () {
+        Route::get("/setting", 'index')->name("admin.setting");
+    });
 
 Route::middleware(['auth', 'verified'])->group(function () {
 

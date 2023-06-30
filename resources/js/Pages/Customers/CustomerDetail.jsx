@@ -148,12 +148,7 @@ const CustomerDetail = () => {
 };
 
 CustomerDetail.layout = (page) => (
-    <Layout
-        auth={page.props.auth}
-        children={page}
-        href={route("customers")}
-        menu={false}
-    />
+    <Layout children={page} href={route("customers")} menu={false} />
 );
 
 export default CustomerDetail;

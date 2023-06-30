@@ -166,7 +166,6 @@ const CustomerAdd = () => {
 
 CustomerAdd.layout = (page) => (
     <Layout
-        auth={page.props.auth}
         errors={page.props.errors}
         children={page}
         href={route(

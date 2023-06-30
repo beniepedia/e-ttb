@@ -216,8 +216,6 @@ const ReceiptIndex = () => {
     );
 };
 
-ReceiptIndex.layout = (page) => (
-    <Layout auth={page.props.auth} children={page} />
-);
+ReceiptIndex.layout = (page) => <Layout children={page} />;
 
 export default ReceiptIndex;

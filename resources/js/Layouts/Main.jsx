@@ -3,8 +3,8 @@ import { showToast } from "@/Helper";
 import { Link, usePage } from "@inertiajs/inertia-react";
 import * as Icon from "react-bootstrap-icons";
 
-export default function Main({ auth, children, href, menu = true }) {
-    const { flash } = usePage().props;
+export default function Main({ children, href, menu = true }) {
+    const { flash, auth } = usePage().props;
     if (flash.message) {
         showToast(flash);
     }
