@@ -10,12 +10,19 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Inertia } from "@inertiajs/inertia";
+import {
+    requestNotificationPermission,
+    subscribeUser,
+} from "@/Libs/enable-webpush";
+import Loading from "@/Components/Loading";
+import TransactionDetail from "@/Components/Transactions/TransactionDetail";
 
 const StatusCheck = () => {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState(null);
     const [error, setError] = useState("");
     const [value, setValue] = useState("");
+    const [permission, setPermission] = useState(false);
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -37,6 +44,14 @@ const StatusCheck = () => {
                 }
             );
         }
+    }, []);
+
+    useEffect(() => {
+        requestNotificationPermission().then((permission) => {
+            if (permission == "granted") {
+                setPermission(true);
+            }
+        });
     }, []);
 
     const handleClick = async () => {
@@ -65,6 +80,10 @@ const StatusCheck = () => {
                 }
             );
 
+            if (permission) {
+                subscribeUser();
+            }
+
             if (data?.transaction != null) {
                 const status = data?.transaction?.transaction_status;
 
@@ -74,14 +93,16 @@ const StatusCheck = () => {
                     status === "FAILED"
                 ) {
                     Inertia.get(route("payment", data.receipt_code));
+                    return;
                 }
-
-                return;
             }
+
+            setLoading(false);
 
             setData(data);
         } catch (error) {
             setData(null);
+            setLoading(false);
             if (error?.response?.status == 429) {
                 toast.error(
                     "Error : Terlalu Banyak Permintaan. Silakan coba lagi nanti."
@@ -94,7 +115,6 @@ const StatusCheck = () => {
                 );
             }
         } finally {
-            setLoading(false);
             setValue("");
         }
     };
@@ -112,6 +132,8 @@ const StatusCheck = () => {
 
     return (
         <>
+            {loading && <Loading text="Silahkan tunggu..." />}
+
             <Head>
                 <title>Cek Status Tanda Terima</title>
             </Head>
@@ -161,6 +183,12 @@ const StatusCheck = () => {
                                         {...data}
                                     ></ButtonPaymentChoice>
                                 )}
+                                {/* 
+                                {data && data?.transaction == "PAID" && (
+                                    <TransactionDetail
+                                        transaction={data?.transaction}
+                                    />
+                                )} */}
                             </div>
 
                             <ButtonFooter></ButtonFooter>

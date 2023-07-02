@@ -4,6 +4,9 @@ import Input from "../Input";
 import TextArea from "../TextArea";
 import Divider from "../Divider";
 import Discount from "./Discount";
+import Modal from "../Modal";
+import { useRef } from "react";
+import Loading from "../Loading";
 
 const PaymentInfo = ({
     onHandleChange,
@@ -13,6 +16,13 @@ const PaymentInfo = ({
     loading,
     setData,
 }) => {
+    const click = useRef();
+
+    const paymentClick = () => {
+        click.current.click();
+        onPress();
+    };
+
     return (
         <>
             <Divider className={"mt-7"}>INFO PEMBAYARAN</Divider>
@@ -50,18 +60,41 @@ const PaymentInfo = ({
 
                 <Discount data={data} setData={setData} />
 
-                <Button
-                    className="w-full mt-4 btn-accent dark:btn-primary"
-                    handleClick={() => onPress()}
-                    processing={loading}
+                <a
+                    disabled={loading}
+                    href="#pembayaran"
+                    className="btn w-full mt-4 btn-accent dark:btn-primary rounded shadow"
                 >
                     Bayar ( Rp.{" "}
                     {new Intl.NumberFormat({
                         locale: "id_ID",
                     }).format(data.amount_total)}{" "}
                     )
-                </Button>
+                </a>
             </div>
+
+            {loading && <Loading text="Tunggu sebentar..." />}
+
+            <Modal
+                title="Pembayaran!"
+                message="Pastikan data pembayaran sudah benar. Yakin ingin melanjutkan pembayaran ?"
+                id="pembayaran"
+            >
+                <a
+                    ref={click}
+                    href="#"
+                    className="btn rounded btn-sm md:btn-md btn-error text-white"
+                >
+                    BATAL
+                </a>
+                <Button
+                    className="btn-sm md:btn-md"
+                    handleClick={() => paymentClick()}
+                    processing={loading}
+                >
+                    IYA, LANJUTKAN
+                </Button>
+            </Modal>
         </>
     );
 };

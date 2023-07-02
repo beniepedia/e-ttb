@@ -6,8 +6,8 @@ import { InertiaProgress } from "@inertiajs/progress";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import React from "react";
 import { render } from "react-dom";
-// import { ToastContainer } from "react-toastify";
 import { Alert } from "@/Components/Alert";
+import { initSw } from "./Libs/enable-webpush";
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
@@ -24,6 +24,8 @@ createInertiaApp({
             const sharedData = JSON.parse(el.dataset.shared);
             return sharedData[key];
         };
+
+        initSw();
 
         return render(
             <React.Fragment>

@@ -12,6 +12,7 @@ const TransactionDetail = () => {
     const { receipts } = usePage().props;
 
     const transaction = receipts?.transaction;
+
     const instructions = transaction?.payload?.instructions;
 
     return (

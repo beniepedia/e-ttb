@@ -32,6 +32,8 @@ class StatusController extends Controller
 
         $receipts->load("transaction");
 
+        session()->put("customer_id", $receipts->customer_id);
+
         return response()->json($receipts);
     }
 }

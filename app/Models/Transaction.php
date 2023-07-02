@@ -17,6 +17,7 @@ class Transaction extends Model
         'payload',
         'expired_time',
         'amount',
+        'paid_at',
         'amount_total',
         'discount',
         'transaction_status',
@@ -34,7 +35,12 @@ class Transaction extends Model
 
     public function customer()
     {
-        return $this->hasOneThrough(Receipts::class, Customers::class);
+        return $this->hasOneThrough(Customers::class, Receipts::class, 'customer_id', 'id', 'receipt_id');
+    }
+
+    public function receipt()
+    {
+        return $this->belongsTo(Receipts::class);
     }
 
 

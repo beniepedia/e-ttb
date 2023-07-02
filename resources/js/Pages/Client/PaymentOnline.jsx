@@ -1,3 +1,4 @@
+import Loading from "@/Components/Loading";
 import PaymentChannel from "@/Components/Payments/PaymentChannel";
 import PaymentInfo from "@/Components/Payments/PaymentInfo";
 import ButtonFooter from "@/Components/Status/ButtonFooter";

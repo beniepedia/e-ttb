@@ -53,7 +53,7 @@ class Receipts extends Model
 
     public function transaction()
     {
-        return $this->hasOne(Transaction::class, 'receipt_id')->latest();
+        return $this->belongsTo(Transaction::class, 'id', 'receipt_id')->latest();
     }
 
     public function customer()

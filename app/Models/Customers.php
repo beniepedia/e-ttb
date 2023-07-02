@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
+use NotificationChannels\WebPush\HasPushSubscriptions;
 
 class Customers extends Model
 {
     use HasFactory;
     use SoftDeletes;
     use Notifiable;
+    use HasPushSubscriptions;
 
     protected $casts = [
         'location' => 'json'

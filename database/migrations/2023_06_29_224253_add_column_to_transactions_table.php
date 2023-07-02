@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->decimal("amount_total", 10)->default(0);
-            $table->decimal("discount", 8)->default(0);
+            $table->decimal("discount", 8)->after('amount')->default(0);
+            $table->decimal("amount_total", 10)->after('discount')->default(0);
         });
     }
 

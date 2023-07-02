@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Facades\Tripay;
 use App\Models\Transaction;
+use App\Notifications\PaymentToCustomerNotification;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -48,6 +49,7 @@ class TripayCallbackController extends Controller
             $invoice = $data->merchant_ref;
 
             $transaction = Transaction::where("invoice_number", $invoice)->where('transaction_status', 'UNPAID')->first();
+
             if ($data->is_closed_payment === 1) {
 
                 if (!$transaction) {
@@ -56,8 +58,12 @@ class TripayCallbackController extends Controller
 
                 $status = strtoupper((string) $data->status);
 
-                if ($status === "PAID" || $status === "FAILED" || $status === "EXPIRED") {
+                if ($status === "PAID" || $status === "UNPAID" || $status === "FAILED" || $status === "EXPIRED") {
                     $transaction->transaction_status = $status;
+
+                    if ($status == "PAID" || $status == "FAILED") {
+                        $transaction->paid_at = $data->paid_at ?? time();
+                    }
 
                     $payload = $transaction->payload;
                     $payload['status'] = $status;
@@ -72,10 +78,14 @@ class TripayCallbackController extends Controller
                     ]);
                 }
 
+                $customer = $transaction->customer;
+
+                $customer->notify(new PaymentToCustomerNotification($transaction));
+
                 Log::info(
                     "Response callback tripay berhasil",
                     [
-                        'invoice' => $request->merchant_ref,
+                        'invoice' => $invoice,
                         'customer' => $transaction->payload['customer_name']
                     ]
                 );

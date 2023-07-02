@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#059669" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="manifest" href="/manifest.json">
 
     <title inertia>{{ config('app.name', 'Laravel') }}</title>
@@ -21,6 +22,7 @@
 
 <body class="antialiased">
     @inertia
+    {{-- <script src="{{ asset('js/enable-push.js') }}" defer></script> --}}
 </body>
 
 </html>

@@ -1,9 +1,22 @@
 import Navbar from "@/Components/Navbar";
 import { showToast } from "@/Helper";
+import {
+    requestNotificationPermission,
+    subscribeUser,
+} from "@/Libs/enable-webpush";
 import { Link, usePage } from "@inertiajs/inertia-react";
+import { useEffect } from "react";
 import * as Icon from "react-bootstrap-icons";
 
 export default function Main({ children, href, menu = true }) {
+    useEffect(() => {
+        requestNotificationPermission().then((permission) => {
+            if (permission) {
+                subscribeUser();
+            }
+        });
+    }, []);
+
     const { flash, auth } = usePage().props;
     if (flash.message) {
         showToast(flash);
