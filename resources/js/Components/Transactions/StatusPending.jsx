@@ -5,8 +5,8 @@ import { currency } from "@/Helper";
 import { toast } from "@/Components/Alert";
 
 const StatusPending = () => {
-    const { receipts } = usePage().props;
-    const transaction = receipts?.transaction;
+    const { receipt } = usePage().props;
+    const transaction = receipt?.transaction;
     const qr_url = transaction?.payload?.qr_url || null;
 
     const handleCopy = () => {

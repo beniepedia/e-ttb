@@ -7,19 +7,20 @@ import Guest from "@/Layouts/Guest";
 import { Head, useForm, usePage } from "@inertiajs/inertia-react";
 
 const PaymentOnline = () => {
-    const { receipts } = usePage().props;
-    const customer = receipts.customer;
-    const transaction = receipts.transaction;
+    const { receipt } = usePage().props;
+
+    const customer = receipt.customer;
+    const transaction = receipt?.transaction;
 
     const { data, setData, errors, processing, post } = useForm({
         full_name: customer.full_name,
         email: customer.email,
         address: customer.address,
-        receipt_id: receipts.id,
-        phone: receipts.customer.phone,
+        receipt_id: receipt.id,
+        phone: receipt.customer.phone,
         payment_method: "",
-        amount: receipts.cost,
-        amount_total: receipts.cost,
+        amount: receipt.cost,
+        amount_total: receipt.cost,
         discount: 0,
     });
 
@@ -61,7 +62,7 @@ const PaymentOnline = () => {
                 </h1>
 
                 {/* <Divider>DETAIL TANDA TERIMA</Divider>
-                <ReceiptStatus {...receipts} showImage={false}></ReceiptStatus> */}
+                <Receipttatus {...receipt} showImage={false}></Receipttatus> */}
             </div>
 
             {transaction && <TransactionDetail />}

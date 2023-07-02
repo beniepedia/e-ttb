@@ -4,7 +4,6 @@ import Button from "../Button";
 
 const PaymentChannel = ({ ...props }) => {
     const { payment_channel } = usePage().props;
-
     const data = props.data;
     const error = props.errors;
 

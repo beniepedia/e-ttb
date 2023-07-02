@@ -9,10 +9,9 @@ import StatusExpired from "./StatusExpired";
 import StatusFailed from "./StatusFailed";
 
 const TransactionDetail = () => {
-    const { receipts } = usePage().props;
+    const { receipt } = usePage().props;
 
-    const transaction = receipts?.transaction;
-
+    const transaction = receipt?.transaction;
     const instructions = transaction?.payload?.instructions;
 
     return (
@@ -68,6 +67,13 @@ const TransactionDetail = () => {
                             <th>:</th>
                             <td>{transaction?.status}</td>
                         </tr>
+                        {transaction?.paid_at && (
+                            <tr>
+                                <th>Dibayar Pada</th>
+                                <th>:</th>
+                                <td>{transaction?.paid_at}</td>
+                            </tr>
+                        )}
                         <tr>
                             <th>Metode Bayar</th>
                             <th>:</th>

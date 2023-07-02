@@ -1,49 +1,45 @@
-import Button from "@/Components/Button";
+import { toast } from "@/Components/Alert";
 import Input from "@/Components/Input";
-import ButtonFooter from "@/Components/Status/ButtonFooter";
+import Loading from "@/Components/Loading";
 import ButtonPaymentChoice from "@/Components/Payments/ButtonPaymentChoice";
+import ButtonFooter from "@/Components/Status/ButtonFooter";
 import ReceiptStatus from "@/Components/Status/ReceiptStatus";
-import SkeletonReceiptCheck from "@/Components/Status/SkeletonReceiptCheck";
+import TransactionDetail from "@/Components/Transactions/TransactionDetail";
 import Guest from "@/Layouts/Guest";
-import { Head } from "@inertiajs/inertia-react";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { Inertia } from "@inertiajs/inertia";
 import {
     requestNotificationPermission,
     subscribeUser,
 } from "@/Libs/enable-webpush";
-import Loading from "@/Components/Loading";
-import TransactionDetail from "@/Components/Transactions/TransactionDetail";
+import { requestLocationPermission } from "@/Libs/get-location";
+import { Inertia } from "@inertiajs/inertia";
+import { Head, usePage } from "@inertiajs/inertia-react";
+import { useEffect, useState } from "react";
 
 const StatusCheck = () => {
+    const { filters, receipt, can_pay } = usePage().props;
+
     const [loading, setLoading] = useState(false);
-    const [data, setData] = useState(null);
-    const [error, setError] = useState("");
-    const [value, setValue] = useState("");
+    const [location, setLocation] = useState({
+        latitude: "",
+        longitude: "",
+    });
     const [permission, setPermission] = useState(false);
 
+    const [query, setQuery] = useState({
+        receipt_code: filters.receipt_code || "",
+    });
+
     useEffect(() => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                ({ coords }) => {
-                    window.localStorage.setItem(
-                        "location",
-                        JSON.stringify({
-                            latitude: coords.latitude,
-                            longitude: coords.longitude,
-                        })
-                    );
-                },
-                (error) => {
-                    window.localStorage.removeItem("location");
-                },
-                {
-                    enableHighAccuracy: true,
-                }
-            );
-        }
+        requestLocationPermission()
+            .then(({ latitude, longitude }) => {
+                setLocation({ latitude, longitude });
+            })
+            .catch((err) => {
+                setLocation({
+                    latitude: "",
+                    longitude: "",
+                });
+            });
     }, []);
 
     useEffect(() => {
@@ -54,80 +50,36 @@ const StatusCheck = () => {
         });
     }, []);
 
-    const handleClick = async () => {
-        setError("");
-        if (!value) {
-            setError("Masukkan nomor register tanda terima anda.");
-            return;
-        }
+    const filter = () => {
+        Inertia.get(
+            route(route().current()),
+            { receipt_code: query.receipt_code },
+            {
+                headers: {
+                    location: JSON.stringify(location),
+                },
+                preserveState: true,
+                replace: true,
+                onBefore: () => {
+                    setLoading(true);
+                },
+                onSuccess: ({ props }) => {
+                    if (!props.receipt) {
+                        toast.error(
+                            `Tanda terima dengan nomor register ${query.receipt_code} tidak ditemukan!. Silahkan coba lagi`
+                        );
 
-        setData(null);
-        setLoading(true);
-
-        let geotag = null;
-        const location =
-            (await JSON.parse(window.localStorage.getItem("location"))) || null;
-
-        if (location) {
-            geotag = await reverseGeotag(location.latitude, location.longitude);
-        }
-
-        try {
-            const { data } = await axios.post(
-                route("client.status.process", { receipt_code: value }),
-                {
-                    location: geotag,
-                }
-            );
-
-            if (permission) {
-                subscribeUser();
+                        setQuery({ receipt_code: "" });
+                    }
+                    if (permission) {
+                        subscribeUser();
+                    }
+                },
+                onFinish: () => {
+                    setLoading(false);
+                },
             }
-
-            if (data?.transaction != null) {
-                const status = data?.transaction?.transaction_status;
-
-                if (
-                    status == "UNPAID" ||
-                    status == "EXPIRED" ||
-                    status === "FAILED"
-                ) {
-                    Inertia.get(route("payment", data.receipt_code));
-                    return;
-                }
-            }
-
-            setLoading(false);
-
-            setData(data);
-        } catch (error) {
-            setData(null);
-            setLoading(false);
-            if (error?.response?.status == 429) {
-                toast.error(
-                    "Error : Terlalu Banyak Permintaan. Silakan coba lagi nanti."
-                );
-            } else if (error?.response?.status == 404) {
-                toast.error("Tanda terima tidak ditemukan!");
-            } else {
-                toast.error(
-                    "Error : Permintaan tidak dapat dipenuhi. Silahkan coba beberapa saat lagi."
-                );
-            }
-        } finally {
-            setValue("");
-        }
-    };
-
-    const reverseGeotag = async (latitude, longitude) => {
-        try {
-            const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
-            const { data } = await axios.get(url);
-
-            return data || null;
-        } catch {
-            return false;
-        }
+        );
     };
 
     return (
@@ -144,52 +96,45 @@ const StatusCheck = () => {
                     </h1>
                     <div className="my-3">
                         <Input
-                            name={"kode"}
-                            value={value}
-                            handleChange={(e) => setValue(e.target.value)}
+                            type="search"
+                            // name={"receipt_code"}
+                            value={query.receipt_code}
+                            handleChange={(e) =>
+                                setQuery({ receipt_code: e.target.value })
+                            }
                             placeHolder="Masukkan nomor 
                             register"
                             className={"text-sm"}
                         ></Input>
-                        <div className="text-sm text-red-500 mt-1 italic">
-                            {error}
-                        </div>
-                        <Button
-                            processing={loading}
-                            className="mt-3 w-full  btn-accent dark:btn-success"
-                            handleClick={handleClick}
-                            loading={loading}
+                        <button
+                            disabled={query.receipt_code == ""}
+                            className="mt-3 w-full btn rounded  btn-accent dark:btn-success"
+                            onClick={filter}
                         >
                             cek Tanda Terima
-                        </Button>
+                        </button>
 
                         {/* <Button handleClick={pay}>Bayar</Button> */}
 
                         <div
-                            className={`${
-                                !loading && !data ? "hidden" : "block"
-                            } my-7`}
+                            className={`${!receipt ? "hidden" : "block"} my-7`}
                         >
                             <div className="divider mb-7 font-semibold">
                                 DETAIL TANDA TERIMA
                             </div>
 
-                            <div className="">
-                                {loading && <SkeletonReceiptCheck length={9} />}
-                                {data && <ReceiptStatus {...data} />}
+                            <div className="mb-4">
+                                {/* {loading && <SkeletonReceiptCheck length={9} />} */}
+                                {receipt && <ReceiptStatus {...receipt} />}
 
-                                {data && data.cost > 0 && !data.transaction && (
+                                {can_pay && receipt && (
                                     <ButtonPaymentChoice
-                                        {...data}
+                                        {...receipt}
                                     ></ButtonPaymentChoice>
                                 )}
-                                {/* 
-                                {data && data?.transaction == "PAID" && (
-                                    <TransactionDetail
-                                        transaction={data?.transaction}
-                                    />
-                                )} */}
                             </div>
+                            {receipt?.transaction?.transaction_status ==
+                                "PAID" && <TransactionDetail />}
 
                             <ButtonFooter></ButtonFooter>
                         </div>

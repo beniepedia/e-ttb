@@ -13,6 +13,7 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TripayCallbackController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WhatsappController;
+use Illuminate\Support\Facades\Http;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,9 +26,21 @@ use App\Http\Controllers\WhatsappController;
 |
 */
 
-Route::get('/send', function () {
-    dd(time());
-});
+// Route::get('/send', function () {
+//     // $trasaction = \App\Models\Transaction::where('invoice_number', 'INV-1688304295')->first();
+
+//     // $customer = $trasaction->customer;
+
+
+//     // // $user = \App\Models\User::find(1);
+
+//     // $customer->notify(new \App\Notifications\PaymentToCustomerNotification($trasaction));
+//     $getLocation = Http::get("https://nominatim.openstreetmap.org/reverse?format=json&lat=3.5258368&lon=98.697216");
+
+//     if ($getLocation->ok()) {
+//         dd($getLocation->json());
+//     }
+// });
 
 Route::get('/', function () {
     // return Inertia::render('Auth/Login');
@@ -35,8 +48,6 @@ Route::get('/', function () {
 });
 
 Route::get("/cek-status", [StatusController::class, 'check_status'])->name('client.status.check');
-Route::post("/cek-status/{receipts:receipt_code}", [StatusController::class, 'check'])->name('client.status.process')->middleware('throttle:5,1');
-
 
 Route::post("/callback", TripayCallbackController::class);
 

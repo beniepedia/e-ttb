@@ -4,8 +4,8 @@ import Divider from "../Divider";
 import { currency } from "@/Helper";
 
 const StatusFailed = () => {
-    const { receipts } = usePage().props;
-    const transaction = receipts.transaction;
+    const { receipt } = usePage().props;
+    const transaction = receipt.transaction;
     return (
         <div className="border-2 border-rose-500 bg-rose-300  rounded-lg shadow mb-6 py-3 text-red-900">
             <div className="flex justify-between px-4">

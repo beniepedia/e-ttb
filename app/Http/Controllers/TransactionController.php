@@ -33,7 +33,10 @@ class TransactionController extends Controller
         // abort(404);
         $receipts->load('transaction');
         $payment_channel = Tripay::getChannel();
-        return Inertia::render("Client/PaymentOnline", compact('receipts', 'payment_channel'));
+        return Inertia::render("Client/PaymentOnline", [
+            'receipt' => $receipts,
+            'payment_channel' => $payment_channel
+        ]);
     }
 
     public function get_token(Request $request)

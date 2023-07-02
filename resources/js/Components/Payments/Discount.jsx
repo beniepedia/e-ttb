@@ -6,7 +6,7 @@ import axios from "axios";
 import { usePage } from "@inertiajs/inertia-react";
 
 const Discount = ({ data, setData }) => {
-    const { receipts } = usePage().props;
+    const { receipt } = usePage().props;
 
     const [promo, setPromo] = useState("");
     const [error, serError] = useState("");
@@ -20,7 +20,7 @@ const Discount = ({ data, setData }) => {
         axios
             .post(route("transaction.promo"), {
                 promo_code: promo,
-                receipt_id: receipts.id,
+                receipt_id: receipt.id,
             })
             .then((response) => {
                 const message = response?.data?.message;

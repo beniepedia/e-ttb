@@ -1,15 +1,15 @@
-import Layout from "@/Layouts/Main";
-import React, { useState, useEffect } from "react";
-import { Head, usePage } from "@inertiajs/inertia-react";
-import CustomerList from "@/Components/Customers/CustomerList";
 import ButtonFly from "@/Components/ButtonFly";
-import * as Icon from "react-bootstrap-icons";
-import { usePrevious } from "react-use";
-import { Inertia } from "@inertiajs/inertia";
-import pickBy from "lodash/pickBy";
-import InfiniteScroll from "react-infinite-scroll-component";
-import axios from "axios";
+import CustomerList from "@/Components/Customers/CustomerList";
 import Input from "@/Components/Input";
+import Layout from "@/Layouts/Main";
+import { Inertia } from "@inertiajs/inertia";
+import { Head, usePage } from "@inertiajs/inertia-react";
+import axios from "axios";
+import pickBy from "lodash/pickBy";
+import { useEffect, useState } from "react";
+import * as Icon from "react-bootstrap-icons";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { usePrevious } from "react-use";
 
 const Index = () => {
     const { customers, filters } = usePage().props;
