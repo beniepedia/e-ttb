@@ -103,22 +103,20 @@ export default function Login({ status, canResetPassword }) {
                     </label>
                 </div>
 
-                <div className="flex items-center justify-between my-10">
-                    {canResetPassword && (
-                        <Link
-                            href={route("password.request")}
-                            className="underline text-sm text-gray-600 hover:text-gray-900"
-                        >
-                            Lupa kata sandi ?
-                        </Link>
-                    )}
-
-                    <Button
-                        className="ml-4 sm:btn-sm md:btn-md"
-                        processing={processing}
-                    >
-                        Log in
+                <div className="my-7 text-center">
+                    <Button className="btn-block" processing={processing}>
+                        Masuk
                     </Button>
+                    {canResetPassword && (
+                        <div className="pt-3">
+                            <Link
+                                href={route("password.request")}
+                                className="underline text-sm text-gray-600 hover:text-gray-900"
+                            >
+                                Lupa kata sandi ?
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </form>
         </Guest>

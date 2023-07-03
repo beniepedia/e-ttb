@@ -27,19 +27,7 @@ use Illuminate\Support\Facades\Http;
 */
 
 // Route::get('/send', function () {
-//     // $trasaction = \App\Models\Transaction::where('invoice_number', 'INV-1688304295')->first();
 
-//     // $customer = $trasaction->customer;
-
-
-//     // // $user = \App\Models\User::find(1);
-
-//     // $customer->notify(new \App\Notifications\PaymentToCustomerNotification($trasaction));
-//     $getLocation = Http::get("https://nominatim.openstreetmap.org/reverse?format=json&lat=3.5258368&lon=98.697216");
-
-//     if ($getLocation->ok()) {
-//         dd($getLocation->json());
-//     }
 // });
 
 Route::get('/', function () {
@@ -66,6 +54,7 @@ Route::controller(SettingController::class)
     ->middleware(['auth', 'admin'])
     ->group(function () {
         Route::get("/setting", 'index')->name("admin.setting");
+        Route::post("/store", 'store')->name("admin.setting.store");
     });
 
 Route::middleware(['auth', 'verified'])->group(function () {

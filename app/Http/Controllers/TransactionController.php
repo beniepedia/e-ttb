@@ -30,7 +30,10 @@ class TransactionController extends Controller
 
     public function index(Receipts $receipts)
     {
-        // abort(404);
+        if (!config('app_setting.pay_online')) {
+            abort(404);
+        }
+
         $receipts->load('transaction');
         $payment_channel = Tripay::getChannel();
         return Inertia::render("Client/PaymentOnline", [

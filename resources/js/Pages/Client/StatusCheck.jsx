@@ -16,7 +16,7 @@ import { Head, usePage } from "@inertiajs/inertia-react";
 import { useEffect, useState } from "react";
 
 const StatusCheck = () => {
-    const { filters, receipt, can_pay } = usePage().props;
+    const { filters, receipt, can_pay, app_setting } = usePage().props;
 
     const [loading, setLoading] = useState(false);
     const [location, setLocation] = useState({
@@ -50,7 +50,9 @@ const StatusCheck = () => {
         });
     }, []);
 
-    const filter = () => {
+    const filter = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         Inertia.get(
             route(route().current()),
             { receipt_code: query.receipt_code },
@@ -95,25 +97,26 @@ const StatusCheck = () => {
                         Cek status tanda terima
                     </h1>
                     <div className="my-3">
-                        <Input
-                            type="search"
-                            // name={"receipt_code"}
-                            value={query.receipt_code}
-                            handleChange={(e) =>
-                                setQuery({ receipt_code: e.target.value })
-                            }
-                            placeHolder="Masukkan nomor 
+                        <form onSubmit={filter}>
+                            <Input
+                                type="search"
+                                // name={"receipt_code"}
+                                value={query.receipt_code}
+                                handleChange={(e) =>
+                                    setQuery({ receipt_code: e.target.value })
+                                }
+                                placeHolder="Masukkan nomor 
                             register"
-                            className={"text-sm"}
-                        ></Input>
-                        <button
-                            disabled={query.receipt_code == ""}
-                            className="mt-3 w-full btn rounded  btn-accent dark:btn-success"
-                            onClick={filter}
-                        >
-                            cek Tanda Terima
-                        </button>
-
+                                className={"text-sm"}
+                            ></Input>
+                            <button
+                                disabled={query.receipt_code == ""}
+                                className="mt-3 w-full btn rounded  btn-accent dark:btn-success"
+                                type="submit"
+                            >
+                                cek Tanda Terima
+                            </button>
+                        </form>
                         {/* <Button handleClick={pay}>Bayar</Button> */}
 
                         <div
@@ -127,11 +130,13 @@ const StatusCheck = () => {
                                 {/* {loading && <SkeletonReceiptCheck length={9} />} */}
                                 {receipt && <ReceiptStatus {...receipt} />}
 
-                                {can_pay && receipt && (
-                                    <ButtonPaymentChoice
-                                        {...receipt}
-                                    ></ButtonPaymentChoice>
-                                )}
+                                {app_setting?.pay_online &&
+                                    can_pay &&
+                                    receipt && (
+                                        <ButtonPaymentChoice
+                                            {...receipt}
+                                        ></ButtonPaymentChoice>
+                                    )}
                             </div>
                             {receipt?.transaction?.transaction_status ==
                                 "PAID" && <TransactionDetail />}

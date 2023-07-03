@@ -14,10 +14,10 @@ class TripayService
 
     public function __construct()
     {
-        $this->isProduction = env("APP_ENV") == "local" ? 'api-sandbox' : 'api';
-        $this->apiKey = config('tripay.api_key');
-        $this->privateKey = config('tripay.private_key');
-        $this->merchantCode = config('tripay.merchant_code');
+        $this->isProduction = config("app.env") == "local" ? 'api-sandbox' : 'api';
+        $this->apiKey = config('app_setting.tripay_api_key') ?? env("TRIPAY_API_KEY");
+        $this->privateKey = config('app_setting.tripay_private_key') ?? env("TRIPAY_PRIVATE_KEY");
+        $this->merchantCode = config('app_setting.tripay_merchant_code') ?? env("TRIPAY_MERCHANT_CODE");
         // $this->apiKey = 'DEV-OkgxviLKuzNzotoM8iUOwqeTD9vArQ3xEiwIpg58';
     }
 

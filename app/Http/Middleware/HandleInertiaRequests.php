@@ -39,6 +39,7 @@ class HandleInertiaRequests extends Middleware
             'appName' => [
                 config('app.name'),
             ],
+            'app_setting' => config('app_setting') ?? null,
             'midtrans_client_key' => [
                 config("midtrans.midtrans_client_key")
             ],

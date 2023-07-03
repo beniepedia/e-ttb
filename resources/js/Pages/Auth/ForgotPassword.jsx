@@ -3,7 +3,7 @@ import Button from "@/Components/Button";
 import Guest from "@/Layouts/Guest";
 import Input from "@/Components/Input";
 import ValidationErrors from "@/Components/ValidationErrors";
-import { Head, useForm } from "@inertiajs/inertia-react";
+import { Head, Link, useForm } from "@inertiajs/inertia-react";
 
 export default function ForgotPassword({ status }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -34,27 +34,43 @@ export default function ForgotPassword({ status }) {
             </div>
 
             {status && (
-                <div className="mb-4 font-medium text-sm text-green-800 animate-pulse">
+                <div className="alert rounded mb-3 alert-success shadow font-medium text-sm text-green-800 animate-pulse">
                     {status}
                 </div>
             )}
 
-            <ValidationErrors errors={errors} />
+            {/* <ValidationErrors errors={errors} /> */}
 
             <form onSubmit={submit}>
                 <Input
                     type="text"
                     name="email"
                     value={data.email}
-                    className="mt-1 block w-full"
+                    className="mt-1 w-full text-sm"
                     isFocused={true}
+                    placeHolder="Masukkan alamat email..."
                     handleChange={onHandleChange}
                 />
+                {errors?.email && (
+                    <div className="invalid-feedback mt-2">{errors?.email}</div>
+                )}
 
-                <div className="flex items-center justify-end my-10">
-                    <Button className="ml-4" processing={processing}>
-                        Kirim email reset
+                <div className="text-center my-6">
+                    <Button
+                        className="btn-block btn-accent"
+                        processing={processing}
+                    >
+                        Kirim link email reset
                     </Button>
+
+                    <div className="pt-3">
+                        <Link
+                            href={route("login")}
+                            className="underline text-sm text-gray-600 hover:text-gray-900"
+                        >
+                            Kembali ke login
+                        </Link>
+                    </div>
                 </div>
             </form>
         </Guest>

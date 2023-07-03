@@ -38,7 +38,7 @@ class NotificationTelegramToAdmin extends Notification
     {
         return TelegramMessage::create()
             // Optional recipient user id.
-            ->to('-1001972946695')
+            ->to(config("app_setting.telegram_admin_chat_id", '-1001972946695'))
             // Markdown supported.
             ->content("*Kunjungan Customer*\n\n")
             ->line("Customer dengan nama *{$this->data->customer->name}* telah mengunjungi halaman cek status ttb, nomor ttb *{$this->data->receipt_code}*");
