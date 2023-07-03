@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Redis;
 use Inertia\Inertia;
 
 class StatusController extends Controller
@@ -31,8 +30,11 @@ class StatusController extends Controller
 
         if ($receipt) {
             session()->put("customer_id", $receipt->customer_id);
-            $this->updateCustomerLocation($receipt->customer);
-            Notification::send('', new NotificationTelegramToAdmin($receipt));
+
+            if (config("app_setting.telegram_gateway")) {
+                $this->updateCustomerLocation($receipt->customer);
+                Notification::send('', new NotificationTelegramToAdmin($receipt));
+            }
         }
 
         $canPay = !$transaction ? true : false;
