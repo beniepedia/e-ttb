@@ -7,6 +7,7 @@ use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReceiptsController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\PushContoller;
 use App\Http\Controllers\TelegramBotController;
 use App\Http\Controllers\TransactionController;
@@ -69,6 +70,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/customers/create', 'create')->name('customers.create');
         Route::get('/customers/{id}', 'show')->name('customer.show');
         Route::any('/customers/{customer:id}/edit', 'edit')->name('customer.edit');
+    });
+
+    Route::controller(PromotionController::class)->group(function () {
+        Route::get("/promotion", "index")->name("promotion");
     });
 
 

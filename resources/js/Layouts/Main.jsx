@@ -67,6 +67,19 @@ export default function Main({ children, href, menu = true }) {
                         TTB
                     </span>
                 </Link>
+                <Link
+                    href={route("promotion")}
+                    className={
+                        route().current("promotion")
+                            ? "menu-active dark:bg-white"
+                            : ""
+                    }
+                >
+                    <Icon.CapslockFill className="text-xl text-slate-300" />
+                    <span className="btm-nav-label text-xs text-slate-400">
+                        Promosi
+                    </span>
+                </Link>
                 {/* <Link
                     href={route("whatsapp")}
                     className={
