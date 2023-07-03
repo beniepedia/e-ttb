@@ -209,7 +209,7 @@ class ReceiptsController extends Controller
         } catch (Exception $e) {
             Log::error("Gagal mengirim konfirmasi pesan whatsapp customer $customer->whatsapp", ["id" => $customer->id, "error" => $e->getMessage()]);
 
-            return redirect()->back()->with("message", ['type' => "error", "message" => "Gagal mengirim pesan whatsapp"]);
+            return redirect()->back()->with("message", ['type' => "error", "message" => "Gagal mengirim konfirmasi pesan whatsapp"]);
         }
     }
 

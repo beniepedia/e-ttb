@@ -2,11 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Setting;
-use App\Services\WhatsappService;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
 
@@ -19,6 +14,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->config->set("app.debug", config("app_setting.app_debug", false));
+        $this->app->config->set("app.env", config("app_setting.is_develop", "production"));
+        $this->app->config->set("services.telegram-bot-api.token", config("app_setting.telegram_bot_token"));
     }
 
     /**

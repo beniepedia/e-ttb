@@ -62,7 +62,7 @@ export default function Login({ status, canResetPassword }) {
                         isFocused={true}
                         handleChange={onHandleChange}
                         placeHolder="Masukkan alamat email"
-                        className={errors.email && "input-error"}
+                        className={`text-sm ${errors.email && "input-error"}`}
                     />
                     {errors.email && (
                         <div className="invalid-feedback">{errors.email}</div>
@@ -77,7 +77,9 @@ export default function Login({ status, canResetPassword }) {
                         value={data.password}
                         autoComplete="current-password"
                         handleChange={onHandleChange}
-                        className={errors.password && "input-error"}
+                        className={`text-sm ${
+                            errors.password && "input-error"
+                        }`}
                     />
                     {errors.password && (
                         <div className="invalid-feedback">
@@ -101,22 +103,20 @@ export default function Login({ status, canResetPassword }) {
                     </label>
                 </div>
 
-                <div className="flex items-center justify-between my-10">
-                    {canResetPassword && (
-                        <Link
-                            href={route("password.request")}
-                            className="underline text-sm text-gray-600 hover:text-gray-900"
-                        >
-                            Lupa kata sandi ?
-                        </Link>
-                    )}
-
-                    <Button
-                        className="ml-4 sm:btn-sm md:btn-md"
-                        processing={processing}
-                    >
-                        Log in
+                <div className="my-7 text-center">
+                    <Button className="btn-block" processing={processing}>
+                        Masuk
                     </Button>
+                    {canResetPassword && (
+                        <div className="pt-3">
+                            <Link
+                                href={route("password.request")}
+                                className="underline text-sm text-gray-600 hover:text-gray-900"
+                            >
+                                Lupa kata sandi ?
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </form>
         </Guest>

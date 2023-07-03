@@ -1,139 +1,147 @@
-import Button from "@/Components/Button";
+import { toast } from "@/Components/Alert";
 import Input from "@/Components/Input";
+import Loading from "@/Components/Loading";
+import ButtonPaymentChoice from "@/Components/Payments/ButtonPaymentChoice";
+import ButtonFooter from "@/Components/Status/ButtonFooter";
 import ReceiptStatus from "@/Components/Status/ReceiptStatus";
-import SkeletonReceiptCheck from "@/Components/Status/SkeletonReceiptCheck";
+import TransactionDetail from "@/Components/Transactions/TransactionDetail";
 import Guest from "@/Layouts/Guest";
-import { Head, Link } from "@inertiajs/inertia-react";
-import React, { useEffect, useState } from "react";
-import * as Icon from "react-bootstrap-icons";
-import axios from "axios";
-import { toast, Alert } from "@/Components/Alert";
+import {
+    requestNotificationPermission,
+    subscribeUser,
+} from "@/Libs/enable-webpush";
+import { requestLocationPermission } from "@/Libs/get-location";
+import { Inertia } from "@inertiajs/inertia";
+import { Head, usePage } from "@inertiajs/inertia-react";
+import { useEffect, useState } from "react";
 
 const StatusCheck = () => {
+    const { filters, receipt, can_pay, app_setting } = usePage().props;
+
     const [loading, setLoading] = useState(false);
-    const [data, setData] = useState(null);
-    const [error, setError] = useState("");
-    const [value, setValue] = useState("");
+    const [location, setLocation] = useState({
+        latitude: "",
+        longitude: "",
+    });
+    const [permission, setPermission] = useState(false);
 
-    const handleClick = async () => {
-        setError("");
-        if (!value) {
-            setError("Masukkan nomor register tanda terima anda.");
-            return;
-        }
+    const [query, setQuery] = useState({
+        receipt_code: filters.receipt_code || "",
+    });
 
-        setData(null);
-        setLoading(true);
+    useEffect(() => {
+        requestLocationPermission()
+            .then(({ latitude, longitude }) => {
+                setLocation({ latitude, longitude });
+            })
+            .catch((err) => {
+                setLocation({
+                    latitude: "",
+                    longitude: "",
+                });
+            });
+    }, []);
 
-        let geotag = null;
-        const location =
-            (await JSON.parse(window.localStorage.getItem("location"))) || null;
-
-        if (location) {
-            geotag = await reverseGeotag(location.latitude, location.longitude);
-        }
-
-        try {
-            const { data } = await axios.post(
-                route("client.status.process", { receipt_code: value }),
-                {
-                    location: geotag,
-                }
-            );
-            setData(data);
-        } catch (error) {
-            setData(null);
-            if (error?.response?.status == 429) {
-                toast.error(
-                    "Error : Terlalu Banyak Permintaan. Silakan coba lagi nanti."
-                );
-            } else if (error?.response?.status == 404) {
-                toast.error("Tanda terima tidak ditemukan!");
-            } else {
-                toast.error(
-                    "Error : Permintaan tidak dapat dipenuhi. Silahkan coba beberapa saat lagi."
-                );
+    useEffect(() => {
+        requestNotificationPermission().then((permission) => {
+            if (permission == "granted") {
+                setPermission(true);
             }
-        } finally {
-            setLoading(false);
-            setValue("");
-        }
-    };
+        });
+    }, []);
 
-    const reverseGeotag = async (latitude, longitude) => {
-        try {
-            const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
-            const { data } = await axios.get(url);
+    const filter = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        Inertia.get(
+            route(route().current()),
+            { receipt_code: query.receipt_code },
+            {
+                headers: {
+                    location: JSON.stringify(location),
+                },
+                preserveState: true,
+                replace: true,
+                onBefore: () => {
+                    setLoading(true);
+                },
+                onSuccess: ({ props }) => {
+                    if (!props.receipt) {
+                        toast.error(
+                            `Tanda terima dengan nomor register ${query.receipt_code} tidak ditemukan!. Silahkan coba lagi`
+                        );
 
-            return data || null;
-        } catch {
-            return false;
-        }
+                        setQuery({ receipt_code: "" });
+                    }
+                    if (permission) {
+                        subscribeUser();
+                    }
+                },
+                onFinish: () => {
+                    setLoading(false);
+                },
+            }
+        );
     };
 
     return (
         <>
-            <Alert></Alert>
+            {loading && <Loading text="Silahkan tunggu..." />}
+
             <Head>
                 <title>Cek Status Tanda Terima</title>
             </Head>
             <Guest>
-                <div className="text-slate-700 mb-10">
+                <div className="text-slate-700 dark:text-slate-500 mb-10">
                     <h1 className="font-semibold text-center text-xl uppercase mb-10">
                         Cek status tanda terima
                     </h1>
                     <div className="my-3">
-                        <Input
-                            name={"kode"}
-                            value={value}
-                            handleChange={(e) => setValue(e.target.value)}
-                            placeHolder="Masukkan nomor register"
-                        ></Input>
-                        <div className="text-sm text-red-500 mt-1 italic">
-                            {error}
-                        </div>
-                        <Button
-                            processing={loading}
-                            className="mt-3 w-full  btn-accent"
-                            handleClick={handleClick}
-                            loading={loading}
-                        >
-                            cek Tanda Terima
-                        </Button>
+                        <form onSubmit={filter}>
+                            <Input
+                                type="search"
+                                // name={"receipt_code"}
+                                value={query.receipt_code}
+                                handleChange={(e) =>
+                                    setQuery({ receipt_code: e.target.value })
+                                }
+                                placeHolder="Masukkan nomor 
+                            register"
+                                className={"text-sm"}
+                            ></Input>
+                            <button
+                                disabled={query.receipt_code == ""}
+                                className="mt-3 w-full btn rounded  btn-accent dark:btn-success"
+                                type="submit"
+                            >
+                                cek Tanda Terima
+                            </button>
+                        </form>
+                        {/* <Button handleClick={pay}>Bayar</Button> */}
 
                         <div
-                            className={`${
-                                !loading && !data ? "hidden" : "block"
-                            } my-7`}
+                            className={`${!receipt ? "hidden" : "block"} my-7`}
                         >
                             <div className="divider mb-7 font-semibold">
                                 DETAIL TANDA TERIMA
                             </div>
 
-                            <div className="">
-                                {loading && <SkeletonReceiptCheck length={9} />}
-                                {data && <ReceiptStatus {...data} />}
-                            </div>
+                            <div className="mb-4">
+                                {/* {loading && <SkeletonReceiptCheck length={9} />} */}
+                                {receipt && <ReceiptStatus {...receipt} />}
 
-                            <div className="divider font-semibold">
-                                Hubungi Kami
+                                {app_setting?.pay_online &&
+                                    can_pay &&
+                                    receipt && (
+                                        <ButtonPaymentChoice
+                                            {...receipt}
+                                        ></ButtonPaymentChoice>
+                                    )}
                             </div>
+                            {receipt?.transaction?.transaction_status ==
+                                "PAID" && <TransactionDetail />}
 
-                            <div className="flex gap-5 justify-center my-7">
-                                <div className="w-14 h-14 rounded-full bg-stone-500 flex justify-center items-center shadow">
-                                    <a href="tel:08116407788">
-                                        <Icon.Telephone className="  text-white text-2xl cursor-pointer " />
-                                    </a>
-                                </div>
-                                <div className="w-14 h-14 rounded-full bg-green-600 flex justify-center items-center shadow">
-                                    <a
-                                        href="https://wa.me/628116407788"
-                                        target="_blank"
-                                    >
-                                        <Icon.Whatsapp className="  text-white  text-2xl  cursor-pointer" />
-                                    </a>
-                                </div>
-                            </div>
+                            <ButtonFooter></ButtonFooter>
                         </div>
                     </div>
                 </div>

@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Redirect;
 
 class SettingController extends Controller
 {
+
+    public function index()
+    {
+        $allSetting = config('app_setting') ?? null;
+    }
+
     public function store(Request $request)
     {
         $query = new Setting();
@@ -24,6 +30,6 @@ class SettingController extends Controller
             }
         }
 
-        return Redirect::back();
+        return Redirect::json(['success' => true]);
     }
 }

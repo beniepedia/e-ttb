@@ -60,7 +60,7 @@ const CustomerAdd = () => {
     return (
         <>
             <Head title="Tambah Customer" />
-            <div className="bg-slate-300 p-4">
+            <div className="shadow p-4">
                 <h2 className="font-semibold text-slate-600">
                     TAMBAH CUSTOMER
                 </h2>
@@ -166,7 +166,6 @@ const CustomerAdd = () => {
 
 CustomerAdd.layout = (page) => (
     <Layout
-        auth={page.props.auth}
         errors={page.props.errors}
         children={page}
         href={route(

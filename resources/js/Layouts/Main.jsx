@@ -1,30 +1,25 @@
-import React from "react";
 import Navbar from "@/Components/Navbar";
-import * as Icon from "react-bootstrap-icons";
+import { showToast } from "@/Helper";
+import {
+    requestNotificationPermission,
+    subscribeUser,
+} from "@/Libs/enable-webpush";
 import { Link, usePage } from "@inertiajs/inertia-react";
-import { Alert, toast } from "@/Components/Alert";
+import { useEffect } from "react";
+import * as Icon from "react-bootstrap-icons";
 
-export default function Main({ auth, children, href, menu = true }) {
-    const { flash } = usePage().props;
+export default function Main({ children, href, menu = true }) {
+    useEffect(() => {
+        requestNotificationPermission().then((permission) => {
+            if (permission) {
+                subscribeUser();
+            }
+        });
+    }, []);
 
+    const { flash, auth } = usePage().props;
     if (flash.message) {
-        let types =
-            typeof flash.message == "object" ? flash.message.type : "success";
-
-        let message =
-            typeof flash.message == "object"
-                ? flash.message.message
-                : flash.message;
-
-        if (types == "error") {
-            toast.error(message);
-        } else if (types == "warning") {
-            toast.warning(message);
-        } else if (types == "info") {
-            toast.info(message);
-        } else {
-            toast.success(message);
-        }
+        showToast(flash);
     }
 
     const Menu = () => {
@@ -72,6 +67,19 @@ export default function Main({ auth, children, href, menu = true }) {
                         TTB
                     </span>
                 </Link>
+                <Link
+                    href={route("promotion")}
+                    className={
+                        route().current("promotion")
+                            ? "menu-active dark:bg-white"
+                            : ""
+                    }
+                >
+                    <Icon.CapslockFill className="text-xl text-slate-300" />
+                    <span className="btm-nav-label text-xs text-slate-400">
+                        Promosi
+                    </span>
+                </Link>
                 {/* <Link
                     href={route("whatsapp")}
                     className={
@@ -91,7 +99,6 @@ export default function Main({ auth, children, href, menu = true }) {
 
     return (
         <>
-            <Alert />
             <Navbar auth={auth} href={href} appName={children.props.appName} />
             <div className="">
                 <section className="bg-stone-400 dark:bg-slate-800 min-h-screen flex justify-center ">

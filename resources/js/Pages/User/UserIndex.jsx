@@ -7,6 +7,7 @@ import Button from "@/Components/Button";
 import { useForm, usePage } from "@inertiajs/inertia-react";
 import Modal from "@/Components/Modal";
 import _ from "lodash";
+import Avatar from "react-avatar";
 
 const UserIndex = () => {
     const { auth } = usePage().props;
@@ -24,7 +25,6 @@ const UserIndex = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // console.log(data)
         post(route("change_password"), {
             preserveScroll: true,
             preserveState: true,
@@ -32,12 +32,6 @@ const UserIndex = () => {
             onSuccess: () => {
                 clear();
             },
-        });
-    };
-
-    const handleInputSession = (e) => {
-        Inertia.post(route("setting.store"), {
-            whatsapp_session: e.target.value,
         });
     };
 
@@ -55,11 +49,8 @@ const UserIndex = () => {
     return (
         <div className="px-4 py-6">
             <div className="avatar flex justify-center">
-                <div className="w-1/2 md:w-1/3 lg:w-1/5 rounded-full border-white border-4 shadow-lg">
-                    <img
-                        src={"/images/assets/profile_default.png"}
-                        alt="profile image"
-                    />
+                <div className="rounded-full border-white border-4 shadow">
+                    <Avatar name={auth.user.name} />
                 </div>
             </div>
 
@@ -124,20 +115,6 @@ const UserIndex = () => {
                 </>
             )}
 
-            {auth.user.user_type === "admin" && (
-                <div className="mb-4">
-                    <p className="font-semibold">WhatsApp Session</p>
-                    <div className="divider my-1"></div>
-                    {/* <Label>Whatsapp Session</Label> */}
-                    <Input
-                        type="text"
-                        placeHolder="Masukkan nama session whatsapp"
-                        name={"whatsapp_session"}
-                        handleChange={_.debounce(handleInputSession, 1000)}
-                    />
-                </div>
-            )}
-
             <p className="font-semibold">Ganti Password</p>
             <div className="divider my-1"></div>
 
@@ -200,12 +177,7 @@ const UserIndex = () => {
 };
 
 UserIndex.layout = (page) => (
-    <Layout
-        auth={page.props.auth}
-        children={page}
-        href={route("dashboard")}
-        menu={false}
-    />
+    <Layout children={page} href={route("dashboard")} menu={false} />
 );
 
 export default UserIndex;

@@ -34,12 +34,12 @@ const ReceiptIsDone = ({ ...data }) => {
                     <div className="p-3 dark:bg-teal-700 bg-teal-500 rounded-t-lg text-white font-semibold">
                         List TTB Selesai
                     </div>
-                    <div className="overflow-x-auto  rounded-b-lg">
+                    <div className="overflow-x-auto  ">
                         {data.receipt_status.map((receipt) => {
                             return (
                                 <div
                                     tabIndex={0}
-                                    className="collapse  collapse-arrow"
+                                    className="collapse  collapse-arrow "
                                     key={receipt.id}
                                 >
                                     <input type="checkbox" className="peer" />
@@ -56,7 +56,7 @@ const ReceiptIsDone = ({ ...data }) => {
                                         </span>
                                     </div>
                                     <div className="collapse-content dark:bg-slate-600 bg-white text-white-content peer-checked:dark:bg-slate-600 peer-checked:bg-amber-100 peer-checked:text-sky-300-content">
-                                        <table className="my-5 text-center w-full table-compact">
+                                        <table className="my-5 w-full table-center table-compact">
                                             <tbody>
                                                 <tr>
                                                     <td>No. Register</td>
@@ -136,7 +136,7 @@ const ReceiptIsDone = ({ ...data }) => {
                                                     {!sending && (
                                                         <Icon.Whatsapp className="text-xl text-green-700" />
                                                     )}
-                                                    &nbsp;&nbsp;Kirim Pesan
+                                                    &nbsp;&nbsp;Konfirmasi
                                                 </Button>
                                             )}
                                         </div>

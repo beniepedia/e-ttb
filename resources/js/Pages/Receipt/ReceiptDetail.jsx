@@ -253,15 +253,15 @@ const ReceiptDetail = () => {
 
                                 <Modal
                                     id="modal-gagal"
-                                    title="Perhatian!"
-                                    message="Yakin ingin merubah status pengerjaan Batal / Gagal ?"
+                                    title="Update Status!"
+                                    message="Update status pengerjaan menjadi Batal / Gagal ?"
                                 >
                                     <a href="#" className="btn btn-sm">
                                         tidak
                                     </a>
                                     <ButtonUpdateStatus
                                         className="block shadow-md"
-                                        children="Yakin"
+                                        children="OK!"
                                         data={{
                                             id: receipt.id,
                                             status: "gagal",
@@ -271,7 +271,7 @@ const ReceiptDetail = () => {
 
                                 <Modal
                                     id="confirmation"
-                                    title="Perhatian!"
+                                    title="Update Status!"
                                     message="Keterangan perbaikan atau biaya perbaikan belum diisi..."
                                 >
                                     <a href="#" className="btn btn-ghost">
@@ -282,14 +282,14 @@ const ReceiptDetail = () => {
                                 <Modal
                                     id="modal-sukses"
                                     title="Perhatian!"
-                                    message="Yakin ingin merubah status pengerjaan Sukses / Berhasil ?"
+                                    message="Update status pengerjaan menjadi Sukses / Berhasil ?"
                                 >
                                     <a href="#" className="btn btn-sm">
                                         tidak
                                     </a>
                                     <ButtonUpdateStatus
                                         className="block shadow-md"
-                                        children="Yakin"
+                                        children="OK!"
                                         data={{
                                             id: receipt.id,
                                             status: "berhasil",
@@ -526,12 +526,7 @@ const ReceiptDetail = () => {
 };
 
 ReceiptDetail.layout = (page) => (
-    <Layout
-        auth={page.props.auth}
-        children={page}
-        menu={false}
-        href={route("receipts")}
-    />
+    <Layout children={page} menu={false} href={route("receipts")} />
 );
 
 export default ReceiptDetail;

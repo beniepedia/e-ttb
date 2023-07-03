@@ -13,7 +13,7 @@ export default function Select({
     return (
         <select
             className={
-                "select focus:outline-none rounded focus:border-green-600 border-2 w-full " +
+                "select focus:outline-none rounded dark:focus:border-emerald-600 focus:border-green-600 border-2 w-full " +
                 className
             }
             name={name}

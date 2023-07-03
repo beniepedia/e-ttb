@@ -9,10 +9,12 @@ class WhatsappService
 {
 
     public $serverUrl;
+    protected $sessionName;
 
     public function __construct()
     {
-        $this->serverUrl = env("WHATSAPP_SERVER");
+        $this->serverUrl = config('app_setting.whatsapp_server') ?? env("WHATSAPP_SERVER");
+        $this->sessionName = config("app_setting.whatsapp_session_name") ?? '';
     }
 
     public function send(array $data)
@@ -52,7 +54,7 @@ class WhatsappService
         // try {
         $response = Http::withHeaders([
             'accept' => 'application/json',
-            'session' => 'ettb'
+            'session' => $this->sessionName,
         ])->$method("$this->serverUrl/$url", $data);
 
         if (!$response->ok()) {

@@ -1,9 +1,6 @@
-import React from "react";
-
-import LinkSide from "../LinkSide";
-import Empty from "../Empty";
 import { Link } from "@inertiajs/inertia-react";
 import Avatar from "react-avatar";
+import Empty from "../Empty";
 
 export default function CustomerList({ customers }) {
     return (

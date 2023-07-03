@@ -15,7 +15,7 @@ const Dashboard = () => {
             </Head>
 
             <div className="py-5 px-3">
-                <div className="bg-gradient-to-br from-teal-50 via-teal-100 to-teal-300 shadow-md py-4 px-6 h-32 rounded-2xl text-gray-500">
+                <div className="bg-gradient-to-br from-teal-50 via-teal-100 to-teal-300 shadow py-4 px-6 h-32 rounded-2xl text-gray-500">
                     <h3>Selamat Datang,</h3>
                     <div className="flex items-center justify-between mt-3">
                         <div className="flex items-center space-x-3">
@@ -23,7 +23,10 @@ const Dashboard = () => {
                             <h2 className="text-xl">
                                 {auth.user.name}
                                 <span className="block text-sm">
-                                    Anda login sebagai, {auth.user.user_type}
+                                    Anda login sebagai,{" "}
+                                    <span className="capitalize">
+                                        {auth.user.user_type}
+                                    </span>
                                 </span>
                             </h2>
                         </div>
@@ -78,7 +81,7 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                <div className="my-8 shadow-md">
+                <div className="my-8 shadow">
                     <ReceiptIsDone {...data} />
                 </div>
 
@@ -91,7 +94,7 @@ const Dashboard = () => {
 };
 
 Dashboard.layout = (page) => (
-    <Layout auth={page.props.auth} errors={page.props.errors} children={page} />
+    <Layout errors={page.props.errors} children={page} />
 );
 
 export default Dashboard;

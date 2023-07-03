@@ -129,7 +129,7 @@ const ReceiptAdd = ({ customers, auth, user, auto_number }) => {
         <div>
             <Head title="Tambah TTB Baru"></Head>
 
-            <div className="bg-slate-300 p-4">
+            <div className="shadow p-4">
                 <h2 className="font-semibold text-slate-600">BUAT TTB BARU</h2>
             </div>
 
@@ -298,12 +298,7 @@ const ReceiptAdd = ({ customers, auth, user, auto_number }) => {
 };
 
 ReceiptAdd.layout = (page) => (
-    <Layout
-        auth={page.props.auth}
-        children={page}
-        href={route("receipts")}
-        menu={false}
-    />
+    <Layout children={page} href={route("receipts")} menu={false} />
 );
 
 export default ReceiptAdd;
