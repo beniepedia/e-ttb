@@ -20,7 +20,7 @@ const TabContentPayment = () => {
 
     const handleKeyDown = (event) => {
         if (event.key === "Enter") {
-            this.submit();
+            submit();
         }
     };
 

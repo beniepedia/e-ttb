@@ -22,7 +22,7 @@ const TabContentGeneral = () => {
 
     const { post, data, setData, processing } = useForm({
         app_debug: app_setting?.app_debug || false,
-        is_develop: app_setting?.is_develop || false,
+        is_develop: app_setting?.is_develop == "local" ? true : false || false,
         pay_online: app_setting?.pay_online || false,
         whatsapp_gateway: app_setting?.whatsapp_gateway || false,
         telegram_gateway: app_setting?.telegram_gateway || false,
@@ -35,7 +35,7 @@ const TabContentGeneral = () => {
 
     const handleKeyDown = (event) => {
         if (event.key === "Enter") {
-            this.submit();
+            submit();
         }
     };
 
