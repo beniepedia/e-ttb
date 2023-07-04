@@ -11,7 +11,7 @@ const TabContentPayment = () => {
     const { data, setData, post, processing } = useForm({
         tripay_merchant_code: app_setting?.tripay_merchant_code || "",
         tripay_api_key: app_setting?.tripay_api_key || "",
-        tripay_pivate_key: app_setting?.tripay_pivate_key || "",
+        tripay_private_key: app_setting?.tripay_private_key || "",
     });
 
     const onHandleChange = (e) => {
@@ -25,7 +25,6 @@ const TabContentPayment = () => {
     };
 
     const submit = (e) => {
-        e.preventDefault();
         post(route("admin.setting.store"), {
             onSuccess: () => {
                 toast.success("Pengaturan berhasil disimpan!");
@@ -64,8 +63,8 @@ const TabContentPayment = () => {
                     <Label>Tripay Private Key</Label>
                     <Input
                         required
-                        name={"tripay_pivate_key"}
-                        value={data.tripay_pivate_key}
+                        name={"tripay_private_key"}
+                        value={data.tripay_private_key}
                         handleChange={onHandleChange}
                         className={"text-sm"}
                         placeHolder="Masukkan Kunci private Tripay"
