@@ -103,8 +103,8 @@ class sendNotificationReceiptCustomer extends Notification
         return [
             'to' => $userWhatsapp,
             'text' => $caption,
-            // 'media' => url("images/ttb/ttb_" . $this->receipt->receipt_code . ".png"),
-            'media' => 'https://tandaterima.online/images/ttb/ttb_2006202328-117.png'
+            'media' => url("images/ttb/ttb_" . $this->receipt->receipt_code . ".png"),
+            //'media' => 'https://tandaterima.online/images/ttb/ttb_2006202328-117.png'
         ];
     }
 }
