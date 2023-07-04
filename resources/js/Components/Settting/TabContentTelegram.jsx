@@ -19,12 +19,13 @@ const TabContentTelegram = () => {
 
     const handleKeyDown = (event) => {
         if (event.key === "Enter") {
-            submit();
+            submit(event);
         }
     };
 
     const submit = (e) => {
         e.preventDefault();
+        e.stopPropagation();
         post(route("admin.setting.store"), {
             onSuccess: () => {
                 toast.success("Pengaturan berhasil disimpan!");
