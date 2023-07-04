@@ -9,7 +9,7 @@ const TabContentGeneral = () => {
     const { app_setting } = usePage().props;
 
     const enablePayment =
-        !app_setting?.tripay_server_key ||
+        !app_setting?.tripay_private_key ||
         !app_setting?.tripay_api_key ||
         !app_setting?.tripay_merchant_code;
 
