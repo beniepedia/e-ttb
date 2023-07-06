@@ -14,6 +14,11 @@ const phoneFormatter = (number) => {
     return newNumber;
 };
 
+function capitalize(str) {
+    str.toLowerCase();
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 const currency = (number) => {
     // if (number.isNaN) return number;
 

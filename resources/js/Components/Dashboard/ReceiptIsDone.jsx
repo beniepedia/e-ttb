@@ -32,7 +32,11 @@ const ReceiptIsDone = ({ ...data }) => {
             {data.receipt_status.length ? (
                 <>
                     <div className="p-3 dark:bg-teal-700 bg-teal-500 rounded-t-lg text-white font-semibold">
-                        List TTB Selesai
+                        Daftar Tanda Terima
+                        <span className="text-sm block font-normal">
+                            Daftar tanda terima yang sudah selesai diproses dan
+                            bisa dikonfirmasi ke customer.
+                        </span>
                     </div>
                     <div className="overflow-x-auto  ">
                         {data.receipt_status.map((receipt) => {
@@ -43,13 +47,13 @@ const ReceiptIsDone = ({ ...data }) => {
                                     key={receipt.id}
                                 >
                                     <input type="checkbox" className="peer" />
-                                    <div className="collapse-title dark:bg-slate-700 bg-white text-black-content peer-checked:dark:bg-slate-800 peer-checked:bg-amber-200 peer-checked:text-amber-200-content font-semibold">
-                                        Customer - {receipt.customer.name}{" "}
+                                    <div className="collapse-title flex justify-between items-center dark:bg-slate-700 bg-white text-black-content peer-checked:dark:bg-slate-800 peer-checked:bg-amber-200 peer-checked:text-amber-200-content font-semibold">
+                                        {receipt.customer.name}{" "}
                                         <span
-                                            className={`badge badge-${
+                                            className={`badge ${
                                                 receipt.status == "Berhasil"
-                                                    ? "success"
-                                                    : "error"
+                                                    ? "badge-success text-emerald-800"
+                                                    : "badge-error text-rose-800"
                                             }`}
                                         >
                                             {receipt.status}

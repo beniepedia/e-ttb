@@ -1,4 +1,5 @@
 import CardInfo from "@/Components/Dashboard/CardInfo";
+import Grafik from "@/Components/Dashboard/Grafik";
 import ReceiptIsDone from "@/Components/Dashboard/ReceiptIsDone";
 import SendMessage from "@/Components/SendMessage";
 import Layout from "@/Layouts/Main";
@@ -80,6 +81,12 @@ const Dashboard = () => {
                         </CardInfo>
                     </div>
                 </div>
+
+                {auth.user.user_type == "admin" && (
+                    <div className="mt-5 rounded-lg shadow bg-base-100 p-2">
+                        <Grafik></Grafik>
+                    </div>
+                )}
 
                 <div className="my-8 shadow">
                     <ReceiptIsDone {...data} />

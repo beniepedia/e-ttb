@@ -23,7 +23,6 @@ const ReceiptIndex = () => {
         search: filters.search || "",
         status: filters.status || "",
     });
-
     const prevValues = usePrevious(query);
     const [openScan, setOpenScan] = useState(false);
     const [page, setPage] = useState("");
@@ -47,25 +46,13 @@ const ReceiptIndex = () => {
         }
     }, [query]);
 
-    function handleChangeInput(e) {
+    const handleChangeInput = (e) => {
         setQuery({ [e.target.name]: e.target.value });
-    }
-
-    // useEffect(() => {
-    //     if (!isNull(state)) {
-    //         Inertia.get(route(route().current()), { query: state }, {
-    //             preserveState: true,
-    //             replace: true,
-    //         })
-    //     }
-    // }, [state])
-
-    // console.log(query)
+    };
 
     const onNext = async () => {
         if (page) {
             let { data } = await axios.get(page);
-
             setItem([...item, ...data.data]);
             setPage(data.links.next);
         }
@@ -106,10 +93,10 @@ const ReceiptIndex = () => {
                             <select
                                 name="status"
                                 className="select focus:outline-none bg-red-500 text-white"
-                                onChange={handleChangeInput}
+                                onChange={(e) => handleChangeInput(e)}
                                 value={query.status}
                             >
-                                <option value="">All</option>
+                                <option value={""}>All</option>
                                 <option value={"pending"}>Pending</option>
                                 <option value={"proses"}>Proses</option>
                                 <option value={"berhasil"}>Berhasil</option>
@@ -142,39 +129,6 @@ const ReceiptIndex = () => {
                 </div>
             ) : (
                 <>
-                    {/* <div className="btn-group mb-5 flex justify-center">
-                        <button
-                            className="btn btn-sm w-1/5"
-                            onClick={() => handleChangeStatus("")}
-                        >
-                            Semua
-                        </button>
-                        <button
-                            className="btn btn-sm w-1/5 btn-warning"
-                            onClick={() => handleChangeStatus("pending")}
-                        >
-                            Pending
-                        </button>
-                        <button
-                            className="btn btn-sm w-1/5 btn-info"
-                            onClick={() => handleChangeStatus("proses")}
-                        >
-                            Proses
-                        </button>
-                        <button
-                            className="btn btn-sm w-1/5 btn-success"
-                            onClick={() => handleChangeStatus("berhasil")}
-                        >
-                            Berhasil
-                        </button>
-                        <button
-                            className="btn btn-sm w-1/5 btn-error"
-                            onClick={() => handleChangeStatus("gagal")}
-                        >
-                            Gagal
-                        </button>
-                    </div> */}
-
                     <InfiniteScroll
                         dataLength={item.length}
                         next={onNext}

@@ -32,6 +32,7 @@
         "react-qr-reader": "^2.2.1",
         "react-select": "^5.4.0",
         "react-toastify": "^9.0.7",
+        "recharts": "^2.7.2",
         "remove": "^0.1.5"
     }
 }

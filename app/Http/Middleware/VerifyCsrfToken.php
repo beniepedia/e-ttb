@@ -13,6 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         'telegram-bot',
-        'callback'
+        'callback',
+        'push-subscribe'
     ];
 }

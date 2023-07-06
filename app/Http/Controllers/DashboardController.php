@@ -11,6 +11,18 @@ class DashboardController extends Controller
     public function index(Receipts $receipts)
     {
 
+        // $teknisi = Receipts::where("handle_by", "debby")->take(12)->get();
+
+        // // $teknisi->map(function ($query) {
+        // //     $query->update(['handle_by' => 'sunarto']);
+        // // });
+        // dd($teknisi);
+
+        $chartData = Receipts::withOut(['customer', 'user'])->selectRaw('handle_by as teknisi, COUNT(*) as total')
+            ->groupBy('handle_by')
+            ->get()
+            ->toArray();
+
         $receiptToday = $receipts->whereDate('created_at', now()->today())->get()->count();
         $receiptTotal = $receipts->all()->count();
         $receiptActive = $receipts->where('isTaken', 0)->count();
@@ -26,7 +38,8 @@ class DashboardController extends Controller
                 'receipt_active' => $receiptActive,
                 'customer_total' => $customerTotal,
                 'receipt_status' => $receiptStatus,
-                'customers' => Customers::selectOption()
+                'customers' => Customers::selectOption(),
+                'chart_data' => $chartData,
             ]
         ]);
     }

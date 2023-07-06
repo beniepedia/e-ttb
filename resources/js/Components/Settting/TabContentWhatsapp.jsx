@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import Label from "../Label";
 import Input from "../Input";
 import Button from "../Button";
 import { useForm, usePage } from "@inertiajs/inertia-react";
 import { toast } from "@/Components/Alert";
+import axios from "axios";
 
 const TabContentWhatsapp = () => {
     const { app_setting } = usePage().props;
+    const [loading, setLoading] = useState(false);
 
     const { data, setData, post, processing } = useForm({
         whatsapp_session_name: app_setting?.whatsapp_session_name || "",
@@ -31,6 +33,50 @@ const TabContentWhatsapp = () => {
                 toast.success("Pengaturan berhasil disimpan!");
             },
         });
+    };
+
+    const sendMessage = async () => {
+        setLoading(true);
+        try {
+            const { data } = await axios.post(
+                "https://wa.tandaterima.online/send-message",
+                {
+                    text: "PING https://tandaterima.online/images/ttb/ttb_2006202328-117.png",
+                    to: "6282174416077",
+                    session: "ettb",
+                }
+            );
+            toast.success("Pesan terkirim...");
+        } catch (error) {
+            toast.error(error?.response?.data?.message);
+        }
+
+        setLoading(false);
+    };
+
+    const sendImage = async () => {
+        setLoading(true);
+        try {
+            const { data } = await axios.post(
+                "https://wa.tandaterima.online/send-media",
+                {
+                    media: "https://tandaterima.online/images/ttb/ttb_2006202328-117.png",
+                    to: "6282174416077",
+                    text: "tes",
+                },
+                {
+                    headers: {
+                        accept: "application/json",
+                        session: "ettb",
+                    },
+                }
+            );
+            toast.success("Pesan terkirim...");
+        } catch (error) {
+            toast.error(error?.response?.data?.message);
+        }
+
+        setLoading(false);
     };
 
     return (
@@ -72,14 +118,32 @@ const TabContentWhatsapp = () => {
                     ></Input>
                 </div>
 
-                <div className="pt-5 md:float-right">
-                    <Button
-                        type="submit"
-                        className="btn-block md:btn-md"
-                        processing={processing}
-                    >
-                        Simpan
-                    </Button>
+                <div className="pt-5 ">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <Button
+                            processing={loading}
+                            className="btn-accent btn-block"
+                            handleClick={sendImage}
+                            type="button"
+                        >
+                            Tes Kirim Gambar
+                        </Button>
+                        <Button
+                            processing={loading}
+                            className="btn-warning btn-block"
+                            handleClick={sendMessage}
+                            type="button"
+                        >
+                            Tes Kirim Pesan
+                        </Button>
+                        <Button
+                            type="submit"
+                            className="btn-block"
+                            processing={processing}
+                        >
+                            Simpan
+                        </Button>
+                    </div>
                 </div>
             </div>
         </form>
