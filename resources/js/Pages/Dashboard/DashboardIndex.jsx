@@ -83,7 +83,10 @@ const Dashboard = () => {
                 </div>
 
                 {auth.user.user_type == "admin" && (
-                    <div className="mt-5 rounded-lg shadow bg-base-100 p-2">
+                    <div className="mt-5 rounded-lg shadow bg-base-100 py-2 md:p-2">
+                        <p className="mb-3 ml-3 mt-3 font-semibold">
+                            Grafik total servis teknisi
+                        </p>
                         <Grafik></Grafik>
                     </div>
                 )}

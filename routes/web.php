@@ -9,6 +9,7 @@ use App\Http\Controllers\ReceiptsController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\PushContoller;
+use App\Http\Controllers\ShortController;
 use App\Http\Controllers\TelegramBotController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TripayCallbackController;
@@ -28,7 +29,11 @@ use Illuminate\Support\Facades\Http;
 */
 
 // Route::get('/send', function () {
+//     $receipt = \App\Models\Receipts::find(128);
 
+//     $gambar = $receipt->short_link->original;
+
+//     dd($gambar);
 // });
 
 Route::get('/', function () {
@@ -36,7 +41,9 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+
 Route::get("/cek-status", [StatusController::class, 'check_status'])->name('client.status.check');
+
 
 Route::post("/callback", TripayCallbackController::class);
 
@@ -114,6 +121,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 
+Route::get("/{key}", ShortController::class);
 
 // Route::get('')
 

@@ -20,15 +20,15 @@ use App\Http\Requests\ReceiptFormRequest;
 use App\Http\Resources\ReceiptCollection;
 use App\Notifications\SendNotificationConfirmationToCustomer;
 use App\Notifications\sendNotificationReceiptCustomer;
-use Exception;
+use App\Services\ShortLinkService;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Str;
+use Exception;
 use Throwable;
 
 class ReceiptsController extends Controller
 {
     use GenerateCode;
-
-
     public function index()
     {
         $receipts = new ReceiptCollection(
@@ -95,6 +95,13 @@ class ReceiptsController extends Controller
             $receipt = Receipts::create($validation);
 
             $this->_makeImageTtb($receipt);
+
+            $random = Str::random(6);
+            $receipt->short_link()->create([
+                'name' => $random,
+                'original' => url("images/ttb/ttb_$receipt->receipt_code.png"),
+                'short' => url("/$random")
+            ]);
 
             // $customer = Customers::find($receipt->customer_id);
 

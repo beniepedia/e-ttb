@@ -8,6 +8,7 @@ use App\Enums\ReceiptStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Receipts extends Model
 {
@@ -59,6 +60,11 @@ class Receipts extends Model
     public function customer()
     {
         return $this->belongsTo(Customers::class);
+    }
+
+    public function short_link(): MorphOne
+    {
+        return $this->morphOne(Shortlink::class, 'shortable');
     }
 
     public function scopeFilter($query, array $filter)

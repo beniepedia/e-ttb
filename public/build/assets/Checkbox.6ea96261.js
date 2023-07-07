@@ -1,0 +1,1 @@
+import{a as t}from"./app.a66e2839.js";function s({name:e,value:o,handleChange:c,className:a}){return t("input",{type:"checkbox",name:e,value:o,className:"checkbox "+a,onChange:n=>c(n)})}export{s as C};

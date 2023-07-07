@@ -51,9 +51,11 @@ class sendNotificationReceiptCustomer extends Notification
         $userWhatsapp = $this->receipt->user->whatsapp;
         $date = now()->parse($this->receipt->delivery_date);
 
+        $gambar_ttb = $this->receipt->short_link->short;
         $hari = format_date($date, "l");
         $tanggal = format_date($date, "d F Y");
         $jam = format_date($date, 'H:s');
+        $barang = ucwords(strtolower($this->receipt->barang));
 
         $caption = <<<EOT
         
@@ -67,43 +69,30 @@ class sendNotificationReceiptCustomer extends Notification
         Tgl Masuk : $tanggal
         Customer : $pelanggan
         Penerima : $user
-        Barang : {$this->receipt->barang}
+        Barang : {$barang}
         Kerusakan : {$this->receipt->kerusakan}
         Kelengkapan : $kelengkapan
+
+        *Kartu tanda terima*
+        $gambar_ttb
         
+         *Cek status tanda terima*
+        🌐 https://tandaterima.online/cek-status
+
         ----------------------------------------------
         *Info Lanjut Hub :*
         📱HP/WA : 08116407788
         📌Alamat : bit.ly/3DgMkLd
 
-        *Cek status tanda terima*
-        🌐 tandaterima.online/cek-status
+       
 
         _Tunjukkan kartu ini pada saat ingin mengambil barang anda..._
         EOT;
 
-
-        // $caption  = "*KARTU TANDA TERIMA*" . PHP_EOL;
-        // $caption .= str_repeat("-", 27) . PHP_EOL;
-        // $caption .= "No. Register : " . $this->receipt->receipt_code . PHP_EOL;
-        // $caption .= "No. Kartu : " . $this->receipt->receipt_number . PHP_EOL;
-        // $caption .= "Hari : $hari" . PHP_EOL;
-        // $caption .= "Tanggal : $tanggal" . PHP_EOL;
-        // $caption .= "Jam : $jam" . PHP_EOL;
-        // $caption .= "Penerima : $user" . PHP_EOL;
-        // $caption .= "Customer : $pelanggan" . PHP_EOL;
-        // $caption .= "Barang : " . $this->receipt->barang . PHP_EOL;
-        // $caption .= "Kelengkapan : $kelengkapan" . PHP_EOL;
-        // $caption .= "Kerusakan : " . $this->receipt->kerusakan . PHP_EOL . PHP_EOL;
-        // $caption .= str_repeat("-", 60) . PHP_EOL;
-        // $caption .= "*Info Lanjut Hub :*" . PHP_EOL;
-        // $caption .= "HP : 08116407788" . PHP_EOL . PHP_EOL;
-        // $caption .= "_Tunjukkan kartu ini pada saat ingin mengambil barang anda..._";
-
         return [
             'to' => $userWhatsapp,
             'text' => $caption,
-            'media' => url("images/ttb/ttb_" . $this->receipt->receipt_code . ".png"),
+            // 'media' => url("images/ttb/ttb_" . $this->receipt->receipt_code . ".png"),
             //'media' => 'https://tandaterima.online/images/ttb/ttb_2006202328-117.png'
         ];
     }

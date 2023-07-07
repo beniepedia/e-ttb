@@ -5,20 +5,18 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Receipts;
 use App\Models\Customers;
+use App\Services\ShortLinkService;
 
 class DashboardController extends Controller
 {
+
     public function index(Receipts $receipts)
     {
-
-        // $teknisi = Receipts::where("handle_by", "debby")->take(12)->get();
-
-        // // $teknisi->map(function ($query) {
-        // //     $query->update(['handle_by' => 'sunarto']);
-        // // });
-        // dd($teknisi);
-
-        $chartData = Receipts::withOut(['customer', 'user'])->selectRaw('handle_by as teknisi, COUNT(*) as total')
+        $chartData = Receipts::withOut(['customer', 'user'])
+            ->selectRaw('handle_by as teknisi, 
+                        COUNT(*) as total,  
+                        COALESCE(COUNT(CASE WHEN status = "gagal" THEN 1 END), 0) as total_fail,
+                        COALESCE(COUNT(CASE WHEN status = "berhasil" THEN 1 END), 0) as total_success')
             ->groupBy('handle_by')
             ->get()
             ->toArray();
