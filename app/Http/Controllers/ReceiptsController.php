@@ -100,7 +100,7 @@ class ReceiptsController extends Controller
             $receipt->short_link()->create([
                 'name' => $random,
                 'original' => url("images/ttb/ttb_$receipt->receipt_code.png"),
-                'short' => url("/$random")
+                'short' => url("/s/$random")
             ]);
 
             // $customer = Customers::find($receipt->customer_id);

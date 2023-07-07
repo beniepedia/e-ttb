@@ -41,6 +41,8 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+Route::get("/s/{key}", ShortController::class);
+
 
 Route::get("/cek-status", [StatusController::class, 'check_status'])->name('client.status.check');
 
@@ -119,9 +121,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/whatsapp/logout', 'logout')->name('whatsapp.logout');
     });
 });
-
-
-Route::get("/{key}", ShortController::class);
 
 // Route::get('')
 
