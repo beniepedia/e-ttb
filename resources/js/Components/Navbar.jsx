@@ -56,7 +56,7 @@ export default function Navbar({ auth, appName, href }) {
                             <Icon.Clipboard2CheckFill size={20} />
                             TTB
                         </Link>
-                        <Link
+                        {/* <Link
                             href="/promotion"
                             className={`cursor-pointer flex items-center gap-2 hover:bg-emerald-500 dark:hover:bg-slate-700 p-3 rounded-md ${
                                 route().current("promotion")
@@ -66,7 +66,7 @@ export default function Navbar({ auth, appName, href }) {
                         >
                             <Icon.CapslockFill size={20} />
                             Promosi
-                        </Link>
+                        </Link> */}
                     </ul>
                 </div>
                 <div className="flex-none">

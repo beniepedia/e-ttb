@@ -40,6 +40,10 @@ class HandleInertiaRequests extends Middleware
                 config('app.name'),
             ],
             'app_setting' => config('app_setting') ?? null,
+            'notifications' => [
+                'all' => auth()->user()->notifications ?? [],
+                'unread' => auth()->user()->unreadNotifications ?? []
+            ],
             'midtrans_client_key' => [
                 config("midtrans.midtrans_client_key")
             ],

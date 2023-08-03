@@ -7,6 +7,7 @@ use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReceiptsController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\PushContoller;
 use App\Http\Controllers\ShortController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TripayCallbackController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WhatsappController;
+use App\Notifications\NotificationToUserWebPush;
 use Illuminate\Support\Facades\Http;
 
 /*
@@ -28,13 +30,11 @@ use Illuminate\Support\Facades\Http;
 |
 */
 
-// Route::get('/send', function () {
-//     $receipt = \App\Models\Receipts::find(128);
+Route::get('/send', function () {
+    // $tes = ["ee"];
 
-//     $gambar = $receipt->short_link->original;
-
-//     dd($gambar);
-// });
+    // dd(empty($tes));
+});
 
 Route::get('/', function () {
     // return Inertia::render('Auth/Login');
@@ -100,7 +100,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/receipts/{receipts:receipt_code}/print-label', 'print_label')->name('printlabel');
 
         Route::put('/receipts/taken', 'taken')->name('receipts.taken');
-        Route::patch('/receipts', 'patch')->name('receipts.updatePatch');
+        Route::patch('/receipts', 'update')->name('receipts.updatePatch');
     });
 
     Route::controller(UserController::class)->group(function () {
@@ -119,6 +119,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post("/whatsapp/connect", "connect")->name("whatsapp.connect");
         Route::post('/whatsapp/status', 'status')->name('whatsapp.status');
         Route::delete('/whatsapp/logout', 'logout')->name('whatsapp.logout');
+    });
+
+    Route::controller(NotificationController::class)->group(function () {
+        Route::get("/notification", "index")->name("notification");
+        Route::post("/notification/read", "read")->name("notification.read");
     });
 });
 

@@ -39,7 +39,7 @@ const Register = () => {
     return (
         <div className="">
             <Head title="Register" />
-            <div className="bg-slate-300 p-4">
+            <div className="shadow p-4">
                 <h2 className="font-semibold text-slate-600">
                     TAMBAH PENGGUNA
                 </h2>

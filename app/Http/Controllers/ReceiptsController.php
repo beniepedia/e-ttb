@@ -18,12 +18,14 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ReceiptFormRequest;
 use App\Http\Resources\ReceiptCollection;
+use App\Notifications\NotificationToUserWebPush;
 use App\Notifications\SendNotificationConfirmationToCustomer;
 use App\Notifications\sendNotificationReceiptCustomer;
 use App\Services\ShortLinkService;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Str;
 use Exception;
+use Illuminate\Support\Facades\Notification;
 use Throwable;
 
 class ReceiptsController extends Controller
@@ -125,16 +127,22 @@ class ReceiptsController extends Controller
         $id = Request::input('id');
         Receipts::find($id)->update(['isTaken' => 1, 'pickup_date' => now()]);
 
-        return back();
+        return back()->with("message", "Berhasil dupdate!");
     }
 
-    public function patch()
+    public function update()
     {
-        $id = Request::input('id');
+        try {
+            $id = Request::input('id');
+            $receipt = Receipts::find($id);
+            $userReceiveNotification = User::whereIn("user_type", ["admin", "kasir"])->get();
+            $receipt->update(Request::all());
+            Notification::send($userReceiveNotification, new NotificationToUserWebPush($receipt));
 
-        Receipts::find($id)->update(Request::all());
-
-        return Redirect::back();
+            return Redirect::back()->with("message", "Status sudah diupdate!");
+        } catch (Exception $e) {
+            return Redirect::back()->with("message", ["type" => "error", "message" => "Status gagal diupdate!"]);
+        }
     }
 
     public function upload_image(Receipts $receipts, \Illuminate\Http\Request $request)
