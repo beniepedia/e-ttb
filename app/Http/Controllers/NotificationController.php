@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class NotificationController extends Controller
@@ -12,11 +15,12 @@ class NotificationController extends Controller
         return Inertia::render("Notification/NotificationIndex");
     }
 
-    public function read()
+    public function read(Notification $notification, Request $request)
     {
-        $user = Auth::user();
-        $user->unreadNotifications()->update(['read_at' => now()]);
+        if (empty($notification->read_at)) {
+            $notification->update(['read_at' => now()]);
+        }
 
-        return response()->noContent();
+        return Redirect::to($request->url);
     }
 }

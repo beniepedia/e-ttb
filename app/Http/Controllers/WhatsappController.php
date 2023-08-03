@@ -3,14 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Facades\WhatsApp;
-use App\Jobs\SendReceiptWhatsappJob;
+use App\Models\Customers;
 use Exception;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Cache;
-
-
 
 class WhatsappController extends Controller
 {
@@ -23,7 +19,12 @@ class WhatsappController extends Controller
     public function index()
     {
         return Inertia::render(
-            'Whatsapp/WhatsappIndex',
+            'Whatsapp/IndexWhatsapp',
+            [
+                'data' => [
+                    'customers' => Customers::selectOption(),
+                ]
+            ]
         );
     }
 

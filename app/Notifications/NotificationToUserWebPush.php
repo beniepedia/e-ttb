@@ -45,6 +45,7 @@ class NotificationToUserWebPush extends Notification
             'title' => $content['title'],
             'body' => $content['body'],
             'id' => $this->receipt->id,
+            'url' => route("receipt.show", $this->receipt->receipt_code)
         ];
     }
 
@@ -60,9 +61,10 @@ class NotificationToUserWebPush extends Notification
             ->title($content['title'])
             ->icon($content['icon'])
             ->body($content['body'])
-            ->action('View Detail', route('receipt.show', $this->receipt->receipt_code))
-            ->options(['TTL' => 1000]);
-        // ->data(['id' => $notification->id])
+            ->action('Tutup', "close")
+            ->options(['TTL' => 1000])
+            ->vibrate([100, 50, 100])
+            ->data(['url' => route("receipt.show", $this->receipt->receipt_code)]);
         // ->badge()
         // ->dir()
         // ->image()
@@ -85,21 +87,27 @@ class NotificationToUserWebPush extends Notification
         $iconFail = $this->isImageNotNull($image) ? "/$image" : "/images/assets/fail.png";
 
         $appName = config("app.name");
+        $userLogin = ucfirst(auth()->user()->name);
 
         switch ($status) {
             case "proses":
                 $title = "$appName : Sedang di proses";
-                $body = "Tanda terima dengan nomor ( $receiptNumber ) atas nama ( $customerName ) sedang diproses.";
+                $body = "Tanda terima dengan nomor ( $receiptNumber ) atas nama ( $customerName ) sedang diproses!. ( Diupdate Oleh : $userLogin )";
                 $icon = $iconSuccess;
                 break;
             case "gagal":
                 $title = "$appName : Gagal di proses";
-                $body = "Tanda terima dengan nomor ( $receiptNumber ) atas nama ( $customerName ) GAGAL diproses. Konfirmasi ke customer sekarang.";
+                $body = "Tanda terima dengan nomor ( $receiptNumber ) atas nama ( $customerName ) GAGAL diproses. Konfirmasi ke customer sekarang!. ( Diupdate Oleh : $userLogin )";
                 $icon = $iconFail;
                 break;
             case "berhasil":
                 $title = "$appName : Berhasil";
-                $body = "Tanda terima dengan nomor ( $receiptNumber ) atas nama ( $customerName ) Berhasil. Biaya perbaikan Rp. $cost";
+                $body = "Tanda terima dengan nomor ( $receiptNumber ) atas nama ( $customerName ) Berhasil. Biaya perbaikan Rp. $cost ... ( Diupdate Oleh : $userLogin )";
+                $icon = $iconSuccess;
+                break;
+            case "pending":
+                $title = "$appName : TTB Baru";
+                $body = "Tanda terima baru atas nama ( $customerName ) dengan No TTB ( $receiptNumber ), Proses sekarang!. ( Dibuat Oleh : $userLogin )";
                 $icon = $iconSuccess;
                 break;
             default:

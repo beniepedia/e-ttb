@@ -68,16 +68,16 @@ export default function Main({ children, href, menu = true }) {
                     </span>
                 </Link>
                 <Link
-                    href={route("promotion")}
+                    href={route("whatsapp")}
                     className={
-                        route().current("promotion")
+                        route().current("whatsapp")
                             ? "menu-active dark:bg-white"
                             : ""
                     }
                 >
-                    <Icon.CapslockFill className="text-xl text-slate-300" />
+                    <Icon.Whatsapp className="text-xl text-slate-300" />
                     <span className="btm-nav-label text-xs text-slate-400">
-                        Promosi
+                        Whatsapp
                     </span>
                 </Link>
                 {/* <Link

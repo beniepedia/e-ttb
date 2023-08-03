@@ -74,11 +74,6 @@ export default function ReceiptList({ receipts, processing }) {
                                             data={{
                                                 id: receipt.id,
                                                 status: "proses",
-                                                handle_by:
-                                                    auth.user.user_type ==
-                                                    "kasir"
-                                                        ? receipt.handle_by
-                                                        : auth.user.name,
                                             }}
                                             disable={processing}
                                         >

@@ -84,3 +84,24 @@ if (!function_exists('greetings')) {
         return $message;
     }
 }
+
+if (!function_exists('isAdmin')) {
+    function isAdmin()
+    {
+        return auth()->user()->user_type == "admin";
+    }
+}
+
+if (!function_exists('isKasir')) {
+    function isKasir()
+    {
+        return auth()->user()->user_type == "kasir";
+    }
+}
+
+if (!function_exists('isTeknisi')) {
+    function isTeknisi()
+    {
+        return auth()->user()->user_type == "teknisi";
+    }
+}

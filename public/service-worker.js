@@ -19,7 +19,25 @@ self.addEventListener('push', function (e) {
         e.waitUntil(self.registration.showNotification(msg.title, {
             body: msg.body,
             icon: msg.icon,
-            actions: msg.actions
+            actions: msg.actions,
+            vibrate: msg.vibrate,
+            data: {
+                url: msg.data.url
+            }
         }));
     }
+});
+
+self.addEventListener("notificationclick", function (event) {
+    event.notification.close();
+    const action = event.action;
+    const urlToOpen = event.notification.data.url;
+
+    if (action != 'close') {
+        event.waitUntil(
+            clients.openWindow(urlToOpen)
+        );
+    }
+
+    // console.log({ action });
 });

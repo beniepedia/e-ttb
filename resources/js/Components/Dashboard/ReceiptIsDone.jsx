@@ -33,7 +33,7 @@ const ReceiptIsDone = ({ ...data }) => {
                 <>
                     <div className="p-3 dark:bg-teal-700 bg-teal-500 rounded-t-lg text-white font-semibold">
                         Daftar Tanda Terima
-                        <span className="text-sm block font-normal">
+                        <span className="text-[13px] block font-normal">
                             Daftar tanda terima yang sudah selesai diproses dan
                             bisa dikonfirmasi ke customer.
                         </span>

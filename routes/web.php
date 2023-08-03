@@ -123,7 +123,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::controller(NotificationController::class)->group(function () {
         Route::get("/notification", "index")->name("notification");
-        Route::post("/notification/read", "read")->name("notification.read");
+        Route::post("/notification/read/{notification}", "read")->name("notification.read");
     });
 });
 

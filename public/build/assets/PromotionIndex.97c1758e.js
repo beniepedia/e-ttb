@@ -1,0 +1,1 @@
+import{a as o}from"./app.f589c3f2.js";import{M as t}from"./Main.6517ce02.js";import"./whatsapp.daf8657a.js";import"./Modal.2632ccec.js";import"./Helper.3dc4eb83.js";const i=()=>o("div",{children:"PromotionIndex"});i.layout=r=>o(t,{children:r});export{i as default};

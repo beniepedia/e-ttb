@@ -36,7 +36,6 @@ class DashboardController extends Controller
                 'receipt_active' => $receiptActive,
                 'customer_total' => $customerTotal,
                 'receipt_status' => $receiptStatus,
-                'customers' => Customers::selectOption(),
                 'chart_data' => $chartData,
             ]
         ]);

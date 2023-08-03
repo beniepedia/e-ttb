@@ -56,6 +56,17 @@ export default function Navbar({ auth, appName, href }) {
                             <Icon.Clipboard2CheckFill size={20} />
                             TTB
                         </Link>
+                        <Link
+                            href="/whatsapp"
+                            className={`cursor-pointer flex items-center gap-2 hover:bg-emerald-500 dark:hover:bg-slate-700 p-3 rounded-md ${
+                                route().current("whatsapp")
+                                    ? "bg-emerald-500 dark:bg-emerald-500"
+                                    : ""
+                            }`}
+                        >
+                            <Icon.Whatsapp size={20} />
+                            Whatsapp
+                        </Link>
                         {/* <Link
                             href="/promotion"
                             className={`cursor-pointer flex items-center gap-2 hover:bg-emerald-500 dark:hover:bg-slate-700 p-3 rounded-md ${

@@ -14,7 +14,7 @@ use App\Jobs\SendReceiptWhatsappJob;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redis;
 use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Request;
+// use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ReceiptFormRequest;
 use App\Http\Resources\ReceiptCollection;
@@ -25,27 +25,30 @@ use App\Services\ShortLinkService;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Str;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\Real;
 use Throwable;
 
 class ReceiptsController extends Controller
 {
     use GenerateCode;
-    public function index()
+    public function index(Request $request)
     {
+
         $receipts = new ReceiptCollection(
-            Receipts::filter(Request::only('search', 'status'))
+            Receipts::filter($request->only('search', 'status'))
                 ->latest()
                 ->paginate(10)
         );
 
-        if (Request::wantsJson()) {
+        if ($request->wantsJson()) {
             return $receipts;
         }
 
         return Inertia::render('Receipt/ReceiptIndex', [
             'receipts' => $receipts,
-            'filters' => Request::all('search', 'status'),
+            'filters' => $request->all('search', 'status'),
         ]);
     }
 
@@ -89,7 +92,7 @@ class ReceiptsController extends Controller
             $validation['user_id'] = auth()->id();
             $validation['receipt_code'] = date('dmYs') . '-' . $validation['receipt_number'];
 
-            if (auth()->user()->user_type !== 'kasir') {
+            if (!isKasir()) {
                 $validation['handle_by'] = auth()->user()->name;
             }
 
@@ -105,9 +108,12 @@ class ReceiptsController extends Controller
                 'short' => url("/s/$random")
             ]);
 
-            // $customer = Customers::find($receipt->customer_id);
 
-            // $customer->notify(new sendNotificationReceiptCustomer($receipt));
+            $receipt->status = "pending";
+
+            $user = User::where("name", $receipt->handle_by)->orWhere("user_type", "admin")->get();
+
+            Notification::send($user, new NotificationToUserWebPush($receipt));
 
             return to_route('receipt.show', $validation['receipt_code'])->with('message', 'TTB Berhasil dibuat');
         } catch (\Throwable $e) {
@@ -122,24 +128,34 @@ class ReceiptsController extends Controller
         return Inertia::render('Receipt/ReceiptDetail', ['receipt' => $receipts, 'users' => $user]);
     }
 
-    public function taken()
+    public function taken(Request $request)
     {
-        $id = Request::input('id');
+        $id = $request->id;
         Receipts::find($id)->update(['isTaken' => 1, 'pickup_date' => now()]);
 
         return back()->with("message", "Berhasil dupdate!");
     }
 
-    public function update()
+    public function update(Request $request)
     {
         try {
-            $id = Request::input('id');
+            $id = $request->id;
             $receipt = Receipts::find($id);
-            $userReceiveNotification = User::whereIn("user_type", ["admin", "kasir"])->get();
-            $receipt->update(Request::all());
-            Notification::send($userReceiveNotification, new NotificationToUserWebPush($receipt));
 
-            return Redirect::back()->with("message", "Status sudah diupdate!");
+            if ($receipt->handle_by != auth()->user()->name && !isAdmin() && !isKasir()) {
+                return Redirect::back()->with("message", ["type" => "error", "message" => "Maaf, tanda terima ini bukan atas nama anda.!"]);
+            }
+
+            $receipt->update($request->all());
+
+            if (isKasir()) {
+                $user = User::where("user_type", "admin")->first();
+                $user->notify(new NotificationToUserWebPush($receipt));
+            } else {
+                $userReceiveNotification = User::whereIn("user_type", ["admin", "kasir"])->get();
+                Notification::send($userReceiveNotification, new NotificationToUserWebPush($receipt));
+            }
+            return Redirect::back()->with("message", "Status berhasil diupdate!");
         } catch (Exception $e) {
             return Redirect::back()->with("message", ["type" => "error", "message" => "Status gagal diupdate!"]);
         }
