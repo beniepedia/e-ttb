@@ -14,7 +14,7 @@ const Dashboard = () => {
                 <title>Dashboard</title>
             </Head>
 
-            <div className="py-5 px-3">
+            <div className="py-5 px-3 overflow-x-hidden">
                 <div className="bg-gradient-to-br from-teal-50 via-teal-100 to-teal-300 shadow py-4 px-6 h-32 rounded-2xl text-gray-500">
                     <h3>Selamat Datang,</h3>
                     <div className="flex items-center justify-between mt-3">
@@ -41,7 +41,7 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                <div className="carousel carousel-center space-x-4 mt-5">
+                <div className="carousel carousel-center space-x-4 mt-5 ">
                     <div className="carousel-item ">
                         <CardInfo
                             title={data.receipt_today}
@@ -82,7 +82,7 @@ const Dashboard = () => {
                 </div>
 
                 {auth.user.user_type == "admin" && (
-                    <div className="mt-5 rounded-lg shadow bg-base-100 py-2 md:p-2">
+                    <div className="mt-5 rounded-lg shadow bg-base-50 py-2 md:p-2">
                         <p className="mb-3 ml-3 mt-3 font-semibold">
                             Grafik total servis teknisi
                         </p>

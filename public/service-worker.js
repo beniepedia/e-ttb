@@ -6,8 +6,12 @@ const { NetworkFirst, CacheFirst } = workbox.strategies;
 
 registerRoute(
     new RegExp('.*'),
-    new NetworkFirst()
+    new CacheFirst()
 );
+
+self.addEventListener("install", (event) => {
+    self.skipWaiting();
+})
 
 self.addEventListener('push', function (e) {
     if (!(self.Notification && self.Notification.permission === 'granted')) {

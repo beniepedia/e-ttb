@@ -1,7 +1,7 @@
-import React from "react";
+import Header from "@/Components/Header";
+import SendMessage from "@/Components/SendMessage";
 import Layout from "@/Layouts/Main";
 import { Head, usePage } from "@inertiajs/inertia-react";
-import SendMessage from "@/Components/SendMessage";
 
 const IndexWhatsapp = () => {
     const { data } = usePage().props;
@@ -10,9 +10,7 @@ const IndexWhatsapp = () => {
             <Head>
                 <title>Kirim pesan whastapp</title>
             </Head>
-            <div className="shadow p-4 mb-6">
-                <h2 className="font-semibold text-slate-600">Whatsapp</h2>
-            </div>
+            <Header>WhatsApp</Header>
             <div className="my-8 px-4">
                 <SendMessage customers={data.customers} />
             </div>

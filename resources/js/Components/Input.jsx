@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export default function Input({
     type = "text",
@@ -28,7 +28,7 @@ export default function Input({
                 value={value}
                 min="0"
                 className={
-                    `input shadow rounded focus:outline-none focus:border-green-600 dark:focus:border-emerald-600 border-2 w-full ` +
+                    `input shadow rounded bg-base-50 focus:outline-none focus:border-green-600 dark:focus:border-emerald-600 border-2 w-full ` +
                     className
                 }
                 ref={input}

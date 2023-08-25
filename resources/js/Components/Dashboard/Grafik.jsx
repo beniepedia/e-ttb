@@ -1,11 +1,9 @@
 import { usePage } from "@inertiajs/inertia-react";
 import { capitalize } from "lodash";
-import React from "react";
 import {
     Bar,
     BarChart,
     CartesianGrid,
-    Legend,
     ResponsiveContainer,
     Tooltip,
     XAxis,
@@ -22,10 +20,10 @@ const Grafik = () => {
     }));
 
     return (
-        <ResponsiveContainer width={"100%"} height={300}>
+        <ResponsiveContainer width={"100%"} height={500}>
             <BarChart
                 width={500}
-                height={300}
+                height={500}
                 data={chartData}
                 margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
             >

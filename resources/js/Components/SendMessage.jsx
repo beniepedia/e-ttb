@@ -1,15 +1,13 @@
-import React, { useState } from "react";
-import Input from "./Input";
+import { phoneFormatter } from "@/Helper";
+import { useForm } from "@inertiajs/inertia-react";
+import axios from "axios";
+import { isEmpty, isNumber, toNumber } from "lodash";
+import { useState } from "react";
+import CreatableSelect from "react-select/creatable";
+import { toast } from "react-toastify";
+import Button from "./Button";
 import Label from "./Label";
 import TextArea from "./TextArea";
-import Button from "./Button";
-import { useForm } from "@inertiajs/inertia-react";
-import { phoneFormatter, sendWA } from "@/Helper";
-import { toast } from "react-toastify";
-import { isEmpty, isNumber, toNumber } from "lodash";
-import CreatableSelect from "react-select/creatable";
-import axios from "axios";
-import { Inertia } from "@inertiajs/inertia";
 
 export default function SendMessage({ customers }) {
     const { data, setData, reset } = useForm({
@@ -54,7 +52,7 @@ export default function SendMessage({ customers }) {
             });
     };
     return (
-        <div className="card bg-white dark:bg-slate-900 shadow-md">
+        <div className="card bg-white dark:bg-slate-700 shadow-md rounded-lg border">
             <div className="card-body py-9 px-5">
                 <div className="card-title text-slate-600">Kirim Whatsapp</div>
                 <div>

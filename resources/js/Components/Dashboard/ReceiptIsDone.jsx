@@ -1,11 +1,10 @@
-import React, { useState } from "react";
 import Button from "@/Components/Button";
+import { Inertia } from "@inertiajs/inertia";
+import { Link } from "@inertiajs/inertia-react";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
+import { useState } from "react";
 import * as Icon from "react-bootstrap-icons";
-import { Link } from "@inertiajs/inertia-react";
-import { Inertia } from "@inertiajs/inertia";
-import { toast } from "@/Components/Alert";
 
 const ReceiptIsDone = ({ ...data }) => {
     const [sending, setSending] = useState(false);
@@ -43,11 +42,11 @@ const ReceiptIsDone = ({ ...data }) => {
                             return (
                                 <div
                                     tabIndex={0}
-                                    className="collapse  collapse-arrow "
+                                    className="collapse  collapse-arrow rounded-none"
                                     key={receipt.id}
                                 >
                                     <input type="checkbox" className="peer" />
-                                    <div className="collapse-title flex justify-between items-center dark:bg-slate-700 bg-white text-black-content peer-checked:dark:bg-slate-800 peer-checked:bg-amber-200 peer-checked:text-amber-200-content font-semibold">
+                                    <div className="collapse-title flex justify-between items-center dark:bg-slate-600 bg-white text-black-content peer-checked:dark:bg-gray-700 peer-checked:bg-amber-200 peer-checked:text-amber-200-content font-semibold">
                                         {receipt.customer.name}{" "}
                                         <span
                                             className={`badge ${
@@ -59,7 +58,7 @@ const ReceiptIsDone = ({ ...data }) => {
                                             {receipt.status}
                                         </span>
                                     </div>
-                                    <div className="collapse-content dark:bg-slate-600 bg-white text-white-content peer-checked:dark:bg-slate-600 peer-checked:bg-amber-100 peer-checked:text-sky-300-content">
+                                    <div className="collapse-content dark:bg-slate-600 bg-white text-white-content peer-checked:dark:bg-gray-600 peer-checked:bg-amber-100 peer-checked:text-sky-300-content">
                                         <table className="my-5 w-full table-center table-compact">
                                             <tbody>
                                                 <tr>

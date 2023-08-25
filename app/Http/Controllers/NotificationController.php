@@ -23,4 +23,26 @@ class NotificationController extends Controller
 
         return Redirect::to($request->url);
     }
+
+    public function read_all()
+    {
+        $notification = Auth::user()->unreadNotifications;
+
+        if ($notification) {
+            $notification->markAsRead();
+        }
+
+        return Redirect::route("notification");
+    }
+
+    public function delete()
+    {
+        $notification = Auth::user()->notifications;
+
+        if ($notification) {
+            $notification->each->delete();
+        }
+
+        return Redirect::route("notification");
+    }
 }

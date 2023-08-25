@@ -124,6 +124,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::controller(NotificationController::class)->group(function () {
         Route::get("/notification", "index")->name("notification");
         Route::post("/notification/read/{notification}", "read")->name("notification.read");
+        Route::post("/notification/read_all", "read_all")->name("notification.read_all");
+        Route::delete("/notification/delete", "delete")->name("notification.delete");
     });
 });
 

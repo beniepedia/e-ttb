@@ -1,14 +1,13 @@
-import React, { useCallback, useState } from "react";
-import Layout from "@/Layouts/Main";
-import Input from "@/Components/Input";
 import Button from "@/Components/Button";
-import { Head, useForm, Link } from "@inertiajs/inertia-react";
-import { Inertia } from "@inertiajs/inertia";
-import Select from "@/Components/Select";
+import Header from "@/Components/Header";
+import Input from "@/Components/Input";
 import Label from "@/Components/Label";
-import TextArea from "@/Components/TextArea";
-import SelectMulti from "@/Components/SelectMulti";
 import ImageUpload from "@/Components/Receipts/ImageUpload";
+import SelectMulti from "@/Components/SelectMulti";
+import TextArea from "@/Components/TextArea";
+import Layout from "@/Layouts/Main";
+import { Head, Link, useForm } from "@inertiajs/inertia-react";
+import { useState } from "react";
 
 const ReceiptAdd = ({ customers, auth, user, auto_number }) => {
     const option = [
@@ -129,9 +128,7 @@ const ReceiptAdd = ({ customers, auth, user, auto_number }) => {
         <div>
             <Head title="Tambah TTB Baru"></Head>
 
-            <div className="shadow p-4">
-                <h2 className="font-semibold text-slate-600">BUAT TTB BARU</h2>
-            </div>
+            <Header>Buat Tanda Terima Baru</Header>
 
             <form onSubmit={handleSubmit}>
                 <div className="m-4">

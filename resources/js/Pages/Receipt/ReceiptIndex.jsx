@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { Head } from "@inertiajs/inertia-react";
-import Layout from "@/Layouts/Main";
-import ReceiptList from "@/Components/Receipts/ReceiptList";
-import ButtonFly from "@/Components/ButtonFly";
-import * as Icon from "react-bootstrap-icons";
-import { isNull } from "lodash";
-import { Inertia } from "@inertiajs/inertia";
-import Input from "@/Components/Input";
-import Select from "@/Components/Select";
 import Button from "@/Components/Button";
-import InfiniteScroll from "react-infinite-scroll-component";
-import pickBy from "lodash/pickBy";
-import { usePrevious } from "react-use";
-import { usePage } from "@inertiajs/inertia-react";
-import axios from "axios";
+import ButtonFly from "@/Components/ButtonFly";
 import QrScanner from "@/Components/QrScanner";
+import ReceiptList from "@/Components/Receipts/ReceiptList";
+import Layout from "@/Layouts/Main";
+import { Inertia } from "@inertiajs/inertia";
+import { Head, usePage } from "@inertiajs/inertia-react";
+import axios from "axios";
+import pickBy from "lodash/pickBy";
+import { useEffect, useState } from "react";
+import * as Icon from "react-bootstrap-icons";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { usePrevious } from "react-use";
 
 const ReceiptIndex = () => {
     const { receipts, filters } = usePage().props;
@@ -70,13 +66,13 @@ const ReceiptIndex = () => {
             <Head>
                 <title>List Tanda Terima</title>
             </Head>
-            <div className="mb-5">
+            <div className="mb-5 join w-full">
                 <div className="input-group shadow-md rounded-lg">
                     <input
                         type="text"
                         name="search"
                         value={query.search}
-                        className="input input-bordered w-full"
+                        className="input w-full join-item"
                         disabled={openScan}
                         onChange={handleChangeInput}
                         placeholder="Ketik nama customer / Scan qrcode TTB"
@@ -85,14 +81,14 @@ const ReceiptIndex = () => {
                         <>
                             <Button
                                 handleClick={() => setOpenScan(true)}
-                                className="btn-info"
+                                className="btn-info join-item"
                                 // processing={openScan}
                             >
                                 <Icon.QrCodeScan className="text-2xl" />
                             </Button>
                             <select
                                 name="status"
-                                className="select focus:outline-none bg-red-500 text-white"
+                                className="select focus:outline-none bg-red-500 text-white join-item"
                                 onChange={(e) => handleChangeInput(e)}
                                 value={query.status}
                             >
@@ -105,7 +101,7 @@ const ReceiptIndex = () => {
                         </>
                     ) : (
                         <Button
-                            className="btn-error"
+                            className="btn-error join-item"
                             handleClick={() => {
                                 setQuery({ search: "" });
                                 setOpenScan(false);
@@ -122,7 +118,7 @@ const ReceiptIndex = () => {
             {openScan ? (
                 <div className="flex justify-center">
                     <QrScanner
-                        className="md:w-1/2 lg:w-1/3"
+                        className="w-full md:w-1/2"
                         onScan={handleScan}
                         onError={(error) => console.log(error)}
                     />

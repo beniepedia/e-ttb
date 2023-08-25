@@ -13,7 +13,6 @@ import { usePrevious } from "react-use";
 
 const Index = () => {
     const { customers, filters } = usePage().props;
-    console.log(customers);
     const [query, setQuery] = useState({
         search: filters.search || "",
     });
@@ -62,7 +61,7 @@ const Index = () => {
                     name="search"
                     value={query.search}
                     handleChange={handleChange}
-                    placeHolder="Cari...."
+                    placeHolder="Cari..."
                     className=""
                 ></Input>
             </div>

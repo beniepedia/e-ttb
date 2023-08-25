@@ -1,21 +1,19 @@
-import React, { useState } from "react";
-import { Inertia } from "@inertiajs/inertia";
-import { usePage, Head, Link } from "@inertiajs/inertia-react";
-import Layout from "@/Layouts/Main";
-import ButtonUpdateStatus from "@/Components/Receipts/ButtonUpdateStatus";
-import Modal from "@/Components/Modal";
-import Description from "@/Components/Receipts/Description";
-import Status from "@/Components/Receipts/Status";
-import { format, formatDistanceToNowStrict } from "date-fns";
-import { id } from "date-fns/locale";
-import ButtonIsTaken from "@/Components/Receipts/ButtonIsTaken";
-import { isEmpty } from "lodash";
-import * as Icon from "react-bootstrap-icons";
-import { useRef } from "react";
-import axios from "axios";
 import { toast } from "@/Components/Alert";
 import Loading from "@/Components/Loading";
-import Button from "@/Components/Button";
+import Modal from "@/Components/Modal";
+import ButtonIsTaken from "@/Components/Receipts/ButtonIsTaken";
+import ButtonUpdateStatus from "@/Components/Receipts/ButtonUpdateStatus";
+import Description from "@/Components/Receipts/Description";
+import Status from "@/Components/Receipts/Status";
+import Layout from "@/Layouts/Main";
+import { Inertia } from "@inertiajs/inertia";
+import { Head, Link, usePage } from "@inertiajs/inertia-react";
+import axios from "axios";
+import { format, formatDistanceToNowStrict } from "date-fns";
+import { id } from "date-fns/locale";
+import { isEmpty } from "lodash";
+import { useRef, useState } from "react";
+import * as Icon from "react-bootstrap-icons";
 
 const ReceiptDetail = () => {
     const { receipt, processing, auth, users } = usePage().props;
@@ -228,11 +226,11 @@ const ReceiptDetail = () => {
 
                     {/* Button Handle */}
                     {receipt.status === "Proses" && (
-                        <div className="mt-5 flex justify-between items-center alert shadow-md ">
+                        <div className="mt-5 flex flex-col md:flex-row justify-between items-center alert shadow-md ">
                             <div>
                                 <h2>Status Pengerjaan :</h2>
                             </div>
-                            <div className="">
+                            <div className="flex gap-2">
                                 <a
                                     href="#modal-gagal"
                                     className="btn btn-sm btn-error shadow-md"
@@ -302,8 +300,8 @@ const ReceiptDetail = () => {
 
                     {/* list */}
                     <div className="mt-8">
-                        <div className="overflow-x-auto">
-                            <table className="table text-left table-zebra table-compact  w-full rounded-lg shadow-md">
+                        <div className="overflow-x-auto shadow">
+                            <table className="table text-left table-zebra table-compact  w-full rounded-lg shadow-md bg-base-100">
                                 <tbody className="">
                                     <tr>
                                         <td>No Kartu </td>

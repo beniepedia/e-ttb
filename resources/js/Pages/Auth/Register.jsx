@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
 import Button from "@/Components/Button";
-import Guest from "@/Layouts/Guest";
-import Layout from "@/Layouts/Main";
+import Header from "@/Components/Header";
 import Input from "@/Components/Input";
 import Label from "@/Components/Label";
-import { Head, Link, useForm } from "@inertiajs/inertia-react";
+import Layout from "@/Layouts/Main";
+import { Head, useForm } from "@inertiajs/inertia-react";
+import { useEffect } from "react";
 
 const Register = () => {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -39,11 +39,7 @@ const Register = () => {
     return (
         <div className="">
             <Head title="Register" />
-            <div className="shadow p-4">
-                <h2 className="font-semibold text-slate-600">
-                    TAMBAH PENGGUNA
-                </h2>
-            </div>
+            <Header>Tambah Pengguna</Header>
             {/* <ValidationErrors errors={errors} /> */}
 
             <div className="p-4">
@@ -138,7 +134,10 @@ const Register = () => {
                         Already registered?
                     </Link> */}
 
-                        <Button className="w-full" processing={processing}>
+                        <Button
+                            className="w-full btn-success"
+                            processing={processing}
+                        >
                             Register
                         </Button>
                     </div>

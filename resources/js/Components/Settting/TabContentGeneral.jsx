@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
-import Toggle from "../Toggle";
-import ListOptions from "./ListOptions";
+import { toast } from "@/Components/Alert";
 import { useForm, usePage } from "@inertiajs/inertia-react";
 import Button from "../Button";
-import { toast } from "@/Components/Alert";
+import Toggle from "../Toggle";
+import ListOptions from "./ListOptions";
 
 const TabContentGeneral = () => {
     const { app_setting } = usePage().props;
@@ -138,7 +137,7 @@ const TabContentGeneral = () => {
             <div className="pt-5 md:float-right">
                 <Button
                     type="submit"
-                    className="btn-block md:btn-md"
+                    className="btn-block md:btn-md btn-success"
                     processing={processing}
                 >
                     Simpan

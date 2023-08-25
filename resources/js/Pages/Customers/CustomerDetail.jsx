@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import CustomerMap from "@/Components/Customers/CustomerMap";
+import LinkSide from "@/Components/LinkSide";
 import Layout from "@/Layouts/Main";
-import { usePage } from "@inertiajs/inertia-react";
-import { Link } from "@inertiajs/inertia-react";
-import * as Icon from "react-bootstrap-icons";
+import { Link, usePage } from "@inertiajs/inertia-react";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import _ from "lodash";
-import LinkSide from "@/Components/LinkSide";
-import CustomerMap from "@/Components/Customers/CustomerMap";
+import { useState } from "react";
 import Avatar from "react-avatar";
+import * as Icon from "react-bootstrap-icons";
 
 const CustomerDetail = () => {
     const { customer } = usePage().props;
@@ -28,7 +27,7 @@ const CustomerDetail = () => {
             <h2 className="text-center my-5 text-2xl">{customer.name}</h2>
 
             <div className="overflow-x-auto py-2">
-                <table className="table w-full rounded-lg shadow z-0">
+                <table className="table w-full table-zebra bg-base-100 shadow z-0">
                     <tbody>
                         <tr>
                             <th>Nama</th>
@@ -91,7 +90,7 @@ const CustomerDetail = () => {
             </h2>
             <div className="divider my-1"></div>
             <div className="overflow-x-auto">
-                <table className="table table-compact w-full z-0 shadow">
+                <table className="table  w-full z-0  bg-base-100">
                     <thead className="">
                         <tr className="">
                             <th>NO</th>

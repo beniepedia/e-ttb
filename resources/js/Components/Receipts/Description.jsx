@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import TextArea from "../TextArea";
-import Button from "../Button";
-import { Inertia } from "@inertiajs/inertia";
-import Label from "../Label";
-import Input from "../Input";
-import { useForm, usePage } from "@inertiajs/inertia-react";
 import { currency } from "@/Helper";
+import { Inertia } from "@inertiajs/inertia";
+import { useForm, usePage } from "@inertiajs/inertia-react";
+import { useState } from "react";
+import Button from "../Button";
+import Input from "../Input";
+import Label from "../Label";
+import TextArea from "../TextArea";
 
 export default function Description({ receipt }) {
     const { auth } = usePage().props;
@@ -46,18 +46,18 @@ export default function Description({ receipt }) {
             <div className="card bg-base-100 rounded-md shadow-md mt-10 ">
                 <div className="card-body p-4">
                     <div>
-                        <Label>Perbaikan</Label>
+                        <Label>Ket. Perbaikan</Label>
                         <Input
                             type="text"
                             name="repair"
                             value={data.repair}
-                            placeHolder="Perbaikan atau penanganan"
+                            placeHolder="Keterangan perbaikan"
                             disabled={disable}
                             handleChange={handleChange}
                         ></Input>
                     </div>
                     <div>
-                        <Label>Biaya</Label>
+                        <Label>Biaya Perbaikan</Label>
                         <Input
                             type="text"
                             name="cost"
@@ -83,7 +83,7 @@ export default function Description({ receipt }) {
                         <div className="mt-3 flex justify-end">
                             {disable ? (
                                 <Button
-                                    className="w-30 btn-sm"
+                                    className="w-30 btn-warning"
                                     handleClick={handleDisable}
                                 >
                                     EDIT

@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
-import Layout from "@/Layouts/Main";
-import { Head, useForm } from "@inertiajs/inertia-react";
+import Button from "@/Components/Button";
+import Checkbox from "@/Components/Checkbox";
+import Header from "@/Components/Header";
 import Input from "@/Components/Input";
 import Label from "@/Components/Label";
 import TextArea from "@/Components/TextArea";
-import Button from "@/Components/Button";
-import Checkbox from "@/Components/Checkbox";
 import { phoneFormatter } from "@/Helper";
+import Layout from "@/Layouts/Main";
+import { Head, useForm } from "@inertiajs/inertia-react";
+import { useEffect, useState } from "react";
 
 const CustomerAdd = () => {
     const { data, setData, post, processing, errors, reset, clearErrors } =
@@ -60,11 +61,7 @@ const CustomerAdd = () => {
     return (
         <>
             <Head title="Tambah Customer" />
-            <div className="shadow p-4">
-                <h2 className="font-semibold text-slate-600">
-                    TAMBAH CUSTOMER
-                </h2>
-            </div>
+            <Header>Tambah Customer</Header>
             <div className="my-5">
                 <form onSubmit={handleSubmit} noValidate>
                     <div className="px-4">

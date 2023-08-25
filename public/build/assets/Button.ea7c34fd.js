@@ -1,0 +1,1 @@
+import{j as d,a as i}from"./app.ff6d3df7.js";function e({type:n="submit",className:s="",processing:a,children:o,handleClick:t}){return d("button",{type:n,className:`btn shadow-lg px-6 rounded ${s}`,disabled:a,onClick:t,children:[a&&i("span",{className:"loading loading-spinner"}),o]})}export{e as B};

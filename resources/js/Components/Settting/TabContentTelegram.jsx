@@ -1,9 +1,8 @@
-import React from "react";
-import Label from "../Label";
-import Input from "../Input";
-import Button from "../Button";
-import { useForm, usePage } from "@inertiajs/inertia-react";
 import { toast } from "@/Components/Alert";
+import { useForm, usePage } from "@inertiajs/inertia-react";
+import Button from "../Button";
+import Input from "../Input";
+import Label from "../Label";
 
 const TabContentTelegram = () => {
     const { app_setting } = usePage().props;
@@ -63,7 +62,7 @@ const TabContentTelegram = () => {
                 <div className="pt-5 md:float-right">
                     <Button
                         type="submit"
-                        className="btn-block md:btn-md"
+                        className="btn-block md:btn-md btn-success"
                         processing={processing}
                     >
                         Simpan

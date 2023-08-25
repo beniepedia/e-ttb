@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import Label from "../Label";
-import Input from "../Input";
-import Button from "../Button";
-import { useForm, usePage } from "@inertiajs/inertia-react";
 import { toast } from "@/Components/Alert";
+import { useForm, usePage } from "@inertiajs/inertia-react";
 import axios from "axios";
+import { useState } from "react";
+import Button from "../Button";
+import Input from "../Input";
+import Label from "../Label";
 
 const TabContentWhatsapp = () => {
     const { app_setting } = usePage().props;
@@ -138,7 +138,7 @@ const TabContentWhatsapp = () => {
                         </Button>
                         <Button
                             type="submit"
-                            className="btn-block"
+                            className="btn-block btn-success"
                             processing={processing}
                         >
                             Simpan

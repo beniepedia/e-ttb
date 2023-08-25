@@ -148,13 +148,18 @@ class ReceiptsController extends Controller
 
             $receipt->update($request->all());
 
-            if (isKasir()) {
-                $user = User::where("user_type", "admin")->first();
-                $user->notify(new NotificationToUserWebPush($receipt));
-            } else {
-                $userReceiveNotification = User::whereIn("user_type", ["admin", "kasir"])->get();
-                Notification::send($userReceiveNotification, new NotificationToUserWebPush($receipt));
+            // Jika ada request status maka kirim notifikasi
+            if ($request->has("status")) {
+                // Jika user login = kasir maka kirim notifikasi hanya ke admin jika user login != admin atau kasir maka kirim admin saja
+                if (isKasir()) {
+                    $user = User::where("user_type", "admin")->first();
+                    $user->notify(new NotificationToUserWebPush($receipt));
+                } else {
+                    $userReceiveNotification = User::whereIn("user_type", ["admin", "kasir"])->get();
+                    Notification::send($userReceiveNotification, new NotificationToUserWebPush($receipt));
+                }
             }
+
             return Redirect::back()->with("message", "Status berhasil diupdate!");
         } catch (Exception $e) {
             return Redirect::back()->with("message", ["type" => "error", "message" => "Status gagal diupdate!"]);
