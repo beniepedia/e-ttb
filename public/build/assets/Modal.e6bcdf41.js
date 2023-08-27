@@ -1,0 +1,1 @@
+import{a,j as e}from"./app.c1c63f6b.js";function t({id:l,title:s,message:d,children:o}){return a("div",{className:"modal modal-bottom sm:modal-middle",id:l,children:e("div",{className:"modal-box",children:[a("h3",{className:"font-bold text-lg text-left",children:s}),a("p",{className:"py-4",children:d}),a("div",{className:"modal-action",children:o})]})})}export{t as M};

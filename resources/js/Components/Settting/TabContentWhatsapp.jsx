@@ -41,7 +41,7 @@ const TabContentWhatsapp = () => {
         axios
             .post(route("whatsapp.sendMessage"), {
                 text: "PING https://tandaterima.online/images/ttb/ttb_2006202328-117.png",
-                to: "628217441607",
+                to: "6282174416077",
             })
             .then(({ data }) => {
                 if (data?.status_code == 404) {

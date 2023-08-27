@@ -1,0 +1,1 @@
+import{a}from"./app.c1c63f6b.js";const t=({children:e})=>a("div",{className:"shadow p-4 mb-6 dark:bg-slate-600",children:a("h2",{className:"font-semibold text-slate-600 dark:text-slate-300",children:e})});export{t as H};
