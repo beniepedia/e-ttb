@@ -35,48 +35,52 @@ const TabContentWhatsapp = () => {
         });
     };
 
-    const sendMessage = async () => {
+    const sendMessage = () => {
         setLoading(true);
-        try {
-            const { data } = await axios.post(
-                "https://wa.tandaterima.online/send-message",
-                {
-                    text: "PING https://tandaterima.online/images/ttb/ttb_2006202328-117.png",
-                    to: "6282174416077",
-                    session: "ettb",
-                }
-            );
-            toast.success("Pesan terkirim...");
-        } catch (error) {
-            toast.error(error?.response?.data?.message);
-        }
 
-        setLoading(false);
+        axios
+            .post(route("whatsapp.sendMessage"), {
+                text: "PING https://tandaterima.online/images/ttb/ttb_2006202328-117.png",
+                to: "628217441607",
+            })
+            .then(({ data }) => {
+                if (data?.status_code == 404) {
+                    toast.error("Session tidak ditemukan!");
+                } else if (data?.status_code == 500) {
+                    toast.error(
+                        "Gagal mengirim pesan, Terjadi kesalahan pada server!"
+                    );
+                } else {
+                    toast.success("Pesan berhasil dikirim!");
+                }
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     const sendImage = async () => {
         setLoading(true);
-        try {
-            const { data } = await axios.post(
-                "https://wa.tandaterima.online/send-media",
-                {
-                    media: "https://tandaterima.online/images/ttb/ttb_2006202328-117.png",
-                    to: "6282174416077",
-                    text: "tes",
-                },
-                {
-                    headers: {
-                        accept: "application/json",
-                        session: "ettb",
-                    },
+        axios
+            .post(route("whatsapp.sendMedia"), {
+                media: "https://tandaterima.online/images/ttb/ttb_2006202328-117.png",
+                to: "6282174416077",
+                text: "tes",
+            })
+            .then(({ data }) => {
+                if (data?.status_code == 404) {
+                    toast.error("Session tidak ditemukan!");
+                } else if (data?.status_code == 500) {
+                    toast.error(
+                        "Gagal mengirim pesan, Terjadi kesalahan pada server!"
+                    );
+                } else {
+                    toast.success("Pesan berhasil dikirim!");
                 }
-            );
-            toast.success("Pesan terkirim...");
-        } catch (error) {
-            toast.error(error?.response?.data?.message);
-        }
-
-        setLoading(false);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     return (
@@ -92,7 +96,7 @@ const TabContentWhatsapp = () => {
                         required
                         placeHolder="Masukkan nama session whatsapp"
                     ></Input>
-                    {data.whatsapp_server && (
+                    {/* {data.whatsapp_server && (
                         <p className="text-sm mt-1 text-slate-400">
                             Buat nama session baru.{" "}
                             <a
@@ -103,7 +107,7 @@ const TabContentWhatsapp = () => {
                                 Klik Disini
                             </a>
                         </p>
-                    )}
+                    )} */}
                 </div>
 
                 <div>

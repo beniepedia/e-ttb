@@ -14,7 +14,7 @@ const Dashboard = () => {
                 <title>Dashboard</title>
             </Head>
 
-            <div className="py-5 px-3 overflow-x-hidden">
+            <div className="py-5 px-3 ">
                 <div className="bg-gradient-to-br from-teal-50 via-teal-100 to-teal-300 shadow py-4 px-6 h-32 rounded-2xl text-gray-500">
                     <h3>Selamat Datang,</h3>
                     <div className="flex items-center justify-between mt-3">
@@ -41,43 +41,45 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                <div className="carousel carousel-center space-x-4 mt-5 ">
-                    <div className="carousel-item ">
-                        <CardInfo
-                            title={data.receipt_today}
-                            subtitle="TTB BARU"
-                            className=" bg-gradient-to-br from-white via-green-100 to-green-300"
-                        >
-                            <Icon.JournalCheck className="text-7xl text-green-500 dark:text-slate-700" />
-                        </CardInfo>
-                    </div>
-                    <div className="carousel-item ">
-                        <CardInfo
-                            title={data.receipt_active}
-                            subtitle="TTB AKTIF"
-                            className="bg-gradient-to-br from-white via-sky-100 to-sky-300 "
-                        >
-                            <Icon.JournalAlbum className="text-7xl text-sky-500 dark:text-slate-700" />
-                        </CardInfo>
-                    </div>
-                    <div className="carousel-item ">
-                        <CardInfo
-                            title={data.receipt_total}
-                            subtitle="TOTAL TTB"
-                            className="bg-gradient-to-br from-white via-violet-100 to-violet-300"
-                        >
-                            <Icon.Journals className="text-7xl text-violet-500 dark:text-slate-700" />
-                        </CardInfo>
-                    </div>
+                <div className="">
+                    <div className="carousel carousel-center w-full p-4 space-x-4 rounded-box">
+                        <div className="carousel-item ">
+                            <CardInfo
+                                title={data.receipt_today}
+                                subtitle="TTB BARU"
+                                className=" bg-gradient-to-br from-white via-green-100 to-green-300"
+                            >
+                                <Icon.JournalCheck className="text-7xl text-green-500 dark:text-slate-700" />
+                            </CardInfo>
+                        </div>
+                        <div className="carousel-item ">
+                            <CardInfo
+                                title={data.receipt_active}
+                                subtitle="TTB AKTIF"
+                                className="bg-gradient-to-br from-white via-sky-100 to-sky-300 "
+                            >
+                                <Icon.JournalAlbum className="text-7xl text-sky-500 dark:text-slate-700" />
+                            </CardInfo>
+                        </div>
+                        <div className="carousel-item ">
+                            <CardInfo
+                                title={data.receipt_total}
+                                subtitle="TOTAL TTB"
+                                className="bg-gradient-to-br from-white via-violet-100 to-violet-300"
+                            >
+                                <Icon.Journals className="text-7xl text-violet-500 dark:text-slate-700" />
+                            </CardInfo>
+                        </div>
 
-                    <div className="carousel-item ">
-                        <CardInfo
-                            title={data.customer_total}
-                            subtitle="CUSTOMER"
-                            className="bg-gradient-to-br from-white via-amber-100 to-amber-300"
-                        >
-                            <Icon.PersonBadgeFill className="text-7xl text-amber-500 dark:text-slate-700" />
-                        </CardInfo>
+                        <div className="carousel-item ">
+                            <CardInfo
+                                title={data.customer_total}
+                                subtitle="CUSTOMER"
+                                className="bg-gradient-to-br from-white via-amber-100 to-amber-300"
+                            >
+                                <Icon.PersonBadgeFill className="text-7xl text-amber-500 dark:text-slate-700" />
+                            </CardInfo>
+                        </div>
                     </div>
                 </div>
 

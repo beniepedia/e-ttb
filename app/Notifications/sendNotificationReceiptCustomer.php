@@ -72,9 +72,6 @@ class sendNotificationReceiptCustomer extends Notification
         Barang : {$barang}
         Kerusakan : {$this->receipt->kerusakan}
         Kelengkapan : $kelengkapan
-
-        *Kartu tanda terima*
-        $gambar_ttb
         
          *Cek status tanda terima*
         🌐 https://tandaterima.online/cek-status
@@ -84,16 +81,14 @@ class sendNotificationReceiptCustomer extends Notification
         📱HP/WA : 08116407788
         📌Alamat : bit.ly/3DgMkLd
 
-       
-
         _Tunjukkan kartu ini pada saat ingin mengambil barang anda..._
         EOT;
 
         return [
             'to' => $userWhatsapp,
             'text' => $caption,
-            // 'media' => url("images/ttb/ttb_" . $this->receipt->receipt_code . ".png"),
-            //'media' => 'https://tandaterima.online/images/ttb/ttb_2006202328-117.png'
+            'media' => url("images/ttb/ttb_" . $this->receipt->receipt_code . ".png"),
+            // 'media' => 'https://tandaterima.online/images/ttb/ttb_2006202328-117.png'
         ];
     }
 }

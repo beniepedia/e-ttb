@@ -38,8 +38,6 @@ class WhatsappChannel
             $send = WhatsApp::sendMessage($sendData);
         }
 
-        // dd($sendData);
-
         if (!$send['success']) {
             throw new Exception($send['message']);
         }

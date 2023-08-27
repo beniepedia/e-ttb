@@ -63,7 +63,7 @@ class WhatsappService
             return [
                 'success' => false,
                 'message' => $message,
-                'error_code' => $response->status()
+                "status_code" => $response->status()
             ];
         }
 
@@ -71,11 +71,11 @@ class WhatsappService
         Log::info("Berhasil mengirim pesan whatsapp ke", ['nomor' => $respon['remoteJid']]);
         return [
             'success' => true,
+            "message" => "Message send succesfully",
             'data' => [
                 'id' => $respon['id'],
                 'remoteJid' => $respon['remoteJid']
             ],
-            'error_code' => $response->status()
         ];
     }
 }

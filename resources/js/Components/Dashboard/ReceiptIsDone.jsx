@@ -18,9 +18,6 @@ const ReceiptIsDone = ({ ...data }) => {
                 onFinish: (e) => {
                     setSending(false);
                 },
-                onError: (e) => {
-                    console.log(e);
-                },
                 replace: true,
             }
         );
@@ -59,7 +56,7 @@ const ReceiptIsDone = ({ ...data }) => {
                                         </span>
                                     </div>
                                     <div className="collapse-content dark:bg-slate-600 bg-white text-white-content peer-checked:dark:bg-gray-600 peer-checked:bg-amber-100 peer-checked:text-sky-300-content">
-                                        <table className="my-5 w-full table-center table-compact">
+                                        <table className="my-5 w-full  table-sm">
                                             <tbody>
                                                 <tr>
                                                     <td>No. Register</td>

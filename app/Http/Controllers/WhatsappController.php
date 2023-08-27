@@ -31,18 +31,33 @@ class WhatsappController extends Controller
 
     public function sendMessage(Request $request)
     {
-        try {
-            WhatsApp::sendMessage([
-                'to' => $request->to,
-                'text' => $request->text,
-            ]);
+        // try {
 
-            return response()->json(['success' => true], 200);
-        } catch (Exception $e) {
-            return response()->json(['success' => false], 400);
-        }
+
+
+        //     return response()->json(['success' => true], 200);
+        // } catch (Exception $e) {
+        //     return response()->json(['success' => false], 400);
+        // }
+        $send = WhatsApp::sendMessage([
+            'to' => $request->to,
+            'text' => $request->text,
+        ]);
+
+        return response()->json($send);
     }
 
+
+    public function sendMedia(Request $request)
+    {
+        $send = WhatsApp::sendMedia([
+            'to' => $request->to,
+            'text' => $request->text ?? "",
+            "media" => $request->media
+        ]);
+
+        return response()->json($send);
+    }
 
     public function status()
     {

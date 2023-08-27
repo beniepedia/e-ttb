@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
 import Button from "@/Components/Button";
 import Checkbox from "@/Components/Checkbox";
-import Guest from "@/Layouts/Guest";
 import Input from "@/Components/Input";
-import ValidationErrors from "@/Components/ValidationErrors";
+import Guest from "@/Layouts/Guest";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
+import { useEffect } from "react";
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -104,7 +103,10 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="my-7 text-center">
-                    <Button className="btn-block" processing={processing}>
+                    <Button
+                        className="btn-block btn-success"
+                        processing={processing}
+                    >
                         Masuk
                     </Button>
                     {canResetPassword && (

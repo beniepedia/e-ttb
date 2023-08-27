@@ -65,8 +65,7 @@ const ReceiptDetail = () => {
                 toast.success(data.message);
             })
             .catch((error) => {
-                // console.log(error.message);
-                toast.error("Gagal mengirim kartu tanda terima ke whatsapp");
+                toast.error(error?.response?.data?.message);
             })
             .finally(() => {
                 setLoadingSend(false);
@@ -254,11 +253,11 @@ const ReceiptDetail = () => {
                                     title="Update Status!"
                                     message="Update status pengerjaan menjadi Batal / Gagal ?"
                                 >
-                                    <a href="#" className="btn btn-sm">
+                                    <a href="#" className="btn shadow-md">
                                         tidak
                                     </a>
                                     <ButtonUpdateStatus
-                                        className="block shadow-md"
+                                        className="block shadow-md btn-md"
                                         children="OK!"
                                         data={{
                                             id: receipt.id,
@@ -282,11 +281,11 @@ const ReceiptDetail = () => {
                                     title="Perhatian!"
                                     message="Update status pengerjaan menjadi Sukses / Berhasil ?"
                                 >
-                                    <a href="#" className="btn btn-sm">
+                                    <a href="#" className="btn shadow-md">
                                         tidak
                                     </a>
                                     <ButtonUpdateStatus
-                                        className="block shadow-md"
+                                        className="block shadow-md btn-md"
                                         children="OK!"
                                         data={{
                                             id: receipt.id,

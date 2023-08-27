@@ -116,6 +116,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::controller(WhatsappController::class)->group(function () {
         Route::get("/whatsapp", "index")->name("whatsapp");
         Route::post("/whatsapp/send-message", "sendMessage")->name("whatsapp.sendMessage");
+        Route::post("/whatsapp/send-media", "sendMedia")->name("whatsapp.sendMedia");
         Route::post("/whatsapp/connect", "connect")->name("whatsapp.connect");
         Route::post('/whatsapp/status', 'status')->name('whatsapp.status');
         Route::delete('/whatsapp/logout', 'logout')->name('whatsapp.logout');
