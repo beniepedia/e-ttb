@@ -74,7 +74,7 @@ class sendNotificationReceiptCustomer extends Notification
         Kelengkapan : $kelengkapan
         
          *Cek status tanda terima*
-        🌐 https://tandaterima.online/cek-status
+        🌐 https://ettb.my.id/cek-status
 
         ----------------------------------------------
         *Info Lanjut Hub :*
