@@ -40,7 +40,7 @@ const TabContentWhatsapp = () => {
 
         axios
             .post(route("whatsapp.sendMessage"), {
-                text: "PING https://tandaterima.online/images/ttb/ttb_2006202328-117.png",
+                text: "PING https://ettb.my.id/images/ttb/ttb_2006202328-117.png",
                 to: "6282174416077",
             })
             .then(({ data }) => {
@@ -63,7 +63,7 @@ const TabContentWhatsapp = () => {
         setLoading(true);
         axios
             .post(route("whatsapp.sendMedia"), {
-                media: "https://tandaterima.online/images/ttb/ttb_2006202328-117.png",
+                media: "https://ettb.my.id/images/ttb/ttb_2006202328-117.png",
                 to: "6282174416077",
                 text: "tes",
             })
