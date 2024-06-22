@@ -46,7 +46,7 @@ const TabContentWhatsapp = () => {
             .then(({ data }) => {
                 if (data?.status_code == 404) {
                     toast.error("Session tidak ditemukan!");
-                } else if (data?.status_code == 500) {
+                } else if (data?.status_code == 500 || data?.status_code == 400) {
                     toast.error(
                         "Gagal mengirim pesan, Terjadi kesalahan pada server!"
                     );
@@ -70,7 +70,7 @@ const TabContentWhatsapp = () => {
             .then(({ data }) => {
                 if (data?.status_code == 404) {
                     toast.error("Session tidak ditemukan!");
-                } else if (data?.status_code == 500) {
+                } else if (data?.status_code == 500 || data?.status_code == 400) {
                     toast.error(
                         "Gagal mengirim pesan, Terjadi kesalahan pada server!"
                     );
