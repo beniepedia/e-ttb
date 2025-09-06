@@ -1,6 +1,6 @@
 import React from "react";
 import ButtonBack from "./ButtonBack";
-import { Link } from "@inertiajs/inertia-react";
+import { Link } from "@inertiajs/react";
 import Modal from "./Modal";
 import Avatar from "react-avatar";
 import Notifications from "./Notifications";

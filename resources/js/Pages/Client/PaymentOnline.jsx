@@ -4,7 +4,7 @@ import PaymentInfo from "@/Components/Payments/PaymentInfo";
 import ButtonFooter from "@/Components/Status/ButtonFooter";
 import TransactionDetail from "@/Components/Transactions/TransactionDetail";
 import Guest from "@/Layouts/Guest";
-import { Head, useForm, usePage } from "@inertiajs/inertia-react";
+import { Head, useForm, usePage } from "@inertiajs/react";
 
 const PaymentOnline = () => {
     const { receipt } = usePage().props;

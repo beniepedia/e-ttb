@@ -1,4 +1,4 @@
-import { usePage } from "@inertiajs/inertia-react";
+import { usePage } from "@inertiajs/react";
 import React from "react";
 import Divider from "../Divider";
 import { currency } from "@/Helper";

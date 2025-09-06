@@ -2,7 +2,7 @@ import CardInfo from "@/Components/Dashboard/CardInfo";
 import Grafik from "@/Components/Dashboard/Grafik";
 import ReceiptIsDone from "@/Components/Dashboard/ReceiptIsDone";
 import Layout from "@/Layouts/Main";
-import { Head, Link, usePage } from "@inertiajs/inertia-react";
+import { Head, Link, usePage } from "@inertiajs/react";
 import * as Icon from "react-bootstrap-icons";
 
 const Dashboard = () => {

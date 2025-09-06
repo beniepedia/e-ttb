@@ -1,4 +1,4 @@
-import { usePage } from "@inertiajs/inertia-react";
+import { usePage } from "@inertiajs/react";
 import Button from "../Button";
 import Input from "../Input";
 import TextArea from "../TextArea";

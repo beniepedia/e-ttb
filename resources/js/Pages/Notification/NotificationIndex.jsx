@@ -3,7 +3,7 @@ import Header from "@/Components/Header";
 import Modal from "@/Components/Modal";
 import Layout from "@/Layouts/Main";
 import { Inertia } from "@inertiajs/inertia";
-import { Head, Link, usePage } from "@inertiajs/inertia-react";
+import { Head, Link, usePage } from "@inertiajs/react";
 import { format, parseISO } from "date-fns";
 import { id } from "date-fns/locale";
 import _ from "lodash";

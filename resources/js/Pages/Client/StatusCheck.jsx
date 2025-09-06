@@ -12,7 +12,7 @@ import {
 } from "@/Libs/enable-webpush";
 import { requestLocationPermission } from "@/Libs/get-location";
 import { Inertia } from "@inertiajs/inertia";
-import { Head, usePage } from "@inertiajs/inertia-react";
+import { Head, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
 const StatusCheck = () => {

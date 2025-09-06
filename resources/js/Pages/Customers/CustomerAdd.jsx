@@ -6,7 +6,7 @@ import Label from "@/Components/Label";
 import TextArea from "@/Components/TextArea";
 import { phoneFormatter } from "@/Helper";
 import Layout from "@/Layouts/Main";
-import { Head, useForm } from "@inertiajs/inertia-react";
+import { Head, useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
 const CustomerAdd = () => {

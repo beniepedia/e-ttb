@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "../Button";
-import { Link, usePage } from "@inertiajs/inertia-react";
+import { Link, usePage } from "@inertiajs/react";
 
 const ButtonPaymentChoice = ({ ...data }) => {
     return (

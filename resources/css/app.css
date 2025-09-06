@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 /* .invalid-feedback {
     @apply text-red-600 mt-1 text-sm;

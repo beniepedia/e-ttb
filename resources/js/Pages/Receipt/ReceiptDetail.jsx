@@ -7,7 +7,7 @@ import Description from "@/Components/Receipts/Description";
 import Status from "@/Components/Receipts/Status";
 import Layout from "@/Layouts/Main";
 import { Inertia } from "@inertiajs/inertia";
-import { Head, Link, usePage } from "@inertiajs/inertia-react";
+import { Head, Link, usePage } from "@inertiajs/react";
 import axios from "axios";
 import { format, formatDistanceToNowStrict } from "date-fns";
 import { id } from "date-fns/locale";

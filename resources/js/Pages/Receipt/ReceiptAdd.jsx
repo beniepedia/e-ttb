@@ -6,7 +6,7 @@ import ImageUpload from "@/Components/Receipts/ImageUpload";
 import SelectMulti from "@/Components/SelectMulti";
 import TextArea from "@/Components/TextArea";
 import Layout from "@/Layouts/Main";
-import { Head, Link, useForm } from "@inertiajs/inertia-react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import { useState } from "react";
 
 const ReceiptAdd = ({ customers, auth, user, auto_number }) => {

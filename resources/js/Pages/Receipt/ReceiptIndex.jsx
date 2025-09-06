@@ -4,7 +4,7 @@ import QrScanner from "@/Components/QrScanner";
 import ReceiptList from "@/Components/Receipts/ReceiptList";
 import Layout from "@/Layouts/Main";
 import { Inertia } from "@inertiajs/inertia";
-import { Head, usePage } from "@inertiajs/inertia-react";
+import { Head, usePage } from "@inertiajs/react";
 import axios from "axios";
 import pickBy from "lodash/pickBy";
 import { useEffect, useState } from "react";

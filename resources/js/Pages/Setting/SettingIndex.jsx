@@ -8,7 +8,7 @@ import TabContentTelegram from "@/Components/Settting/TabContentTelegram";
 import TabContentWhatsapp from "@/Components/Settting/TabContentWhatsapp";
 import Toggle from "@/Components/Toggle";
 import Layout from "@/Layouts/Main";
-import { Head, useForm, usePage } from "@inertiajs/inertia-react";
+import { Head, useForm, usePage } from "@inertiajs/react";
 import { useState } from "react";
 
 const SettingIndex = () => {

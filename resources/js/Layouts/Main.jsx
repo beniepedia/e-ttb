@@ -4,7 +4,7 @@ import {
     requestNotificationPermission,
     subscribeUser,
 } from "@/Libs/enable-webpush";
-import { Link, usePage } from "@inertiajs/inertia-react";
+import { Link, usePage } from "@inertiajs/react";
 import { useEffect } from "react";
 import * as Icon from "react-bootstrap-icons";
 

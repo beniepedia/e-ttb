@@ -1,7 +1,7 @@
 import CustomerMap from "@/Components/Customers/CustomerMap";
 import LinkSide from "@/Components/LinkSide";
 import Layout from "@/Layouts/Main";
-import { Link, usePage } from "@inertiajs/inertia-react";
+import { Link, usePage } from "@inertiajs/react";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import _ from "lodash";

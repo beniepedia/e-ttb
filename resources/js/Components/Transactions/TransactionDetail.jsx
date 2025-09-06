@@ -1,6 +1,6 @@
 import React from "react";
 import Divider from "../Divider";
-import { usePage } from "@inertiajs/inertia-react";
+import { usePage } from "@inertiajs/react";
 import { currency } from "@/Helper";
 import StatusPending from "./StatusPending";
 import StatusSuccess from "./StatusSuccess";

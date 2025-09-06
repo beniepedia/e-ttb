@@ -1,7 +1,7 @@
 import Header from "@/Components/Header";
 import SendMessage from "@/Components/SendMessage";
 import Layout from "@/Layouts/Main";
-import { Head, usePage } from "@inertiajs/inertia-react";
+import { Head, usePage } from "@inertiajs/react";
 
 const IndexWhatsapp = () => {
     const { data } = usePage().props;

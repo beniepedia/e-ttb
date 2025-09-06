@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
-import { Link, usePage } from "@inertiajs/inertia-react";
+import { Link, usePage } from "@inertiajs/react";
 import ButtonUpdateStatus from "./ButtonUpdateStatus";
 import * as Icon from "react-bootstrap-icons";
 import Modal from "../Modal";

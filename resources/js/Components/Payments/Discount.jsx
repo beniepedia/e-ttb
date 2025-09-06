@@ -3,7 +3,7 @@ import Divider from "../Divider";
 import Button from "../Button";
 import Input from "../Input";
 import axios from "axios";
-import { usePage } from "@inertiajs/inertia-react";
+import { usePage } from "@inertiajs/react";
 
 const Discount = ({ data, setData }) => {
     const { receipt } = usePage().props;

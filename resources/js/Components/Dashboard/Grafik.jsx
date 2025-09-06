@@ -1,4 +1,4 @@
-import { usePage } from "@inertiajs/inertia-react";
+import { usePage } from "@inertiajs/react";
 import { capitalize } from "lodash";
 import {
     Bar,

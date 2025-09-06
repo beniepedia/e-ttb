@@ -3,7 +3,7 @@ import Header from "@/Components/Header";
 import Input from "@/Components/Input";
 import Label from "@/Components/Label";
 import Layout from "@/Layouts/Main";
-import { Head, useForm } from "@inertiajs/inertia-react";
+import { Head, useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 
 const Register = () => {

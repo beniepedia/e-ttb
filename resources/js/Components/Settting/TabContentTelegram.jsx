@@ -1,5 +1,5 @@
 import { toast } from "@/Components/Alert";
-import { useForm, usePage } from "@inertiajs/inertia-react";
+import { useForm, usePage } from "@inertiajs/react";
 import Button from "../Button";
 import Input from "../Input";
 import Label from "../Label";

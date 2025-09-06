@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "@/Layouts/Main";
-import { Head, Link, useForm } from "@inertiajs/inertia-react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import Input from "@/Components/Input";
 import Label from "@/Components/Label";
 import TextArea from "@/Components/TextArea";

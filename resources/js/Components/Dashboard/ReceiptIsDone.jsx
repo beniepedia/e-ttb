@@ -1,6 +1,6 @@
 import Button from "@/Components/Button";
 import { Inertia } from "@inertiajs/inertia";
-import { Link } from "@inertiajs/inertia-react";
+import { Link } from "@inertiajs/react";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { useState } from "react";

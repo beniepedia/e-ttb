@@ -1,5 +1,5 @@
 import { phoneFormatter } from "@/Helper";
-import { useForm } from "@inertiajs/inertia-react";
+import { useForm } from "@inertiajs/react";
 import axios from "axios";
 import { isEmpty, isNumber, toNumber } from "lodash";
 import { useState } from "react";

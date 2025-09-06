@@ -4,7 +4,7 @@ import Input from "@/Components/Input";
 import { Inertia } from "@inertiajs/inertia";
 import Label from "@/Components/Label";
 import Button from "@/Components/Button";
-import { useForm, usePage } from "@inertiajs/inertia-react";
+import { useForm, usePage } from "@inertiajs/react";
 import Modal from "@/Components/Modal";
 import _ from "lodash";
 import Avatar from "react-avatar";

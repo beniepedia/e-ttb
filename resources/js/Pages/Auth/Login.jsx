@@ -2,7 +2,7 @@ import Button from "@/Components/Button";
 import Checkbox from "@/Components/Checkbox";
 import Input from "@/Components/Input";
 import Guest from "@/Layouts/Guest";
-import { Head, Link, useForm } from "@inertiajs/inertia-react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 
 export default function Login({ status, canResetPassword }) {
