@@ -12,6 +12,7 @@ use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\PushContoller;
 use App\Http\Controllers\ShortController;
 use App\Http\Controllers\TelegramBotController;
+use App\Http\Controllers\TesController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TripayCallbackController;
 use App\Http\Controllers\UserController;
@@ -35,6 +36,8 @@ Route::get('/send', function () {
 
     // dd(empty($tes));
 });
+
+Route::get("/tes", [TesController::class, 'index']);
 
 Route::get('/', function () {
     // return Inertia::render('Auth/Login');

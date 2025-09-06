@@ -1,8 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
 @import "tailwindcss";
 
-/* .invalid-feedback {
-    @apply text-red-600 mt-1 text-sm;
-} */
+@plugin "daisyui" {
+    themes: light --default, dark --prefersdark, cupcake;
+}
+
+@theme {
+    --font-*: initial;
+    --font-sans: "Roboto", sans-serif;
+}
 
 .invalid-feedback {
     font-size: 0.8rem !important;
