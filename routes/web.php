@@ -70,68 +70,71 @@ Route::controller(SettingController::class)
         Route::post("/store", 'store')->name("admin.setting.store");
     });
 
-Route::middleware(['auth', 'verified'])->group(function () {
-
-    Route::controller(DashboardController::class)->group(function () {
-        Route::get('/dashboard', 'index')->name('dashboard');
-    });
-
-    Route::controller(CustomersController::class)->group(function () {
-        Route::get('/customers', 'index')->name('customers');
-        Route::post('/customers', 'store')->name('customers.store');
-        Route::get('/customers/create', 'create')->name('customers.create');
-        Route::get('/customers/{id}', 'show')->name('customer.show');
-        Route::any('/customers/{customer:id}/edit', 'edit')->name('customer.edit');
-    });
-
-    Route::controller(PromotionController::class)->group(function () {
-        Route::get("/promotion", "index")->name("promotion");
-    });
 
 
-    Route::controller(ReceiptsController::class)->group(function () {
-        Route::get('/receipts', 'index')->name('receipts');
 
-        Route::post('/receipts', 'store')->name('receipts.store');
-        Route::post('/receipts/{receipts:id}/upload-image', 'upload_image')->name('receipts.imageupload');
-        Route::post('receipts/{receipts}/send_receipt', 'send_receipt')->name('receipts.send');
-        Route::post('receipts/{receipts}/confirmation', 'confirmation')->name('receipts.confirmation');
+// Route::group(function () {
 
-        Route::get('/receipts/create', 'create')->name('receipts.create');
-        Route::get('/receipts/{receipts:receipt_code}', 'show')->name('receipt.show');
-
-        Route::get('/receipts/{receipts:receipt_code}/print-label', 'print_label')->name('printlabel');
-
-        Route::put('/receipts/taken', 'taken')->name('receipts.taken');
-        Route::patch('/receipts', 'update')->name('receipts.updatePatch');
-    });
-
-    Route::controller(UserController::class)->group(function () {
-        Route::get("/user", "index")->name("user.index");
-        Route::post("/changepassword", "changePassword")->name("change_password");
-        Route::delete("/reset-table", "resetTable")->name("reset.table");
-    });
-
-    Route::controller(SettingController::class)->group(function () {
-        Route::post('/setting', 'store')->name('setting.store');
-    });
-
-    Route::controller(WhatsappController::class)->group(function () {
-        Route::get("/whatsapp", "index")->name("whatsapp");
-        Route::post("/whatsapp/send-message", "sendMessage")->name("whatsapp.sendMessage");
-        Route::post("/whatsapp/send-media", "sendMedia")->name("whatsapp.sendMedia");
-        Route::post("/whatsapp/connect", "connect")->name("whatsapp.connect");
-        Route::post('/whatsapp/status', 'status')->name('whatsapp.status');
-        Route::delete('/whatsapp/logout', 'logout')->name('whatsapp.logout');
-    });
-
-    Route::controller(NotificationController::class)->group(function () {
-        Route::get("/notification", "index")->name("notification");
-        Route::post("/notification/read/{notification}", "read")->name("notification.read");
-        Route::post("/notification/read_all", "read_all")->name("notification.read_all");
-        Route::delete("/notification/delete", "delete")->name("notification.delete");
-    });
+Route::controller(DashboardController::class)->group(function () {
+    Route::get('/dashboard', 'index')->name('dashboard');
 });
+
+Route::controller(CustomersController::class)->group(function () {
+    Route::get('/customers', 'index')->name('customers');
+    Route::post('/customers', 'store')->name('customers.store');
+    Route::get('/customers/create', 'create')->name('customers.create');
+    Route::get('/customers/{id}', 'show')->name('customer.show');
+    Route::any('/customers/{customer:id}/edit', 'edit')->name('customer.edit');
+});
+
+Route::controller(PromotionController::class)->group(function () {
+    Route::get("/promotion", "index")->name("promotion");
+});
+
+
+Route::controller(ReceiptsController::class)->group(function () {
+    Route::get('/receipts', 'index')->name('receipts');
+
+    Route::post('/receipts', 'store')->name('receipts.store');
+    Route::post('/receipts/{receipts:id}/upload-image', 'upload_image')->name('receipts.imageupload');
+    Route::post('receipts/{receipts}/send_receipt', 'send_receipt')->name('receipts.send');
+    Route::post('receipts/{receipts}/confirmation', 'confirmation')->name('receipts.confirmation');
+
+    Route::get('/receipts/create', 'create')->name('receipts.create');
+    Route::get('/receipts/{receipts:receipt_code}', 'show')->name('receipt.show');
+
+    Route::get('/receipts/{receipts:receipt_code}/print-label', 'print_label')->name('printlabel');
+
+    Route::put('/receipts/taken', 'taken')->name('receipts.taken');
+    Route::patch('/receipts', 'update')->name('receipts.updatePatch');
+});
+
+Route::controller(UserController::class)->group(function () {
+    Route::get("/user", "index")->name("user.index");
+    Route::post("/changepassword", "changePassword")->name("change_password");
+    Route::delete("/reset-table", "resetTable")->name("reset.table");
+});
+
+Route::controller(SettingController::class)->group(function () {
+    Route::post('/setting', 'store')->name('setting.store');
+});
+
+Route::controller(WhatsappController::class)->group(function () {
+    Route::get("/whatsapp", "index")->name("whatsapp");
+    Route::post("/whatsapp/send-message", "sendMessage")->name("whatsapp.sendMessage");
+    Route::post("/whatsapp/send-media", "sendMedia")->name("whatsapp.sendMedia");
+    Route::post("/whatsapp/connect", "connect")->name("whatsapp.connect");
+    Route::post('/whatsapp/status', 'status')->name('whatsapp.status');
+    Route::delete('/whatsapp/logout', 'logout')->name('whatsapp.logout');
+});
+
+Route::controller(NotificationController::class)->group(function () {
+    Route::get("/notification", "index")->name("notification");
+    Route::post("/notification/read/{notification}", "read")->name("notification.read");
+    Route::post("/notification/read_all", "read_all")->name("notification.read_all");
+    Route::delete("/notification/delete", "delete")->name("notification.delete");
+});
+// });
 
 // Route::get('')
 

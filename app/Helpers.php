@@ -105,3 +105,41 @@ if (!function_exists('isTeknisi')) {
         return auth()->user()->user_type == "teknisi";
     }
 }
+
+if (!function_exists('whatsapp_format')) {
+    function whatsapp_format(string $number): string
+    {
+        // Ambil digit saja
+        $digits = preg_replace('/\D+/', '', $number);
+
+        if ($digits === null || $digits === '') {
+            return '';
+        }
+
+        // Jika dimulai dengan "62"
+        if (strpos($digits, '62') === 0) {
+            return $digits;
+        }
+
+        // Jika dimulai dengan "0"
+        if (strpos($digits, '0') === 0) {
+            return '62' . substr($digits, 1);
+        }
+
+        // Jika dimulai dengan "00" (misal 0062...)
+        if (strpos($digits, '00') === 0) {
+            $without00 = preg_replace('/^00+/', '', $digits);
+            if (strpos($without00, '62') === 0) {
+                return $without00;
+            }
+        }
+
+        // Jika sudah ada +62 yang dihapus pada awal preg_replace
+        if (strpos($number, '+62') === 0) {
+            return '62' . substr($digits, 2);
+        }
+
+        // Default: prepend 62
+        return '62' . $digits;
+    }
+}

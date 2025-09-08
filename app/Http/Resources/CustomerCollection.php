@@ -14,12 +14,14 @@ class CustomerCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return $this->collection->map->only(
-            'id',
-            'name',
-            'phone',
-            'whatsapp',
-            'address',
-        );
+        return [
+            'data' => $this->collection->map->only(
+                'id',
+                'name',
+                'phone',
+                'whatsapp',
+                'address',
+            )
+        ];
     }
 }

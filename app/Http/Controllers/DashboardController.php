@@ -12,6 +12,7 @@ class DashboardController extends Controller
 
     public function index(Receipts $receipts)
     {
+
         $chartData = Receipts::withOut(['customer', 'user'])
             ->selectRaw('handle_by as teknisi, 
                         COUNT(*) as total,  
@@ -29,7 +30,7 @@ class DashboardController extends Controller
             $query->where('status', 'gagal')->orWhere('status', 'berhasil');
         })->latest()->get();
 
-        return Inertia::render('Dashboard/DashboardIndex', [
+        return Inertia::render('Dashboard/DashboardNewIndex', [
             'data' => [
                 'receipt_total' => $receiptTotal,
                 'receipt_today' => $receiptToday,

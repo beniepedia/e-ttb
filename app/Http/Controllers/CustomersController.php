@@ -5,25 +5,22 @@ namespace App\Http\Controllers;
 use App\Http\Resources\CustomerCollection;
 use Inertia\Inertia;
 use App\Models\Customers;
+use App\Rules\IndonesianPhone;
 use Illuminate\Http\Request;
 
 class CustomersController extends Controller
 {
     public function index(Request $request)
     {
-
         $customers = new CustomerCollection(
-            Customers::filter($request->all('search'))
-                ->orderBy('name')
-                ->paginate(20)
+            Customers::filter($request->only('search'))
+                ->latest()
+                ->paginate(10)
         );
 
-        if ($request->wantsJson()) {
-            return $customers;
-        }
-
-        return Inertia::render('Customers/Index', [
-            'filters' => $request->all('search'),
+        // cukup balikin Inertia response
+        return Inertia::render('Customers/CustomerNewIndex', [
+            'filters'   => $request->all('search'),
             'customers' => $customers,
         ]);
     }
@@ -38,18 +35,26 @@ class CustomersController extends Controller
 
         $request->validate([
             'name' => 'required|min:3',
-            'phone' => 'required|string|min:10|unique:customers,phone',
+            'phone' => [
+                'required',
+                'numeric',
+                'digits_between:10,15',
+                'unique:customers,phone',
+                new IndonesianPhone,
+            ],
         ], [
-            'required' => 'Masukkan :attribute customer',
+            'required' => 'Masukkan :attribute pelanggan',
             'min' => 'Panjang :attribute minimal :min karakter',
-            'unique' => ':attribute sudah pernah digunakan'
+            'unique' => ':attribute sudah pernah digunakan',
+            'numeric' => ':attribute harus berupa angka',
+            'digits_between' => 'Panjang :attribute antara 10-15 digit'
         ], [
             'name' => 'nama',
             'phone' => 'No. handphone'
         ]);
 
         Customers::create($request->only('name', 'phone', 'whatsapp', 'address'));
-        return redirect(url()->previous())->with('message', 'Data customer berhasil ditambah');
+        return redirect(url()->previous())->with('message', 'Data pelanggan berhasil ditambah');
     }
 
     public function show(Customers $customers, Request $request)

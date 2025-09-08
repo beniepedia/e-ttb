@@ -52,7 +52,14 @@ class Customers extends Model
     protected function name(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => ucwords(strtolower($value)),
+            get: fn($value) => ucwords(strtolower($value)),
+        );
+    }
+
+    protected function whatsapp(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => whatsapp_format($value),
         );
     }
 

@@ -11,6 +11,8 @@ export default function Input({
     isFocused,
     handleChange,
     disabled,
+    label,
+    error,
 }) {
     const input = useRef();
 
@@ -21,23 +23,28 @@ export default function Input({
     }, []);
 
     return (
-        <div className="flex flex-col items-start">
+        <fieldset className="fieldset">
+            <legend className="fieldset-legend">
+                {label}
+                {required && <span className="text-error">*</span>}
+            </legend>
             <input
                 type={type}
                 name={name}
                 value={value}
-                min="0"
-                className={
-                    `input shadow rounded bg-base-50 focus:outline-none focus:border-green-600 dark:focus:border-emerald-600 border-2 w-full ` +
-                    className
-                }
                 ref={input}
                 autoComplete={autoComplete}
-                placeholder={placeHolder}
                 required={required}
                 onChange={(e) => handleChange(e)}
                 disabled={disabled}
+                className={
+                    `input w-full focus:outline-none focus:border-2 ${
+                        error ? "input-error" : "focus:border-primary"
+                    } ` + className
+                }
+                placeholder={placeHolder}
             />
-        </div>
+            {error && <span className="label text-error">{error}</span>}
+        </fieldset>
     );
 }
