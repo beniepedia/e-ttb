@@ -15,23 +15,15 @@ return new class extends Migration
     {
         Schema::create('receipts', function (Blueprint $table) {
             $table->id();
-            $table->string('receipt_code')->unique();
             $table->string('receipt_number');
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade'); // pembuat TTB
             $table->dateTime('delivery_date')->useCurrent();
             $table->dateTime('pickup_date')->nullable();
-            $table->string('status')->default('pending'); //comment('0:pending,1:berhasil,2:gagal,3:proses')
-            $table->text('kerusakan');
-            $table->json('kelengkapan')->nullable();
-            $table->string('category');
-            $table->string('barang');
-            $table->string("repair")->nullable();
-            $table->double('cost')->default(0);
-            $table->text('description')->nullable();
+            $table->string("total_unit")->nullable();
+            $table->double('total_amount')->default(0);
+            $table->text('notes')->nullable();
             $table->boolean('isTaken')->default(0);
-            $table->string('image')->default('images/assets/no_image.jpg');
-            $table->string('handle_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
