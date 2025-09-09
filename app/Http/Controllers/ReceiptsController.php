@@ -46,7 +46,7 @@ class ReceiptsController extends Controller
             return $receipts;
         }
 
-        return Inertia::render('Receipt/ReceiptIndex', [
+        return Inertia::render('Receipts/ReceiptsIndex', [
             'receipts' => $receipts,
             'filters' => $request->all('search', 'status'),
         ]);
@@ -75,7 +75,7 @@ class ReceiptsController extends Controller
 
         $auto_number = $this->receiptAutoNumber();
 
-        return Inertia::render('Receipt/ReceiptAdd', compact('customers', 'user', 'auto_number'));
+        return Inertia::render('Receipts/ReceiptAdd', compact('customers', 'user'));
     }
 
     public function store(ReceiptFormRequest $request)
