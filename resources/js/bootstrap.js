@@ -13,7 +13,6 @@ window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-
 // bootstrap.js
 
 // window.addEventListener('load', () => {
@@ -46,11 +45,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     document.body.appendChild(offlineMessage);
 // });
 
-
-
 // ... Kode lainnya dalam bootstrap.js
-
-
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
