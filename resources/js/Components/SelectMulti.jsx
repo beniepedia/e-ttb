@@ -1,54 +1,63 @@
-import React from "react";
-import Select from "react-select";
-import makeAnimated from "react-select/animated";
+import React from 'react';
+import { BorderWidth } from 'react-bootstrap-icons';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
 
 export default function SelectMulti({
-    value,
-    name,
-    option,
-    isMulti,
-    closeMenuOnSelect = false,
-    onHandleChange,
+  label,
+  name,
+  value,
+  option,
+  isMulti = false,
+  closeMenuOnSelect = false,
+  required = false,
+  disabled = false,
+  error = '',
+  placeholder = 'Pilih ...',
+  onHandleChange,
+  defaultValue,
 }) {
-    const animatedComponents = makeAnimated();
+  const animatedComponents = makeAnimated();
 
-    const customStyles = {
-        control: (preventDefault) => ({
-            ...preventDefault,
-            borderRadius: 5,
-            padding: 6,
-        }),
+  const customStyles = {
+    control: (base, state) => ({
+      ...base,
+      boxShadow: 'none',
+      minHeight: '2.5rem',
+      borderWidth: state.isFocused ? '2px' : '1px',
+      borderColor: state.isFocused ? '#0075bb' : '#d1d1d4',
+      '&:hover': {
+        borderColor: state.isFocused ? '#0075bb' : '#d1d1d4',
+      },
+    }),
+  };
 
-        option: (provided, state) => ({
-            ...provided,
-            borderRadius: 5,
-            overflow: "hidden",
-        }),
-    };
+  return (
+    <fieldset className="fieldset w-full">
+      {label && (
+        <legend className="fieldset-legend">
+          {label}
+          {required && <span className="text-error">*</span>}
+        </legend>
+      )}
 
-    return (
-        <Select
-            name={name}
-            value={value}
-            styles={customStyles}
-            options={option}
-            components={animatedComponents}
-            isMulti={isMulti}
-            placeholder="Pilih ..."
-            noOptionsMessage={() => "Tidak ada opsi lain"}
-            closeMenuOnSelect={closeMenuOnSelect}
-            delimiter=","
-            // onInputChange={onInputChange}
-            onChange={onHandleChange}
-            theme={(theme) => ({
-                ...theme,
-                borderRadius: 5,
-                colors: {
-                    ...theme.colors,
-                    primary25: "#86efac",
-                    primary: "#65a30d",
-                },
-            })}
-        ></Select>
-    );
+      <Select
+        name={name}
+        value={value}
+        options={option}
+        styles={customStyles}
+        defaultValue={defaultValue}
+        components={animatedComponents}
+        isMulti={isMulti}
+        required={required}
+        placeholder={placeholder}
+        noOptionsMessage={() => 'Tidak ada opsi lain'}
+        closeMenuOnSelect={closeMenuOnSelect}
+        isDisabled={disabled}
+        onChange={onHandleChange}
+      />
+
+      {error && <span className="label text-error">{error}</span>}
+    </fieldset>
+  );
 }

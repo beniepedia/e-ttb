@@ -1,40 +1,43 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
-@import "bootstrap-icons/font/bootstrap-icons.css";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import 'bootstrap-icons/font/bootstrap-icons.css';
 
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @plugin "daisyui" {
-    themes: light --default, dark --prefersdark, corporate;
+  themes:
+    light --default,
+    dark --prefersdark,
+    corporate;
 }
 
 @theme {
-    --font-*: initial;
-    --font-sans: "Roboto", sans-serif;
+  --font-*: initial;
+  --font-sans: 'Roboto', sans-serif;
 }
 
 .invalid-feedback {
-    font-size: 0.8rem !important;
-    color: rgb(212, 37, 37);
+  font-size: 0.8rem !important;
+  color: rgb(212, 37, 37);
 }
 
 .snackbar {
-    @apply flex justify-between shadow-md rounded-md border-l-4 p-3;
+  @apply flex justify-between shadow-md rounded-md border-l-4 p-3;
 }
 
 .snackbar-success {
-    @apply border-green-900 bg-green-500 text-green-800;
+  @apply border-green-900 bg-green-500 text-green-800;
 }
 
 .snackbar-warning {
-    @apply border-amber-900 bg-amber-500 text-amber-800;
+  @apply border-amber-900 bg-amber-500 text-amber-800;
 }
 
 .snackbar-info {
-    @apply border-sky-900 bg-sky-500 text-sky-800;
+  @apply border-sky-900 bg-sky-500 text-sky-800;
 }
 
 .snackbar-danger {
-    @apply border-rose-900 bg-rose-500 text-rose-800;
+  @apply border-rose-900 bg-rose-500 text-rose-800;
 }
 
 /* #res>div {
@@ -42,25 +45,25 @@
 } */
 
 .menu-active {
-    @apply border-slate-800 border-t-2;
+  @apply border-slate-800 border-t-2;
 }
 
 .menu-active > svg {
-    @apply text-slate-800;
+  @apply text-slate-800;
 }
 
 .menu-active > span {
-    @apply text-slate-800;
+  @apply text-slate-800;
 }
 
 .table-center tbody tr td:nth-child(1) {
-    text-align: right;
+  text-align: right;
 }
 
 .table-center tbody tr td:nth-child(2) {
-    text-align: center;
+  text-align: center;
 }
 
 .table-center tbody tr td:nth-child(3) {
-    text-align: left;
+  text-align: left;
 }

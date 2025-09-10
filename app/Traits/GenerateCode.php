@@ -7,23 +7,36 @@ use Illuminate\Support\Facades\DB;
 
 trait GenerateCode
 {
-    public function receiptAutoNumber()
+    public function receiptAutoNumber(?string $prefix = 'TRM', string $reset = 'day')
     {
-        $query = DB::table('receipts')
-            ->select('id', 'receipt_number', 'created_at', DB::raw('MAX(receipt_number) as MAX_ID'))
-            ->groupBy('id', 'receipt_number', 'created_at')
+        $today = Carbon::now();
+
+        // Tentukan format prefix waktu
+        $datePrefix = match ($reset) {
+            'day'   => $today->format('ymd'), // contoh: 250910
+            'month' => $today->format('ym'),  // contoh: 2509
+            default => $today->format('ym'),
+        };
+
+        // Bangun prefix final
+        $fullPrefix = $prefix
+            ? $prefix . '-' . $datePrefix // contoh: INV-250910
+            : $datePrefix;                // contoh: 250910
+
+        // Ambil kode terakhir sesuai prefix
+        $last = DB::table('receipts')
+            ->select('receipt_number')
+            ->where('receipt_number', 'like', $fullPrefix . '-%')
             ->orderBy('receipt_number', 'desc')
-            ->orderBy('created_at', 'desc')
             ->first();
 
-        $MAX_ID = $query->MAX_ID ?? 0;
-
-        if ($MAX_ID === 999) {
-            $MAX_ID = 0;
+        if ($last) {
+            $lastNumber = (int) substr($last->receipt_number, -4);
+            $newNumber = $lastNumber + 1;
+        } else {
+            $newNumber = 1;
         }
 
-        $newCode = $MAX_ID + 1;
-
-        return sprintf("%03s", $newCode);
+        return sprintf('%s-%04d', $fullPrefix, $newNumber);
     }
 }

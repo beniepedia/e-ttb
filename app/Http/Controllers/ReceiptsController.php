@@ -64,18 +64,16 @@ class ReceiptsController extends Controller
                 ];
             });
 
-        $data = Customers::orderBy('name')->get();
-
-        $customers = $data->map(function ($value) {
-            return [
-                'label' => $value->name,
-                'value' => $value->id
-            ];
-        });
+        $customers = Customers::orderBy('name')
+            ->get(['id', 'name', 'phone'])
+            ->map(fn($c) => [
+                'label' => "{$c->name} | {$c->phone}",
+                'value' => $c->id
+            ]);
 
         $auto_number = $this->receiptAutoNumber();
 
-        return Inertia::render('Receipts/ReceiptAdd', compact('customers', 'user'));
+        return Inertia::render('Receipts/ReceiptAdd', compact('customers', 'user', 'auto_number'));
     }
 
     public function store(ReceiptFormRequest $request)

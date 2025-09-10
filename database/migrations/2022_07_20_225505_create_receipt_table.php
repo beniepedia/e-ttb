@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string("total_unit")->nullable();
             $table->double('total_amount')->default(0);
             $table->text('notes')->nullable();
-            $table->boolean('isTaken')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

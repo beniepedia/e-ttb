@@ -15,12 +15,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('receipt_id')->constrained('receipts')->onDelete('cascade');
             $table->string('category');
-            $table->string('item_name');
+            $table->string('brand');
+            $table->string('model');
+            $table->string('sn');
             $table->text('demmage');
             $table->text('repair')->nullable();
             $table->json('accessories')->nullable();
             $table->foreignId('handled_by')->nullable()->constrained('users')->onDelete('set null');
-            $table->string('status')->default('pending'); //comment('0:pending,1:berhasil,2:gagal,3:proses')
+            $table->string('status')->default('pending');
             $table->double('cost')->nullable();
             $table->string('image')->default('images/assets/no_image.jpg');
             $table->timestamps();

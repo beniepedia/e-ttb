@@ -107,7 +107,7 @@ if (!function_exists('isTeknisi')) {
 }
 
 if (!function_exists('whatsapp_format')) {
-    function whatsapp_format(string $number): string
+    function whatsapp_format(?string $number): string
     {
         // Ambil digit saja
         $digits = preg_replace('/\D+/', '', $number);
