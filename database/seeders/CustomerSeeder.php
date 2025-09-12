@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Customers;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -15,11 +16,13 @@ class CustomerSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 0; $i < 100; $i++) {
-            \App\Models\Customers::create([
-                "name" => Str::random(10),
-                "phone" => "08217441607" + $i,
-                "whatsapp" => "628217441607" + $i,
+        $faker = \Faker\Factory::create('id_ID'); // lokal Indonesia
+
+        for ($i = 0; $i < 500; $i++) {
+            Customers::create([
+                "name"     => $faker->name,
+                "phone"    => $faker->phoneNumber,
+                "whatsapp" => "62" . substr(preg_replace('/\D/', '', $faker->phoneNumber), 1),
             ]);
         }
     }

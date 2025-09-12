@@ -18,31 +18,25 @@ class Receipts extends Model
 
     protected $with = ['customer', 'user'];
 
-    protected $casts = [
-        'details'       => 'array',
-        'kelengkapan'   => 'array',
-        'isTaken'       => 'boolean',
-    ];
-
     protected function cost(): Attribute
     {
         return new Attribute(
-            set: fn ($value) => preg_replace('/\D/', '', $value)
+            set: fn($value) => preg_replace('/\D/', '', $value)
         );
     }
 
     protected function status(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => ucfirst($value)
+            get: fn($value) => ucfirst($value)
         );
     }
 
     protected function handleBy(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => ucfirst($value),
-            set: fn ($value) => strtolower($value)
+            get: fn($value) => ucfirst($value),
+            set: fn($value) => strtolower($value)
         );
     }
 
@@ -52,15 +46,16 @@ class Receipts extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function transaction()
+    public function receiptDetails()
     {
-        return $this->belongsTo(Transaction::class, 'id', 'receipt_id')->latest();
+        return $this->hasMany(ReceiptDetails::class, 'receipt_id', 'id');
     }
 
     public function customer()
     {
         return $this->belongsTo(Customers::class);
     }
+
 
     public function short_link(): MorphOne
     {

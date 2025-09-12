@@ -5,13 +5,12 @@ import Input from '@/Components/Input';
 import TextArea from '@/Components/TextArea';
 import SelectMulti from '@/Components/SelectMulti';
 import Button from '@/Components/Button';
-import Select from '@/Components/Select';
-import SearchableSelect from '@/Components/SearchableSelect';
 import Breadcumb from '@/Components/Breadcumb';
 import accessoriesOptions from './data/accessoriesOptions';
 import categoryOptions from './data/categoriesOptios';
 import typiesOptions from './data/typiesOptions';
 import { format } from 'date-fns';
+import Modal from '@/Components/Modal';
 
 export default function ReceiptAdd() {
   const { customers, auto_number, user } = usePage().props;
@@ -19,14 +18,12 @@ export default function ReceiptAdd() {
   // Initial item structure
   const initialItem = {
     category: 'printer',
-    brand: '',
+    brand: 'epson',
     model: '',
     sn: '',
-    dammage: '',
+    demmage: '',
     accessories: [],
     handle_by: '',
-    repair: '',
-    repair_note: '',
   };
 
   const { data, setData, post, processing, errors } = useForm({
@@ -36,10 +33,6 @@ export default function ReceiptAdd() {
     notes: '',
     items: [initialItem],
   });
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   // Handle change for main form fields
   const handleChange = (e) => {
@@ -74,20 +67,22 @@ export default function ReceiptAdd() {
     }
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Prepare data for submission
     const submitData = {
       ...data,
-      accessories: data.items[0]?.accessories?.map((acc) => acc.label).join(', ') || [],
+      items: data.items.map((item) => ({
+        ...item,
+        accessories: item.accessories?.map((acc) => acc.label).join(', ') || '',
+      })),
     };
 
+    setData(submitData);
+
     post(route('receipts.store'), {
-      data: submitData,
-      preserveScroll: true,
-      replace: true,
+      onSuccess: () => {
+        clear();
+      },
     });
   };
 
@@ -111,7 +106,7 @@ export default function ReceiptAdd() {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} noValidate>
         <div className="bg-white rounded-lg shadow-lg border-2 border-neutral-300 p-6 mb-6">
           <h2 className="text-xl font-semibold mb-4">Data Tanda Terima</h2>
 
@@ -132,13 +127,14 @@ export default function ReceiptAdd() {
               name="delivery_date"
               value={data.delivery_date}
               handleChange={handleChange}
-              error={errors.receipt_number}
+              error={errors.delivery_date}
             />
             <SelectMulti
               name={'customer_id'}
-              onHandleChange={(e) => setData({ ...data, customer_id: e.value })}
+              onHandleChange={(e) => setData('customer_id', e.value)}
               label={'Pelanggan'}
               required
+              error={errors.customer_id}
               closeMenuOnSelect
               option={customers}
             />
@@ -206,7 +202,7 @@ export default function ReceiptAdd() {
                   placeHolder="Cth: L3110"
                   value={item.model}
                   handleChange={(e) => handleItemChange(itemIndex, 'model', e.target.value)}
-                  error={errors[`items.${itemIndex}.model`] || errors.barang}
+                  error={errors[`items.${itemIndex}.model`]}
                 />
 
                 <Input
@@ -215,7 +211,7 @@ export default function ReceiptAdd() {
                   required
                   value={item.sn}
                   handleChange={(e) => handleItemChange(itemIndex, 'sn', e.target.value)}
-                  error={errors[`items.${itemIndex}.sn`] || errors.barang}
+                  error={errors[`items.${itemIndex}.sn`]}
                 />
               </div>
 
@@ -224,8 +220,12 @@ export default function ReceiptAdd() {
                   label={'Teknisi'}
                   option={user}
                   required
-                  error={errors.handle_by}
+                  closeMenuOnSelect
+                  error={errors[`items.${itemIndex}.handle_by`]}
                   placeholder="Pilih Teknisi"
+                  onHandleChange={(selected) =>
+                    handleItemChange(itemIndex, 'handle_by', selected.value)
+                  }
                 />
                 <SelectMulti
                   label={'Aksesoris'}
@@ -240,9 +240,10 @@ export default function ReceiptAdd() {
               <TextArea
                 label="Deskripsi Kerusakan"
                 placeHolder="Printhead mampet"
-                value={item.damage_description}
-                handleChange={(e) => handleItemChange(itemIndex, 'dammage', e.target.value)}
-                error={errors[`items.${itemIndex}.dammage`] || errors.kerusakan}
+                required
+                value={item.demmage}
+                handleChange={(e) => handleItemChange(itemIndex, 'demmage', e.target.value)}
+                error={errors[`items.${itemIndex}.demmage`]}
               />
             </div>
           ))}
@@ -256,6 +257,8 @@ export default function ReceiptAdd() {
             Simpan Tanda Terima
           </Button>
         </div>
+
+        <Modal></Modal>
       </form>
     </AdminLayout>
   );

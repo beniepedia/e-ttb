@@ -29,6 +29,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Real;
 use Throwable;
+use Illuminate\Support\Facades\DB;
 
 class ReceiptsController extends Controller
 {
@@ -55,21 +56,9 @@ class ReceiptsController extends Controller
     public function create()
     {
 
-        $user = User::whereNot('user_type', 'kasir')
-            ->get()
-            ->map(function ($value) {
-                return [
-                    'value' => $value->name,
-                    'label' => ucfirst($value->name),
-                ];
-            });
+        $user = User::selectOption();
 
-        $customers = Customers::orderBy('name')
-            ->get(['id', 'name', 'phone'])
-            ->map(fn($c) => [
-                'label' => "{$c->name} | {$c->phone}",
-                'value' => $c->id
-            ]);
+        $customers = Customers::selectOption();
 
         $auto_number = $this->receiptAutoNumber();
 
@@ -78,45 +67,65 @@ class ReceiptsController extends Controller
 
     public function store(ReceiptFormRequest $request)
     {
-
         try {
-            $validation = $request->validated();
+            $validation = $request->json()->all();
 
             if ($request->hasFile('photo')) {
                 $photo = $this->_formatImage($request->photo);
                 $validation['image'] = $photo;
             }
 
-            $validation['user_id'] = auth()->id();
-            $validation['receipt_code'] = date('dmYs') . '-' . $validation['receipt_number'];
+            $validation['created_by'] = 1;
 
-            if (!isKasir()) {
-                $validation['handle_by'] = auth()->user()->name;
-            }
+            // Gunakan transaction untuk memastikan integritas data
+            $receipt = DB::transaction(function () use ($validation, $request) {
+                $receipt = Receipts::create($validation);
+                $items =  $validation['items'];
+                if (!empty($items) && is_array($items)) {
+                    foreach ($items as $item) {
+                        $receiptDetailData = [
+                            'receipt_id' => $receipt->id,
+                            'category' => $item['category'],
+                            'brand' => $item['brand'],
+                            'model' => $item['model'],
+                            'sn' => $item['sn'],
+                            'demmage' => $item['demmage'],
+                            'accessories' => !empty($item['accessories'])
+                                ? (is_array($item['accessories'])
+                                    ? implode(', ', array_map(fn($acc) => $acc['label'], $item['accessories']))
+                                    : $item['accessories'])
+                                : null,
+                            'handled_by' => $item['handle_by'],
+                        ];
+                        $receipt->receiptDetails()->create($receiptDetailData);
+                    }
+                }
+
+                // $this->_makeImageTtb($receipt);
+
+                // $random = Str::random(6);
+                // $receipt->short_link()->create([
+                //     'name' => $random,
+                //     'original' => url("images/ttb/ttb_$receipt->receipt_code.png"),
+                //     'short' => url("/s/$random")
+                // ]);
+
+                return $receipt;
+            });
 
 
-            $receipt = Receipts::create($validation);
+            // $user = User::where("name", $receipt->handle_by)->orWhere("user_type", "admin")->get();
 
-            $this->_makeImageTtb($receipt);
+            // Notification::send($user, new NotificationToUserWebPush($receipt));
 
-            $random = Str::random(6);
-            $receipt->short_link()->create([
-                'name' => $random,
-                'original' => url("images/ttb/ttb_$receipt->receipt_code.png"),
-                'short' => url("/s/$random")
-            ]);
-
-
-            $receipt->status = "pending";
-
-            $user = User::where("name", $receipt->handle_by)->orWhere("user_type", "admin")->get();
-
-            Notification::send($user, new NotificationToUserWebPush($receipt));
-
-            return to_route('receipt.show', $validation['receipt_code'])->with('message', 'TTB Berhasil dibuat');
+            return to_route('receipts')
+                ->with("type", "success")
+                ->with('message', 'Tanda terima berhasil dibuat');
         } catch (\Throwable $e) {
             Log::error($e->getMessage());
-            return Redirect::back();
+            return Redirect::back()
+                ->with("type", "error")
+                ->with('message', "Terjadi kesalahan saat membuat tanda terima");
         }
     }
 

@@ -21,10 +21,17 @@ class ReceiptFormRequest extends FormRequest
         return [
             'receipt_number.required' => 'Nomor Kartu tidak boleh kosong',
             'customer_id.required' => 'Pilih customer',
-            'kerusakan.required' => 'Masukkan detail kerusakan',
-            'barang.required' => 'Masukkan tipe / nama barang',
             'photo.mimes' => 'Format photo harus berupa jpg, jpeg, png',
-            'photo.image' => 'Formatpa jpg, jpeg, png',
+            'photo.image' => 'Format jpg, jpeg, png',
+            'items.required' => 'Minimal harus ada satu barang',
+            'items.array' => 'Format data barang tidak valid',
+            'items.*.category.required' => 'Kategori barang harus diisi',
+            'items.*.brand.required' => 'Merek barang harus diisi',
+            'items.*.model.required' => 'Model barang harus diisi',
+            'items.*.sn.required' => 'Serial Number barang harus diisi',
+            'items.*.demmage.required' => 'Deskripsi kerusakan harus diisi',
+            'items.*.handle_by.required' => 'Teknisi harus dipilih',
+            'delivery_date.required' => 'Tanggal harus diisi',
         ];
     }
 
@@ -36,14 +43,17 @@ class ReceiptFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'receipt_number' => 'required|numeric',
+            'receipt_number' => 'required',
             'customer_id' => 'required',
-            'kelengkapan' => 'nullable',
-            'handle_by' => 'nullable',
-            'kerusakan' => 'required|string',
-            'barang' => 'required|string',
-            'category' => 'required',
-            'photo' => 'nullable|mimes:jpg,jpeg,png'
+            'delivery_date' => 'required|date',
+            'photo' => 'nullable|mimes:jpg,jpeg,png',
+            'items' => 'required|array|min:1',
+            'items.*.category' => 'required|string',
+            'items.*.brand' => 'required|string',
+            'items.*.model' => 'required|string',
+            'items.*.sn' => 'required|string',
+            'items.*.demmage' => 'required|string',
+            'items.*.handle_by' => 'required',
         ];
     }
 }

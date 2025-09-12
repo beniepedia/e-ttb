@@ -62,9 +62,8 @@ const sendWA = async (id, message) => {
 };
 
 function showToast(flash) {
-  let types = typeof flash.message == 'object' ? flash.message.type : 'success';
-
-  let message = typeof flash.message == 'object' ? flash.message.message : flash.message;
+  let types = typeof flash == 'object' ? flash.type : 'success';
+  let message = typeof flash == 'object' ? flash.message : flash.message;
 
   switch (types) {
     case 'error':

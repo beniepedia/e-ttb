@@ -37,16 +37,11 @@ class Customers extends Model
     {
         $query = static::query();
 
-        $data = collect($query->orderBy('name')->get());
-
-        return $data->filter(function ($value) {
-            return !empty($value->whatsapp);
-        })->flatten()->map(function ($value) {
-            return [
-                'label' => $value->name,
-                'value' => $value->whatsapp,
-            ];
-        });
+        return $query->orderBy('name')
+            ->get(['id', 'name', 'phone'])->map(fn($c) => [
+                'label' => "{$c->name} | {$c->phone}",
+                'value' => $c->id
+            ]);
     }
 
     protected function name(): Attribute

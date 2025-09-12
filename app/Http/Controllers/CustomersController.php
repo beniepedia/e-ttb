@@ -54,7 +54,9 @@ class CustomersController extends Controller
         ]);
 
         Customers::create($request->only('name', 'phone', 'whatsapp', 'address'));
-        return redirect(url()->previous())->with('message', 'Data pelanggan berhasil ditambah');
+        return redirect(url()->previous())
+            ->with("type", "success")
+            ->with('message', 'Data pelanggan berhasil ditambah');
     }
 
     public function show(Customers $customers, Request $request)

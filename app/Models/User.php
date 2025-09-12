@@ -50,7 +50,18 @@ class User extends Authenticatable
     protected function Password(): Attribute
     {
         return new Attribute(
-            set: fn ($value) => Hash::make($value),
+            set: fn($value) => Hash::make($value),
         );
+    }
+
+    public static function selectOption()
+    {
+        $query = static::query();
+
+        return $query->orderBy('name')->get(['id', 'name'])
+            ->map(fn($value) =>  [
+                'value' => $value->id,
+                'label' => ucfirst($value->name),
+            ]);
     }
 }
