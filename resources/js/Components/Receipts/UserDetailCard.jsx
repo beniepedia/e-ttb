@@ -3,7 +3,7 @@ import * as Icon from 'react-bootstrap-icons';
 export default function UserDetailCard({ title, data, className }) {
   return (
     <div className={`shadow border border-neutral-300 rounded-lg p-4 ${className}`}>
-      <div className="flex items-center mb-4 ">
+      <div className="flex items-center mb-4">
         <div className="bg-blue-100 p-2 rounded-lg">
           <Icon.Person className="h-5 w-5 text-blue-600" />
         </div>

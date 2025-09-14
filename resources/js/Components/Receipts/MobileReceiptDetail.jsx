@@ -8,7 +8,14 @@ const MobileReceiptDetail = ({
   formatCurrency,
   formatDate,
   getStatusClass,
+  calculateOverallStatus,
 }) => {
+  // Calculate total cost
+  const calculateTotalCost = () => {
+    if (!receipt.items || receipt.items.length === 0) return 0;
+    return receipt.items.reduce((total, item) => total + (parseInt(item.cost) || 0), 0);
+  };
+
   return (
     <div className="md:hidden">
       {activeTab === 'items' ? (
@@ -19,7 +26,7 @@ const MobileReceiptDetail = ({
             </div>
             <h3 className="ml-3 text-xl font-semibold text-gray-900">Detail Barang</h3>
             <div className="ml-3 bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-              {receipt.receiptDetails?.length || 0} item
+              {receipt.items?.length || 0} item
             </div>
           </div>
 
@@ -38,6 +45,46 @@ const MobileReceiptDetail = ({
               </p>
             </div>
           )}
+
+          {/* Cost Summary for Mobile */}
+          <div className="bg-white border border-neutral-300 shadow rounded-xl p-5 mt-6">
+            <div className="flex items-center mb-4">
+              <div className="bg-amber-100 p-2 rounded-lg">
+                <Icon.Wallet2 className="h-5 w-5 text-amber-600" />
+              </div>
+              <h3 className="ml-3 text-lg font-semibold text-gray-900">Ringkasan Biaya</h3>
+            </div>
+
+            <div className="space-y-4">
+              {receipt.items && receipt.items.length > 0 ? (
+                <>
+                  {receipt.items.map((item, index) => (
+                    <div key={index} className="flex justify-between items-center border-b border-gray-100 pb-2">
+                      <div>
+                        <p className="font-medium text-gray-900">Barang #{index + 1}</p>
+                        <p className="text-sm text-gray-500">{item.brand} {item.model}</p>
+                      </div>
+                      <span className="font-medium text-gray-900">{formatCurrency(item.cost)}</span>
+                    </div>
+                  ))}
+                  <div className="pt-2 border-t border-gray-200">
+                    <div className="flex justify-between items-center">
+                      <span className="text-lg font-semibold text-gray-900">Total</span>
+                      <span className="text-lg font-bold text-blue-600">{formatCurrency(calculateTotalCost())}</span>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="text-center py-8">
+                  <Icon.Wallet2 className="mx-auto h-12 w-12 text-gray-400" />
+                  <h3 className="mt-2 text-sm font-medium text-gray-900">Tidak ada biaya</h3>
+                  <p className="mt-1 text-sm text-gray-500">
+                    Belum ada item dengan biaya.
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       ) : (
         <div className="space-y-6">
@@ -66,43 +113,41 @@ const MobileReceiptDetail = ({
             </div>
           </div>
 
-          {/* Status Card */}
-          <div className="bg-gray-50 rounded-xl p-5">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Status Tanda Terima</h3>
+          {/* Improved Status Card */}
+          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-5 border border-neutral-200">
+            <div className="flex items-center mb-4">
+              <div className="bg-blue-100 p-2 rounded-lg">
+                <Icon.ClipboardCheck className="h-5 w-5 text-blue-600" />
+              </div>
+              <h3 className="ml-3 text-lg font-semibold text-gray-900">Status Tanda Terima</h3>
+            </div>
 
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span className="text-gray-500">Status</span>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600 font-medium">Status</span>
                 <span
-                  className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getStatusClass(receipt.status)}`}
+                  className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getStatusClass(calculateOverallStatus())}`}
                 >
-                  {receipt.status}
+                  {calculateOverallStatus().toUpperCase()}
                 </span>
               </div>
 
-              <div className="flex justify-between">
-                <span className="text-gray-500">Tanggal Masuk</span>
-                <span className="font-medium text-sm">{formatDate(receipt.delivery_date)}</span>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600">Tanggal Masuk</span>
+                <span className="font-medium">{formatDate(receipt.delivery_date)}</span>
               </div>
 
-              {receipt.isTaken && (
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Tanggal Diambil</span>
-                  <span className="font-medium text-sm">{formatDate(receipt.pickup_date)}</span>
+              {receipt.pickup_date && (
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">Tanggal Diambil</span>
+                  <span className="font-medium">{formatDate(receipt.pickup_date)}</span>
                 </div>
               )}
 
-              <div className="flex justify-between">
-                <span className="text-gray-500">Penerima</span>
-                <span className="font-medium capitalize text-sm">{receipt.user?.name || '-'}</span>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600">Penerima</span>
+                <span className="font-medium capitalize">{receipt.user?.name || '-'}</span>
               </div>
-
-              {receipt.handle_by && (
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Teknisi</span>
-                  <span className="font-medium capitalize text-sm">{receipt.handle_by}</span>
-                </div>
-              )}
             </div>
           </div>
 
@@ -110,18 +155,34 @@ const MobileReceiptDetail = ({
           <div className="bg-gray-50 rounded-xl p-5">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Ringkasan Biaya</h3>
 
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span className="text-gray-500">Biaya Perbaikan</span>
-                <span className="font-medium">{formatCurrency(receipt.cost)}</span>
-              </div>
-
-              <div className="border-t border-gray-200 pt-3">
-                <div className="flex justify-between font-semibold">
-                  <span>Total</span>
-                  <span>{formatCurrency(receipt.cost)}</span>
+            <div className="space-y-4">
+              {receipt.items && receipt.items.length > 0 ? (
+                <>
+                  {receipt.items.map((item, index) => (
+                    <div key={index} className="flex justify-between items-center border-b border-gray-100 pb-2">
+                      <div>
+                        <p className="font-medium text-gray-900">Barang #{index + 1}</p>
+                        <p className="text-sm text-gray-500">{item.brand} {item.model}</p>
+                      </div>
+                      <span className="font-medium text-gray-900">{formatCurrency(item.cost)}</span>
+                    </div>
+                  ))}
+                  <div className="pt-2 border-t border-gray-200">
+                    <div className="flex justify-between items-center">
+                      <span className="text-lg font-semibold text-gray-900">Total</span>
+                      <span className="text-lg font-bold text-blue-600">{formatCurrency(calculateTotalCost())}</span>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="text-center py-8">
+                  <Icon.Wallet2 className="mx-auto h-12 w-12 text-gray-400" />
+                  <h3 className="mt-2 text-sm font-medium text-gray-900">Tidak ada biaya</h3>
+                  <p className="mt-1 text-sm text-gray-500">
+                    Belum ada item dengan biaya.
+                  </p>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

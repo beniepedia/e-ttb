@@ -31,13 +31,29 @@ const ReceiptDetail = ({ receipt }) => {
         return 'bg-yellow-100 text-yellow-800';
       case 'proses':
         return 'bg-blue-100 text-blue-800';
-      case 'berhasil':
+      case 'selesai':
         return 'bg-green-100 text-green-800';
       case 'gagal':
         return 'bg-red-100 text-red-800';
       default:
         return 'bg-gray-100 text-gray-800';
     }
+  };
+
+  // Calculate overall status based on item statuses
+  const calculateOverallStatus = () => {
+    if (!receipt.items || receipt.items.length === 0) return 'pending';
+    
+    const statuses = receipt.items.map(item => item.status?.toLowerCase() || 'pending');
+    
+    // If any item is in "proses", overall status is "proses"
+    if (statuses.includes('proses')) return 'proses';
+    
+    // If all items are "selesai", overall status is "selesai"
+    if (statuses.every(status => status === 'selesai')) return 'selesai';
+    
+    // Default to "pending" if all items are pending
+    return 'pending';
   };
 
   return (
@@ -99,6 +115,7 @@ const ReceiptDetail = ({ receipt }) => {
             formatCurrency={formatCurrency}
             formatDate={formatDate}
             getStatusClass={getStatusClass}
+            calculateOverallStatus={calculateOverallStatus}
           />
 
           <MobileReceiptDetail
@@ -107,6 +124,7 @@ const ReceiptDetail = ({ receipt }) => {
             formatCurrency={formatCurrency}
             formatDate={formatDate}
             getStatusClass={getStatusClass}
+            calculateOverallStatus={calculateOverallStatus}
           />
         </div>
       </div>

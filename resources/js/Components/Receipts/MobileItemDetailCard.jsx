@@ -12,6 +12,22 @@ const MobileItemDetailCard = ({ item, index }) => {
     }));
   };
 
+  // Get status badge class for items
+  const getItemStatusClass = (status) => {
+    switch (status?.toLowerCase()) {
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'proses':
+        return 'bg-blue-100 text-blue-800';
+      case 'selesai':
+        return 'bg-green-100 text-green-800';
+      case 'gagal':
+        return 'bg-red-100 text-red-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
+
   return (
     <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden mb-4">
       <div className="p-4">
@@ -19,6 +35,9 @@ const MobileItemDetailCard = ({ item, index }) => {
           <div>
             <h3 className="text-lg font-semibold text-gray-900">Barang #{index + 1}</h3>
             <div className="flex flex-wrap gap-1 mt-2">
+              <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getItemStatusClass(item.status)}`}>
+                {item.status?.toUpperCase() || 'PENDING'}
+              </span>
               <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                 {item.category || '-'}
               </span>
@@ -55,6 +74,17 @@ const MobileItemDetailCard = ({ item, index }) => {
             </div>
           </div>
         </div>
+        
+        {/* Cost display */}
+        {item.cost && (
+          <div className="mt-3 flex justify-end">
+            <div className="bg-amber-50 border border-amber-200 rounded-lg px-2 py-1">
+              <span className="text-amber-800 font-medium text-xs">
+                Biaya: {`Rp ${parseInt(item.cost).toLocaleString('id-ID')}`}
+              </span>
+            </div>
+          </div>
+        )}
       </div>
 
       {expandedItems[index] && (
