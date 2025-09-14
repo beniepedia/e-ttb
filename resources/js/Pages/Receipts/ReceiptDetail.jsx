@@ -87,6 +87,16 @@ const ReceiptDetail = ({ receipt }) => {
                 No. TTB : {receipt.receipt_number}
               </h2>
             </div>
+            <div className="mt-3 md:mt-0">
+              <a 
+                href={route('receipt.invoice', receipt.receipt_number)} 
+                target="_blank"
+                className="inline-flex items-center px-4 py-2 bg-white text-blue-700 border border-blue-300 rounded-lg shadow-sm text-sm font-medium hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+              >
+                <Icon.Printer className="mr-2 h-4 w-4" />
+                Cetak Invoice
+              </a>
+            </div>
           </div>
         </div>
 

@@ -22,6 +22,7 @@ use App\Notifications\NotificationToUserWebPush;
 use App\Notifications\SendNotificationConfirmationToCustomer;
 use App\Notifications\sendNotificationReceiptCustomer;
 use App\Services\ShortLinkService;
+use App\Traits\Invoice;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Str;
 use Exception;
@@ -33,7 +34,7 @@ use Illuminate\Support\Facades\DB;
 
 class ReceiptsController extends Controller
 {
-    use GenerateCode;
+    use GenerateCode, Invoice;
     public function index(Request $request)
     {
 
@@ -253,6 +254,11 @@ class ReceiptsController extends Controller
 
             return redirect()->back()->with("message", ['type' => "error", "message" => "Gagal mengirim konfirmasi pesan whatsapp"]);
         }
+    }
+
+    public function invoice(Receipts $receipts)
+    {
+        return $this->receipt($receipts);
     }
 
     private function _makeImageTtb($data)
