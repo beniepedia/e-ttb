@@ -101,7 +101,7 @@ Route::controller(ReceiptsController::class)->group(function () {
     Route::post('receipts/{receipts}/confirmation', 'confirmation')->name('receipts.confirmation');
 
     Route::get('/receipts/create', 'create')->name('receipts.create');
-    Route::get('/receipts/{receipts:receipt_code}', 'show')->name('receipt.show');
+    Route::get('/receipts/{receipts:receipt_number}', 'show')->name('receipt.show');
 
     Route::get('/receipts/{receipts:receipt_code}/print-label', 'print_label')->name('printlabel');
 

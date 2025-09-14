@@ -1,64 +1,111 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from '@inertiajs/react';
+import * as Icon from 'react-bootstrap-icons';
 
 const MobileTable = ({ receiptData, currentPage, itemsPerPage }) => {
-  const getStatusBadge = (status) => {
-    switch (status) {
-      case 'pending':
-        return <span className="badge badge-warning">Pending</span>;
-      case 'proses':
-        return <span className="badge badge-info">Proses</span>;
-      case 'berhasil':
-        return <span className="badge badge-success">Berhasil</span>;
-      case 'gagal':
-        return <span className="badge badge-error">Gagal</span>;
-      default:
-        return <span className="badge badge-ghost">{status}</span>;
+  const [expandedRows, setExpandedRows] = useState({});
+
+  // Get status badge class
+  const getStatusClass = (status) => {
+    switch (status?.toLowerCase()) {
+      case 'pending': return 'bg-yellow-100 text-yellow-800';
+      case 'proses': return 'bg-blue-100 text-blue-800';
+      case 'berhasil': return 'bg-green-100 text-green-800';
+      case 'gagal': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
     }
   };
 
+  // Toggle row expansion
+  const toggleRowExpansion = (id) => {
+    setExpandedRows(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
+
   return (
-    <div className="md:hidden mt-4 space-y-4">
+    <div className="md:hidden mt-6 space-y-4">
       {receiptData && receiptData.length > 0 ? (
         receiptData.map((receipt, index) => (
           <div
             key={receipt.id}
-            className="card bg-base-100 shadow rounded-box border border-base-content/5"
+            className="bg-white shadow-lg rounded-xl border border-gray-200 overflow-hidden transition-all duration-200"
           >
-            <div className="card-body p-4">
+            <div className="p-5">
               <div className="flex justify-between items-start">
-                <h3 className="card-title text-lg font-bold">{receipt.receipt_number}</h3>
-                <span className="badge badge-primary">
-                  #{(currentPage - 1) * itemsPerPage + index + 1}
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900">{receipt.receipt_number}</h3>
+                  <p className="text-xs text-gray-500 mt-1">
+                    #{(currentPage - 1) * itemsPerPage + index + 1}
+                  </p>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusClass(receipt.status)}`}>
+                    {receipt.status}
+                  </span>
+                  <button
+                    onClick={() => toggleRowExpansion(receipt.id)}
+                    className="text-gray-400 hover:text-gray-600 focus:outline-none"
+                  >
+                    {expandedRows[receipt.id] ? 
+                      <Icon.ChevronUp className="h-5 w-5" /> : 
+                      <Icon.ChevronDown className="h-5 w-5" />
+                    }
+                  </button>
+                </div>
+              </div>
+              
+              <div className="mt-4 flex items-center">
+                <Icon.Person className="h-4 w-4 text-gray-400 mr-2" />
+                <span className="text-sm text-gray-900 truncate">{receipt.customer?.name || '-'}</span>
+              </div>
+              
+              <div className="mt-2 flex items-center">
+                <Icon.Calendar className="h-4 w-4 text-gray-400 mr-2" />
+                <span className="text-sm text-gray-900">
+                  {new Date(receipt.created_at).toLocaleDateString('id-ID')}
                 </span>
               </div>
-              <div className="space-y-2 mt-2">
-                <div className="flex items-center">
-                  <i className="bi bi-person mr-2"></i>
-                  <span>{receipt.customer?.name || '-'}</span>
-                </div>
-                <div className="flex items-center">
-                  <i className="bi bi-info-circle mr-2"></i>
-                  {getStatusBadge(receipt.status)}
-                </div>
-                <div className="flex items-center">
-                  <i className="bi bi-calendar mr-2"></i>
-                  <span>{new Date(receipt.created_at).toLocaleDateString()}</span>
+            </div>
+            
+            {expandedRows[receipt.id] && (
+              <div className="border-t border-gray-200 bg-gray-50 p-5">
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-500">Kode TTB</span>
+                    <span className="text-sm font-medium text-gray-900">{receipt.receipt_code}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-500">Customer</span>
+                    <span className="text-sm font-medium text-gray-900 truncate max-w-[150px]">{receipt.customer?.name || '-'}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-500">Tanggal</span>
+                    <span className="text-sm font-medium text-gray-900">
+                      {new Date(receipt.created_at).toLocaleDateString('id-ID')}
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div className="card-actions justify-end mt-3">
-                <Link href="" className="btn btn-sm btn-info">
-                  <i className="bi bi-eye mr-1"></i>
-                  Lihat
-                </Link>
-              </div>
+            )}
+            
+            <div className="bg-gradient-to-r from-blue-500 to-indigo-600 px-5 py-3 flex justify-end">
+              <Link 
+                href={route('receipt.show', { receipts: receipt.receipt_number })} 
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-white/20 hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white transition-colors"
+              >
+                <Icon.Eye className="h-4 w-4 mr-1" />
+                Lihat Detail
+              </Link>
             </div>
           </div>
         ))
       ) : (
-        <div className="text-center py-8">
-          <i className="bi bi-clipboard-data text-4xl text-base-300 mb-2"></i>
-          <p>Tidak ada data tanda terima</p>
+        <div className="text-center py-12 bg-white rounded-xl shadow">
+          <Icon.Clipboard className="mx-auto h-12 w-12 text-gray-400" />
+          <h3 className="mt-2 text-sm font-medium text-gray-900">Tidak ada data</h3>
+          <p className="mt-1 text-sm text-gray-500">Tidak ada tanda terima untuk ditampilkan.</p>
         </div>
       )}
     </div>

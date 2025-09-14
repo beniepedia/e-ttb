@@ -16,7 +16,7 @@ class Receipts extends Model
 
     protected $guarded = ['id'];
 
-    protected $with = ['customer', 'user'];
+    protected $with = ['customer', 'user', 'items'];
 
     protected function cost(): Attribute
     {
@@ -43,10 +43,15 @@ class Receipts extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
     public function receiptDetails()
+    {
+        return $this->hasMany(ReceiptDetails::class, 'receipt_id', 'id');
+    }
+
+    public function items()
     {
         return $this->hasMany(ReceiptDetails::class, 'receipt_id', 'id');
     }

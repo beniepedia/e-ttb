@@ -131,8 +131,7 @@ class ReceiptsController extends Controller
 
     public function show(Receipts $receipts)
     {
-        $user = User::where("user_type", '!=', 'kasir')->get();
-        return Inertia::render('Receipt/ReceiptDetail', ['receipt' => $receipts, 'users' => $user]);
+        return Inertia::render('Receipts/ReceiptDetail', ['receipt' => $receipts]);
     }
 
     public function taken(Request $request)
