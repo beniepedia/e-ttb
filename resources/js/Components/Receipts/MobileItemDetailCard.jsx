@@ -103,6 +103,16 @@ const MobileItemDetailCard = ({ item, index }) => {
             <div>
               <div className="flex items-center mb-2">
                 <Icon.Tools className="h-4 w-4 text-blue-500 mr-2" />
+                <h4 className="font-medium text-gray-900 text-sm">Perbaikan</h4>
+              </div>
+              <p className="text-sm text-gray-700">
+                {item.repair || 'Tidak ada deskripsi perbaikan'}
+              </p>
+            </div>
+
+            <div>
+              <div className="flex items-center mb-2">
+                <Icon.Tools className="h-4 w-4 text-blue-500 mr-2" />
                 <h4 className="font-medium text-gray-900 text-sm">Teknisi</h4>
               </div>
               <p className="text-sm capitalize text-gray-700">{item.handled_by || '-'}</p>

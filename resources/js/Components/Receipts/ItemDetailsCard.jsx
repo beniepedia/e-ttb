@@ -108,6 +108,14 @@ const ItemDetailsCard = ({ item, index }) => {
             <div>
               <div className="flex items-center mb-3">
                 <Icon.Tools className="h-5 w-5 text-blue-500 mr-2" />
+                <h4 className="font-medium text-gray-900">Perbaikan</h4>
+              </div>
+              <p className="text-gray-700">{item.repair || 'Tidak ada deskripsi perbaikan'}</p>
+            </div>
+
+            <div>
+              <div className="flex items-center mb-3">
+                <Icon.Tools className="h-5 w-5 text-blue-500 mr-2" />
                 <h4 className="font-medium text-gray-900">Teknisi</h4>
               </div>
               <p className="capitalize text-gray-700">{item.handled_by || '-'}</p>

@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import * as Icon from 'react-bootstrap-icons';
 import ItemDetailCard from './ItemDetailsCard';
-import UserDetailCard from './UserDetailCard';
+import CustomerInfoModal from './CustomerInfoModal';
+import StaffInfoModal from './StaffInfoModal';
 
 const DesktopReceiptDetail = ({ receipt, formatCurrency, formatDate, getStatusClass, calculateOverallStatus }) => {
+  const [isCustomerModalOpen, setIsCustomerModalOpen] = useState(false);
+  const [isStaffModalOpen, setIsStaffModalOpen] = useState(false);
+
   // Item detail card for desktop
   const ItemDetailCardWrapper = ({ item, index }) => <ItemDetailCard item={item} index={index} />;
 
@@ -18,24 +22,39 @@ const DesktopReceiptDetail = ({ receipt, formatCurrency, formatDate, getStatusCl
       <div className="hidden md:grid grid-cols-1 gap-y-8">
         {/* Left Column - Items and Customer Info */}
         <div className="flex justify-evenly gap-x-4">
-          {/* Customer Information */}
-          <UserDetailCard
-            className={'w-full flex-1'}
-            title={'Informasi Pelanggan'}
-            data={[
-              { label: 'Nama', value: receipt.customer.name },
-              { label: 'No. Whatsapp', value: receipt.customer.whatsapp || '-' },
-            ]}
-          />
+          {/* Customer Information Button */}
+          <button 
+            onClick={() => setIsCustomerModalOpen(true)}
+            className="shadow border border-neutral-300 rounded-lg p-4 flex-1 bg-white hover:bg-gray-50 transition-colors"
+          >
+            <div className="flex items-center">
+              <div className="bg-blue-100 p-2 rounded-lg">
+                <Icon.Person className="h-5 w-5 text-blue-600" />
+              </div>
+              <h3 className="ml-3 text-lg font-semibold text-gray-900">Informasi Pelanggan</h3>
+            </div>
+            <div className="mt-3 text-left">
+              <p className="text-sm text-gray-600">Nama: {receipt.customer?.name || '-'}</p>
+              <p className="text-sm text-gray-600">No. Whatsapp: {receipt.customer?.whatsapp || '-'}</p>
+            </div>
+          </button>
 
-          <UserDetailCard
-            className={'w-full flex-1'}
-            title={'Informasi Petugas'}
-            data={[
-              { label: 'Nama', value: receipt.user.name },
-              { label: 'Posisi', value: receipt.user.user_type || '-' },
-            ]}
-          />
+          {/* Staff Information Button */}
+          <button 
+            onClick={() => setIsStaffModalOpen(true)}
+            className="shadow border border-neutral-300 rounded-lg p-4 flex-1 bg-white hover:bg-gray-50 transition-colors"
+          >
+            <div className="flex items-center">
+              <div className="bg-blue-100 p-2 rounded-lg">
+                <Icon.PersonBadge className="h-5 w-5 text-blue-600" />
+              </div>
+              <h3 className="ml-3 text-lg font-semibold text-gray-900">Informasi Petugas</h3>
+            </div>
+            <div className="mt-3 text-left">
+              <p className="text-sm text-gray-600">Nama: {receipt.user?.name || '-'}</p>
+              <p className="text-sm text-gray-600">Posisi: {receipt.user?.user_type || '-'}</p>
+            </div>
+          </button>
 
           {/* Improved Status Card */}
           <div className="shadow border border-neutral-300 rounded-lg p-5 flex-1 bg-gradient-to-br from-blue-50 to-indigo-50">
@@ -67,11 +86,6 @@ const DesktopReceiptDetail = ({ receipt, formatCurrency, formatDate, getStatusCl
                   <span className="font-medium">{formatDate(receipt.pickup_date)}</span>
                 </div>
               )}
-
-              <div className="flex justify-between items-center">
-                <span className="text-gray-600">Penerima</span>
-                <span className="font-medium capitalize">{receipt.user?.name || '-'}</span>
-              </div>
             </div>
           </div>
         </div>
@@ -148,6 +162,18 @@ const DesktopReceiptDetail = ({ receipt, formatCurrency, formatDate, getStatusCl
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      <CustomerInfoModal 
+        receipt={receipt} 
+        isOpen={isCustomerModalOpen} 
+        onClose={() => setIsCustomerModalOpen(false)} 
+      />
+      <StaffInfoModal 
+        receipt={receipt} 
+        isOpen={isStaffModalOpen} 
+        onClose={() => setIsStaffModalOpen(false)} 
+      />
     </>
   );
 };

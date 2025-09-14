@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as Icon from 'react-bootstrap-icons';
 import MobileItemDetailCard from './MobileItemDetailCard';
+import CustomerInfoModal from './CustomerInfoModal';
+import StaffInfoModal from './StaffInfoModal';
 
 const MobileReceiptDetail = ({
   activeTab,
@@ -10,6 +12,9 @@ const MobileReceiptDetail = ({
   getStatusClass,
   calculateOverallStatus,
 }) => {
+  const [isCustomerModalOpen, setIsCustomerModalOpen] = useState(false);
+  const [isStaffModalOpen, setIsStaffModalOpen] = useState(false);
+
   // Calculate total cost
   const calculateTotalCost = () => {
     if (!receipt.items || receipt.items.length === 0) return 0;
@@ -88,8 +93,11 @@ const MobileReceiptDetail = ({
         </div>
       ) : (
         <div className="space-y-6">
-          {/* Customer Information */}
-          <div className="bg-gray-50 rounded-xl p-5">
+          {/* Customer Information Button */}
+          <button 
+            onClick={() => setIsCustomerModalOpen(true)}
+            className="bg-white border border-neutral-300 rounded-xl p-5 w-full text-left shadow-sm"
+          >
             <div className="flex items-center mb-4">
               <div className="bg-blue-100 p-2 rounded-lg">
                 <Icon.Person className="h-5 w-5 text-blue-600" />
@@ -97,21 +105,41 @@ const MobileReceiptDetail = ({
               <h3 className="ml-3 text-lg font-semibold text-gray-900">Informasi Customer</h3>
             </div>
 
-            <div className="space-y-3">
-              <div>
-                <p className="text-xs text-gray-500">Nama Lengkap</p>
-                <p className="font-medium text-gray-900">{receipt.customer?.name || '-'}</p>
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <span className="text-sm text-gray-500">Nama</span>
+                <span className="font-medium text-gray-900">{receipt.customer?.name || '-'}</span>
               </div>
-              <div>
-                <p className="text-xs text-gray-500">Nomor Telepon</p>
-                <p className="font-medium text-gray-900">{receipt.customer?.whatsapp || '-'}</p>
-              </div>
-              <div>
-                <p className="text-xs text-gray-500">Alamat</p>
-                <p className="font-medium text-gray-900">{receipt.customer?.address || '-'}</p>
+              <div className="flex justify-between">
+                <span className="text-sm text-gray-500">No. Whatsapp</span>
+                <span className="font-medium text-gray-900">{receipt.customer?.whatsapp || '-'}</span>
               </div>
             </div>
-          </div>
+          </button>
+
+          {/* Staff Information Button */}
+          <button 
+            onClick={() => setIsStaffModalOpen(true)}
+            className="bg-white border border-neutral-300 rounded-xl p-5 w-full text-left shadow-sm"
+          >
+            <div className="flex items-center mb-4">
+              <div className="bg-blue-100 p-2 rounded-lg">
+                <Icon.PersonBadge className="h-5 w-5 text-blue-600" />
+              </div>
+              <h3 className="ml-3 text-lg font-semibold text-gray-900">Informasi Petugas</h3>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <span className="text-sm text-gray-500">Nama</span>
+                <span className="font-medium text-gray-900">{receipt.user?.name || '-'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-sm text-gray-500">Posisi</span>
+                <span className="font-medium text-gray-900">{receipt.user?.user_type || '-'}</span>
+              </div>
+            </div>
+          </button>
 
           {/* Improved Status Card */}
           <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-5 border border-neutral-200">
@@ -143,11 +171,6 @@ const MobileReceiptDetail = ({
                   <span className="font-medium">{formatDate(receipt.pickup_date)}</span>
                 </div>
               )}
-
-              <div className="flex justify-between items-center">
-                <span className="text-gray-600">Penerima</span>
-                <span className="font-medium capitalize">{receipt.user?.name || '-'}</span>
-              </div>
             </div>
           </div>
 
@@ -187,6 +210,18 @@ const MobileReceiptDetail = ({
           </div>
         </div>
       )}
+
+      {/* Modals */}
+      <CustomerInfoModal 
+        receipt={receipt} 
+        isOpen={isCustomerModalOpen} 
+        onClose={() => setIsCustomerModalOpen(false)} 
+      />
+      <StaffInfoModal 
+        receipt={receipt} 
+        isOpen={isStaffModalOpen} 
+        onClose={() => setIsStaffModalOpen(false)} 
+      />
     </div>
   );
 };
