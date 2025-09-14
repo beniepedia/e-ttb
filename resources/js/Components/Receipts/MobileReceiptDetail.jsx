@@ -96,49 +96,33 @@ const MobileReceiptDetail = ({
           {/* Customer Information Button */}
           <button 
             onClick={() => setIsCustomerModalOpen(true)}
-            className="bg-white border border-neutral-300 rounded-xl p-5 w-full text-left shadow-sm"
+            className="bg-white border border-neutral-300 rounded-xl p-5 w-full text-left shadow-sm flex items-center"
           >
-            <div className="flex items-center mb-4">
-              <div className="bg-blue-100 p-2 rounded-lg">
-                <Icon.Person className="h-5 w-5 text-blue-600" />
-              </div>
-              <h3 className="ml-3 text-lg font-semibold text-gray-900">Informasi Customer</h3>
+            <div className="bg-blue-100 p-3 rounded-full">
+              <Icon.Person className="h-6 w-6 text-blue-600" />
             </div>
-
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <span className="text-sm text-gray-500">Nama</span>
-                <span className="font-medium text-gray-900">{receipt.customer?.name || '-'}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-sm text-gray-500">No. Whatsapp</span>
-                <span className="font-medium text-gray-900">{receipt.customer?.whatsapp || '-'}</span>
-              </div>
+            <div className="ml-4 flex-1">
+              <h3 className="text-lg font-semibold text-gray-900">Informasi Customer</h3>
+              <p className="text-sm text-gray-600 mt-1 truncate">{receipt.customer?.name || '-'}</p>
+              <p className="text-xs text-gray-500 mt-1">{receipt.customer?.whatsapp || '-'}</p>
             </div>
+            <Icon.ChevronRight className="h-5 w-5 text-gray-400" />
           </button>
 
           {/* Staff Information Button */}
           <button 
             onClick={() => setIsStaffModalOpen(true)}
-            className="bg-white border border-neutral-300 rounded-xl p-5 w-full text-left shadow-sm"
+            className="bg-white border border-neutral-300 rounded-xl p-5 w-full text-left shadow-sm flex items-center"
           >
-            <div className="flex items-center mb-4">
-              <div className="bg-blue-100 p-2 rounded-lg">
-                <Icon.PersonBadge className="h-5 w-5 text-blue-600" />
-              </div>
-              <h3 className="ml-3 text-lg font-semibold text-gray-900">Informasi Petugas</h3>
+            <div className="bg-blue-100 p-3 rounded-full">
+              <Icon.PersonBadge className="h-6 w-6 text-blue-600" />
             </div>
-
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <span className="text-sm text-gray-500">Nama</span>
-                <span className="font-medium text-gray-900">{receipt.user?.name || '-'}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-sm text-gray-500">Posisi</span>
-                <span className="font-medium text-gray-900">{receipt.user?.user_type || '-'}</span>
-              </div>
+            <div className="ml-4 flex-1">
+              <h3 className="text-lg font-semibold text-gray-900">Informasi Petugas</h3>
+              <p className="text-sm text-gray-600 mt-1 truncate">{receipt.user?.name || '-'}</p>
+              <p className="text-xs text-gray-500 mt-1">{receipt.user?.user_type || '-'}</p>
             </div>
+            <Icon.ChevronRight className="h-5 w-5 text-gray-400" />
           </button>
 
           {/* Improved Status Card */}

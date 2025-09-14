@@ -25,34 +25,36 @@ const DesktopReceiptDetail = ({ receipt, formatCurrency, formatDate, getStatusCl
           {/* Customer Information Button */}
           <button 
             onClick={() => setIsCustomerModalOpen(true)}
-            className="shadow border border-neutral-300 rounded-lg p-4 flex-1 bg-white hover:bg-gray-50 transition-colors"
+            className="shadow border border-neutral-300 rounded-lg p-4 flex-1 bg-white hover:bg-gray-50 transition-colors flex flex-col items-center justify-center"
           >
-            <div className="flex items-center">
-              <div className="bg-blue-100 p-2 rounded-lg">
-                <Icon.Person className="h-5 w-5 text-blue-600" />
-              </div>
-              <h3 className="ml-3 text-lg font-semibold text-gray-900">Informasi Pelanggan</h3>
+            <div className="bg-blue-100 p-3 rounded-full mb-3">
+              <Icon.Person className="h-6 w-6 text-blue-600" />
             </div>
-            <div className="mt-3 text-left">
-              <p className="text-sm text-gray-600">Nama: {receipt.customer?.name || '-'}</p>
-              <p className="text-sm text-gray-600">No. Whatsapp: {receipt.customer?.whatsapp || '-'}</p>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Informasi Pelanggan</h3>
+            <div className="text-center">
+              <p className="text-sm text-gray-600 truncate w-full">{receipt.customer?.name || '-'}</p>
+              <p className="text-xs text-gray-500 truncate w-full mt-1">{receipt.customer?.whatsapp || '-'}</p>
+            </div>
+            <div className="mt-3 text-xs text-blue-600 font-medium flex items-center">
+              Lihat Detail <Icon.ChevronRight className="ml-1 h-4 w-4" />
             </div>
           </button>
 
           {/* Staff Information Button */}
           <button 
             onClick={() => setIsStaffModalOpen(true)}
-            className="shadow border border-neutral-300 rounded-lg p-4 flex-1 bg-white hover:bg-gray-50 transition-colors"
+            className="shadow border border-neutral-300 rounded-lg p-4 flex-1 bg-white hover:bg-gray-50 transition-colors flex flex-col items-center justify-center"
           >
-            <div className="flex items-center">
-              <div className="bg-blue-100 p-2 rounded-lg">
-                <Icon.PersonBadge className="h-5 w-5 text-blue-600" />
-              </div>
-              <h3 className="ml-3 text-lg font-semibold text-gray-900">Informasi Petugas</h3>
+            <div className="bg-blue-100 p-3 rounded-full mb-3">
+              <Icon.PersonBadge className="h-6 w-6 text-blue-600" />
             </div>
-            <div className="mt-3 text-left">
-              <p className="text-sm text-gray-600">Nama: {receipt.user?.name || '-'}</p>
-              <p className="text-sm text-gray-600">Posisi: {receipt.user?.user_type || '-'}</p>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Informasi Petugas</h3>
+            <div className="text-center">
+              <p className="text-sm text-gray-600 truncate w-full">{receipt.user?.name || '-'}</p>
+              <p className="text-xs text-gray-500 truncate w-full mt-1">{receipt.user?.user_type || '-'}</p>
+            </div>
+            <div className="mt-3 text-xs text-blue-600 font-medium flex items-center">
+              Lihat Detail <Icon.ChevronRight className="ml-1 h-4 w-4" />
             </div>
           </button>
 
