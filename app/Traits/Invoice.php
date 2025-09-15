@@ -103,24 +103,38 @@ trait Invoice
 
         $fpdf->Ln(2);
 
-        // Terms and Conditions
+        // Terms and Conditions with bullet points
         $fpdf->SetFont('Courier', '', 8);
-        $fpdf->MultiCell(0, 4, 'Barang yang sudah diambil tidak dapat dikomplain. Garansi service 1 bulan. Klaim garansi tidak termasuk aksesoris.', 0, 'L');
-        $fpdf->Ln(3);
 
-        // Signatures
+        // teks aturan
+        $text = "Keterangan :\n";
+        $text .= "1. Barang yang sudah diambil tidak dapat dikomplain dan dikembalikan\n";
+        $text .= "2. Garansi service 1 bulan\n";
+        $text .= "3. Klaim garansi tidak termasuk aksesoris\n";
+
+        // simpan posisi X dan Y sebelum MultiCell
+        $x = $fpdf->GetX();
+        $y = $fpdf->GetY();
+
+        // multicell (kiri)
+        $fpdf->SetY($y + 22);
+        $fpdf->MultiCell(100, 4, $text, 1, "L");
+
+        // pindahkan cursor ke kanan (tepat di samping multicell tadi)
+        $fpdf->SetXY($x + 110, $y);  // 110 = lebar multicell (100) + jarak 10
+
+        // buat signature di kanan
         $fpdf->SetFont('Courier', '', 9);
-        $fpdf->Cell(80, 5, 'Penerima,', 0, 0, 'C');
-        $fpdf->Cell(85, 5, 'Hormat kami,', 0, 1, 'C');
+        $fpdf->Cell(80, 5, 'Hormat kami,', 0, 1, 'C');
 
-        $fpdf->Ln(15);
+        // beri jarak kosong untuk tanda tangan
+        $fpdf->SetX($x + 110);
+        $fpdf->Cell(80, 5, '(....................)', 0, 1, 'C');
+        $fpdf->SetAutoPageBreak(2, 0);
+        // $fpdf->Ln(1);
+        // $fpdf->SetFont('Courier', '', 7);
+        // $fpdf->Cell(0, 5, 'Terima kasih atas kunjungan Anda', 0, 1, 'C');
 
-        $fpdf->Cell(80, 5, '(_______________________)', 0, 0, 'C');
-        $fpdf->Cell(85, 5, '(_______________________)', 0, 1, 'C');
-
-        $fpdf->Ln(1);
-        $fpdf->SetFont('Courier', '', 7);
-        $fpdf->Cell(0, 5, 'Terima kasih atas kunjungan Anda', 0, 1, 'C');
 
         // Return the PDF
         return response($fpdf->Output('S'), 200)
