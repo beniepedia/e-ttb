@@ -69,21 +69,17 @@ export default function ReceiptAdd() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const submitData = {
       ...data,
       items: data.items.map((item) => ({
         ...item,
-        accessories: item.accessories?.map((acc) => acc.label).join(', ') || '',
       })),
     };
 
     setData(submitData);
 
-    post(route('receipts.store'), {
-      onSuccess: () => {
-        clear();
-      },
-    });
+    post(route('receipts.store'));
   };
 
   return (
@@ -239,7 +235,7 @@ export default function ReceiptAdd() {
 
               <TextArea
                 label="Deskripsi Kerusakan"
-                placeHolder="Printhead mampet"
+                placeHolder="Cth: Printhead mampet"
                 required
                 value={item.demmage}
                 handleChange={(e) => handleItemChange(itemIndex, 'demmage', e.target.value)}
